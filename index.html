@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOWN 77 | أفضل سيرفر حياة واقعية FiveM في مصر والشرق الأوسط</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-red: #e60000;
+      --primary-red-glow: rgba(230, 0, 0, 0.6);
+      --bg-dark: #07090e;
+      --card-bg: rgba(18, 22, 31, 0.75);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #ffffff;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* خلفية متدرجة وسينمائية */
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 20%, rgba(230, 0, 0, 0.15) 0%, transparent 60%),
+                  linear-gradient(to bottom, rgba(7, 9, 14, 0.6), var(--bg-dark));
+      z-index: -1;
+    }
+
+    /* 1. Navbar العلوي العائم */
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 92%;
+      max-width: 1200px;
+      background: rgba(15, 18, 26, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      padding: 12px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .nav-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary-red);
+      box-shadow: 0 0 12px var(--primary-red-glow);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      transition: all 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-red);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .btn-login {
+      background: rgba(230, 0, 0, 0.1);
+      border: 1px solid var(--primary-red);
+      color: #fff;
+      padding: 8px 22px;
+      border-radius: 30px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .btn-login:hover {
+      background: var(--primary-red);
+      box-shadow: 0 0 20px var(--primary-red-glow);
+    }
+
+    /* 2. Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 140px 20px 60px;
+    }
+
+    .hero-title {
+      font-size: 4.8rem;
+      font-weight: 900;
+      background: linear-gradient(180deg, #ffffff 0%, #ff4d4d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px var(--primary-red-glow);
+      margin-bottom: 15px;
+    }
+
+    .hero-sub {
+      max-width: 700px;
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      margin-bottom: 35px;
+      font-weight: 600;
+    }
+
+    /* إحصائيات وحالة السيرفر Live */
+    .stats-bar {
+      display: flex;
+      gap: 30px;
+      background: rgba(18, 22, 31, 0.6);
+      padding: 15px 35px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stat-badge {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+    }
+
+    /* 3. اختر وجهتك (Kayan vs Battleground) */
+    .section {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 900;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+    }
+
+    .destination-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .dest-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 40px;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dest-card:hover {
+      border-color: var(--primary-red);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(230, 0, 0, 0.2);
+    }
+
+    .dest-card h3 {
+      font-size: 1.8rem;
+      color: var(--primary-red);
+      margin-bottom: 15px;
+    }
+
+    /* 4. لماذا TOWN 77؟ (الميزات 01 - 06) */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 30px;
+      position: relative;
+    }
+
+    .feature-num {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.15);
+    }
+
+    .feature-card h4 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* 5. مسارات المدينة 01 - 04 */
+    .paths-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .path-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .path-card:hover {
+      border-color: var(--primary-red);
+      background: rgba(230, 0, 0, 0.05);
+    }
+
+    /* 6. خطوات الدخول 01 - 04 */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 25px;
+      position: relative;
+    }
+
+    .step-badge {
+      background: var(--primary-red);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+
+    /* 7. الفوتر */
+    footer {
+      background: #040508;
+      border-top: 1px solid var(--border-color);
+      padding: 60px 20px 30px;
+      margin-top: 100px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 40px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .destination-cards, .features-grid, .paths-grid, .steps-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links { display: none; }
+      .hero-title { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero-background"></div>
+
+  <!-- 1. Navbar -->
+  <nav>
+    <a href="#" class="nav-brand">
+      <img src="https://i.ibb.co/6P0J97N/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png" alt="Town 77" class="nav-logo">
+      <span style="font-weight: 900; font-size: 1.2rem;">TOWN 77</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#">الرئيسية</a></li>
+      <li><a href="#">القوانين</a></li>
+      <li><a href="#">صناع المحتوى</a></li>
+      <li><a href="#">التقديم</a></li>
+      <li><a href="#">المتجر</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="#" class="btn-login">تسجيل الدخول 🔑</a>
+    </div>
+  </nav>
+
+  <!-- 2. Hero Section -->
+  <section class="hero">
+    <h1 class="hero-title">TOWN 77 CFW</h1>
+    <p class="hero-sub">
+      مرحبًا بك في عالم TOWN 77، حيث تتجاوز التجربة كل الحدود. مجتمع متكامل، وأداء استثنائي، ومغامرات لا تُنسى في انتظارك. استعد لبدء رحلتك الآن.
+    </p>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-badge"></span>
+        <div><strong>متصل الآن:</strong> 120+ لاعب</div>
+      </div>
+      <div class="stat-item">
+        <span style="color: #38bdf8;">🌐</span>
+        <div><strong>الديسكورد:</strong> +13,500 عضو</div>
+      </div>
+      <div class="stat-item">
+        <span style="color: #e60000;">🎧</span>
+        <div><strong>الدعم الفني:</strong> 24/7 متواجدون</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. اختر وجهتك -->
+  <section class="section">
+    <div class="section-header">
+      <h2>اختر وجهتك</h2>
+      <p>عالمان، وقصة واحدة. حيث يجتمع عمق تقمّص الأدوار مع حماس المواجهات التكتيكية.</p>
+    </div>
+
+    <div class="destination-cards">
+      <div class="dest-card">
+        <h3>Town 77 CFW Roleplay</h3>
+        <p>خادم تاون المتخصص في تقمّص الأدوار والعيش الكامل بالطريقة التي تختارها في بيئة واقعية.</p>
+        <br>
+        <a href="#" class="btn-login" style="display:inline-block;">الاطلاع على التقديمات ↗</a>
+      </div>
+      <div class="dest-card">
+        <h3>Town Battleground</h3>
+        <p>ساحة للمواجهات التكتيكية والمنافسات الحماسية، صُممت لأقوى مواجهات إطلاق النار والتدريب.</p>
+        <br>
+        <span style="color: var(--text-muted); font-size: 0.9rem;">ترقبوا الإطلاق الرسمي قريبًا ⏳</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. لماذا تاون 77؟ -->
+  <section class="section">
+    <div class="section-header">
+      <h2>لماذا TOWN 77؟</h2>
+      <p>ستشعر بالفرق منذ اللحظة الأولى. تجربة متكاملة تقود فيها قصتك الخاصة.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-num">01</span>
+        <h4>أنظمة مترابطة</h4>
+        <p>كل قطاع داخل المدينة يكمل الآخر ويصنع قصة واحدة متماسكة ومستمرة.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-num">02</span>
+        <h4>اقتصاد متوازن</h4>
+        <p>دورة مالية تحفظ قيمة وقت اللاعب وتكافئ التقدم الحقيقي والتعب.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-num">03</span>
+        <h4>قطاعات منظمة</h4>
+        <p>رتب ومسؤوليات واضحة للمدنيين، العصابات، والجهات الحكومية.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-num">04</span>
+        <h4>محتوى مستمر</h4>
+        <p>فعاليات وأنشطة أسبوعية تجعل تجربة المدينة تجدد وتتطور باستمرار.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-num">05</span>
+        <h4>متابعة على مدار الساعة</h4>
+        <p>فريق حاضر لدعم اللاعبين، حمايتهم وحفظ عدالة اللعب في كل وقت.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-num">06</span>
+        <h4>تطوير دائم</h4>
+        <p>تحديثات دورية مبنية على احتياجات واقتراحات مجتمع السيرفر المباشرة.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. مسارات المدينة -->
+  <section class="section">
+    <div class="section-header">
+      <h2>مسارات المدينة</h2>
+      <p>اختر عالمك، وابدأ قصتك الخيار لك بالكامل.</p>
+    </div>
+
+    <div class="paths-grid">
+      <div class="path-card">
+        <h4 style="color: var(--primary-red);">01. عالم الجريمة</h4>
+        <p>تنظيمات وتنافس تكتيكي وسيناريوهات تتغير حسب قراراتك.</p>
+      </div>
+      <div class="path-card">
+        <h4 style="color: #38bdf8;">02. الشرطة والأمن</h4>
+        <p>دوريات وتحقيقات ومسار مهني منظم لحماية السيرفر والسكان.</p>
+      </div>
+      <div class="path-card">
+        <h4 style="color: #10b981;">03. الحياة المدنية</h4>
+        <p>وظائف، تجارة وحرية وبناء شخصية اجتماعية حقيقية.</p>
+      </div>
+      <div class="path-card">
+        <h4 style="color: #f59e0b;">04. الإسعاف والطوارئ</h4>
+        <p>استجابة طبية سريعة وفريق محترف حاضر لإنقاذ الأرواح.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. خطوات الدخول -->
+  <section class="section">
+    <div class="section-header">
+      <h2>ابدأ الآن</h2>
+      <p>أربع خطوات تفصلك عن دخول TOWN 77.</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <span class="step-badge">الخطوة 01</span>
+        <h4>انضم إلى ديسكورد</h4>
+        <p>تعرّف على المجتمع والقوانين العامة للسيرفر.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-badge">الخطوة 02</span>
+        <h4>قدّم طلبك</h4>
+        <p>املأ استمارة الوايت ليست المخصصة لتقييمك.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-badge">الخطوة 03</span>
+        <h4>اجتز المقابلة</h4>
+        <p>مقابلة صوتية مباشرة وبسيطة مع الإدارة.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-badge">الخطوة 04</span>
+        <h4>ابدأ قصتك</h4>
+        <p>ادخل السيرفر وابنِ شخصيتك واستمتع باللعب.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. الفوتر -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <h3>TOWN 77 CFW</h3>
+        <p style="color: var(--text-muted); max-width: 350px; margin-top: 10px;">
+          مجتمع رائد لتجربة لعب واقعية ومواجهات تنافسية استثنائية في عالم FiveM.
+        </p>
+      </div>
+      <div>
+        <h4>روابط سريعة</h4>
+        <ul style="list-style: none; margin-top: 10px; color: var(--text-muted);">
+          <li>• القوانين واللوائح</li>
+          <li>• صناع المحتوى</li>
+          <li>• التقديم والتوظيف</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>جميع الحقوق محفوظة © 2026 TOWN 77 CFW</span>
+      <span>تصميم وتطوير خاص بالسيرفر</span>
+    </div>
+  </footer>
+
+</body>
+</html>

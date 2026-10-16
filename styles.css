@@ -1,0 +1,84 @@
+:root {
+    --bg-primary: #0a0b0e;
+    --bg-secondary: #12141a;
+    --card-bg: #1a1d26;
+    --accent-color: #e63946;
+    --text-primary: #ffffff;
+    --text-muted: #a0a5b5;
+    --border-color: #2a2e3d;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Navbar Style */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    margin: 0 15px;
+    transition: 0.3s;
+}
+
+.nav-links a.active, .nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Accordion Component */
+.accordion-item {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.accordion-header {
+    padding: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.accordion-header:hover {
+    background-color: rgba(230, 57, 70, 0.05);
+}
+
+.accordion-content {
+    display: none;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+}
+
+.accordion-item.active .accordion-content {
+    display: block;
+}
+
+.rule-clause {
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}

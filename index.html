@@ -6,354 +6,249 @@
   <title>TOWN 77 CFW | المرفق الرسمي</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Cairo', sans-serif;
+    :root {
+      --gold-main: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.4);
+      --bg-dark: #050608;
+      --card-bg: rgba(15, 18, 24, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-muted: #94a3b8;
     }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+
     body {
-      background-color: #07090e;
+      background-color: var(--bg-dark);
       color: #ffffff;
       min-height: 100vh;
       overflow-x: hidden;
       direction: rtl;
+      position: relative;
     }
 
-    /* الشريط العلوي Nav */
+    /* خلفية سينمائية مظلمة مطابقة للصورة */
+    .hero-bg {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: linear-gradient(rgba(5, 6, 8, 0.85), rgba(5, 6, 8, 0.95)), url('https://i.ibb.co/6P0J97N/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png');
+      background-size: cover; background-position: center; filter: blur(4px); transform: scale(1.05); z-index: -1;
+    }
+
+    /* Navbar عائم مطابق للصورة بالظبط */
     nav {
-      position: fixed;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 1100px;
-      background: rgba(18, 22, 31, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 50px;
-      padding: 10px 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+      width: 90%; max-width: 1000px; background: rgba(12, 15, 20, 0.85);
+      backdrop-filter: blur(15px); border: 1px solid var(--card-border);
+      border-radius: 50px; padding: 10px 25px; display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     }
 
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .nav-links { display: flex; align-items: center; gap: 15px; list-style: none; }
+    .nav-links button, .nav-links a {
+      background: none; border: none; color: #cbd5e1; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; transition: 0.3s; padding: 6px 14px; border-radius: 20px; text-decoration: none;
     }
-
-    .nav-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 1px solid #f59e0b;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 15px;
-      list-style: none;
-    }
-
-    .nav-links button {
-      background: none;
-      border: none;
-      color: #cbd5e1;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 6px 14px;
-      border-radius: 20px;
-      transition: 0.3s;
-    }
-
     .nav-links button.active, .nav-links button:hover {
-      color: #f59e0b;
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: var(--gold-main); background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3);
     }
+
+    .nav-logo-area { display: flex; align-items: center; gap: 10px; }
+    .nav-logo { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--gold-main); object-fit: cover; }
 
     .btn-login-nav {
-      background: rgba(245, 158, 11, 0.1);
-      border: 1px solid #f59e0b;
-      color: #f59e0b;
-      padding: 6px 18px;
-      border-radius: 20px;
-      font-weight: bold;
-      text-decoration: none;
-      font-size: 0.85rem;
+      background: rgba(245, 158, 11, 0.1); border: 1px solid var(--gold-main); color: var(--gold-main);
+      padding: 6px 18px; border-radius: 20px; font-weight: 700; text-decoration: none; font-size: 0.85rem; transition: 0.3s;
     }
+    .btn-login-nav:hover { background: var(--gold-main); color: #000; box-shadow: 0 0 15px var(--gold-glow); }
 
-    .btn-login-nav:hover {
-      background: #f59e0b;
-      color: #000;
+    /* الصفحات */
+    .page-section { display: none; min-height: 100vh; padding: 120px 20px 50px; max-width: 1000px; margin: 0 auto; }
+    .page-section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* الواجهة الرئيسية (Hero) المطابقة للصورة */
+    .hero-content {
+      height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px;
     }
-
-    /* المحتوى الرئيسي */
-    .container {
-      max-width: 1000px;
-      margin: 110px auto 40px;
-      padding: 0 20px;
+    .hero-title {
+      font-size: 4rem; font-weight: 900; letter-spacing: 2px; color: var(--gold-main);
+      text-shadow: 0 0 35px var(--gold-glow); margin-bottom: 15px; text-transform: uppercase;
     }
-
-    .page-section {
-      display: none;
+    .hero-desc { max-width: 600px; color: var(--text-muted); font-size: 1rem; line-height: 1.7; margin-bottom: 30px; font-weight: 600; }
+    .hero-login-btn {
+      background: transparent; border: 1px solid rgba(245, 158, 11, 0.5); color: var(--gold-main);
+      padding: 12px 35px; border-radius: 40px; font-size: 1rem; font-weight: 700; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease; text-decoration: none;
     }
+    .hero-login-btn:hover { background: var(--gold-main); color: #000; box-shadow: 0 0 25px var(--gold-glow); transform: translateY(-2px); }
 
-    .page-section.active {
-      display: block;
-    }
-
-    /* البانر الذهبي */
+    /* بنر القوانين وتنسيق الأقسام الـ 19 */
     .banner-card {
-      background: linear-gradient(180deg, #131722 0%, #0a0d14 100%);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 35px 20px;
-      text-align: center;
-      margin-bottom: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      background: linear-gradient(180deg, rgba(20, 25, 35, 0.95), rgba(10, 12, 18, 0.98));
+      border: 1px solid var(--card-border); border-radius: 20px; padding: 30px 20px; text-align: center; margin-bottom: 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
     }
-
     .banner-badge {
-      background: rgba(245, 158, 11, 0.15);
-      color: #f59e0b;
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      font-weight: bold;
-      display: inline-block;
-      margin-bottom: 10px;
+      background: rgba(245, 158, 11, 0.15); color: var(--gold-main); border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; display: inline-block; margin-bottom: 10px;
     }
+    .banner-title { font-size: 2.2rem; font-weight: 900; color: var(--gold-main); margin-bottom: 10px; }
+    .banner-desc { color: var(--text-muted); font-size: 0.9rem; max-width: 700px; margin: 0 auto; }
 
-    .banner-title {
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: #f59e0b;
-      margin-bottom: 10px;
-    }
-
-    .banner-desc {
-      color: #94a3b8;
-      font-size: 0.95rem;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    /* أزرار التبويب الفرعية */
-    .tab-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
+    /* الأزرار الفرعية للقوانين */
+    .tab-buttons { display: flex; justify-content: center; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
     .tab-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #94a3b8;
-      padding: 8px 18px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: bold;
-      transition: 0.3s;
+      background: rgba(255, 255, 255, 0.04); border: 1px solid var(--card-border); color: var(--text-muted);
+      padding: 8px 16px; border-radius: 12px; cursor: pointer; font-size: 0.85rem; font-weight: 700; transition: 0.3s;
     }
+    .tab-btn.active, .tab-btn:hover { background: var(--gold-main); color: #000; border-color: var(--gold-main); }
 
-    .tab-btn.active, .tab-btn:hover {
-      background: #f59e0b;
-      color: #000;
-    }
-
-    /* بنود القوانين (Accordion) */
+    /* القابل للطي (Accordion) للـ 211 بند */
     .accordion-item {
-      background: #0f131d;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      margin-bottom: 10px;
-      overflow: hidden;
+      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; margin-bottom: 8px; overflow: hidden;
     }
-
     .accordion-header {
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 0.95rem;
+      padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 800; font-size: 0.9rem;
     }
-
-    .accordion-header:hover {
-      color: #f59e0b;
-      background: rgba(255, 255, 255, 0.02);
-    }
-
+    .accordion-header:hover { background: rgba(255, 255, 255, 0.02); color: var(--gold-main); }
     .accordion-body {
-      padding: 0 20px;
-      max-height: 0;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      color: #94a3b8;
-      font-size: 0.9rem;
-      background: rgba(0,0,0,0.2);
+      padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; background: rgba(0,0,0,0.3);
     }
+    .accordion-item.open .accordion-body { padding: 15px 20px; max-height: 400px; border-top: 1px solid var(--card-border); overflow-y: auto; }
 
-    .accordion-item.open .accordion-body {
-      padding: 15px 20px;
-      max-height: 200px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    /* كروت التقديم والصناع */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: #0f131d;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 25px;
-      text-align: center;
-    }
-
+    /* كروت التقديم وصناع المحتوى */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .content-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 25px; text-align: center; }
     .btn-action {
-      display: inline-block;
-      background: #f59e0b;
-      color: #000;
-      padding: 10px 22px;
-      border-radius: 20px;
-      font-weight: bold;
-      text-decoration: none;
-      margin-top: 15px;
+      display: inline-block; background: var(--gold-main); color: #000; padding: 10px 24px; border-radius: 20px;
+      font-weight: 800; text-decoration: none; margin-top: 15px; font-size: 0.9rem; transition: 0.3s;
     }
+    .btn-action:hover { box-shadow: 0 0 15px var(--gold-glow); transform: translateY(-2px); }
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #64748b;
-      font-size: 0.85rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      margin-top: 50px;
-    }
+    footer { text-align: center; padding: 25px; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--card-border); margin-top: 40px; }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav>
-    <div class="nav-brand">
-      <img src="https://i.ibb.co/6P0J97N/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png" class="nav-logo" alt="Town 77">
-      <span style="font-weight:900;">TOWN 77</span>
-    </div>
+  <!-- خلفية سينمائية مطابقة للصورة -->
+  <div class="hero-bg"></div>
 
+  <!-- Navbar مطابق تماماً -->
+  <nav>
     <ul class="nav-links">
-      <li><button class="nav-btn active" onclick="switchPage('rules-page', this)">⚖️ القوانين</button></li>
-      <li><button class="nav-btn" onclick="switchPage('creators-page', this)">🎮 صناع المحتوى</button></li>
-      <li><button class="nav-btn" onclick="switchPage('apply-page', this)">📋 التقديم</button></li>
+      <li><button class="nav-btn" onclick="switchPage('home-page', this)">الرئيسية</button></li>
+      <li><button class="nav-btn" onclick="switchPage('rules-page', this)">القوانين</button></li>
+      <li><button class="nav-btn" onclick="switchPage('creators-page', this)">صناع المحتوى</button></li>
+      <li><button class="nav-btn" onclick="switchPage('apply-page', this)">التقديم</button></li>
     </ul>
 
-    <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="btn-login-nav">تسجيل الدخول 🔑</a>
+    <div class="nav-logo-area">
+      <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="btn-login-nav">تسجيل الدخول 🔑</a>
+      <img src="https://i.ibb.co/6P0J97N/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png" class="nav-logo" alt="Town 77">
+    </div>
   </nav>
 
-  <div class="container">
+  <!-- ==================== 1. الصفحة الرئيسية (Home) المطابقة للصورة ==================== -->
+  <div id="home-page" class="page-section active" style="padding:0;">
+    <div class="hero-content">
+      <h1 class="hero-title">TOWN 77 CFW</h1>
+      <p class="hero-desc">
+        مرحباً بك في عالم TOWN 77، حيث تتجاوز التجربة كل الحدود. مجتمع متكامل، وأداء استثنائي، ومغامرات لا تُنسى في انتظارك. استعد لبدء رحلتك الآن.
+      </p>
+      <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="hero-login-btn">
+        <span>تسجيل الدخول</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+      </a>
+    </div>
+  </div>
 
-    <!-- 1. صفحة القوانين -->
-    <div id="rules-page" class="page-section active">
-      <div class="banner-card">
-        <span class="banner-badge">OFFICIAL SERVER RULES • TOWN 77</span>
-        <h1 class="banner-title">⚖️ القوانين العامة</h1>
-        <p class="banner-desc">دخولك إلى مدينة TOWN 77 يُعد إقراراً رسمياً منك بالاطلاع على هذه القوانين والموافقة عليها والتزامك بها دون استثناء.</p>
-        
-        <div class="tab-buttons">
-          <button class="tab-btn active" onclick="switchCat('general-rules', this)">القوانين العامة</button>
-          <button class="tab-btn" onclick="switchCat('police-rules', this)">قوانين الشرطة</button>
-          <button class="tab-btn" onclick="switchCat('ems-rules', this)">قوانين المستشفى والأسعاف</button>
-          <button class="tab-btn" onclick="switchCat('gang-rules', this)">قوانين العصابات الرسمية</button>
-        </div>
-      </div>
-
-      <!-- فئات القوانين -->
-      <div id="general-rules" class="rule-cat">
-        <div class="accordion-item" onclick="toggleAcc(this)">
-          <div class="accordion-header"><span>01. شروط الدخول إلى المدينة والهوية</span><span>▼</span></div>
-          <div class="accordion-body">يجب الالتزام بالهوية والأسماء الواقعية، ويمنع استخدام أسماء سياسية أو خادشة للحياء.</div>
-        </div>
-        <div class="accordion-item" onclick="toggleAcc(this)">
-          <div class="accordion-header"><span>02. تحذير شديد - السلوك السام (Toxic Behavior)</span><span>▼</span></div>
-          <div class="accordion-body">يمنع منعاً باتاً السب أو التحقير خارج نطاق الشخصية (OOC)، وتكون العقوبة باند نهائي.</div>
-        </div>
-        <div class="accordion-item" onclick="toggleAcc(this)">
-          <div class="accordion-header"><span>03. بند القتل العشوائي (RDM)</span><span>▼</span></div>
-          <div class="accordion-body">يمنع قتل أو ضرب أي لاعب دون سيناريو منطقي مسبق وتحذير واضح.</div>
-        </div>
-      </div>
-
-      <div id="police-rules" class="rule-cat" style="display:none;">
-        <div class="accordion-item" onclick="toggleAcc(this)">
-          <div class="accordion-header"><span>01. الواجبات العامة والسلوك العسكري للضابط</span><span>▼</span></div>
-          <div class="accordion-body">التزام تام بأوامر الرتب العليا وتطبيق النظام مع الحفاظ على الاحترام والحيادية.</div>
-        </div>
-      </div>
-
-      <div id="ems-rules" class="rule-cat" style="display:none;">
-        <div class="accordion-item" onclick="toggleAcc(this)">
-          <div class="accordion-header"><span>01. بروتوكول التعامل مع المصابين وحالات الطوارئ</span><span>▼</span></div>
-          <div class="accordion-body">الأولوية للحالات الحرجة ويمنع تماماً رفض إنقاذ أي شخص بسبب سيناريو أو خلافات.</div>
-        </div>
-      </div>
-
-      <div id="gang-rules" class="rule-cat" style="display:none;">
-        <div class="accordion-item" onclick="toggleAcc(this)">
-          <div class="accordion-header"><span>01. الهيكل الإداري ونظام الحروب والتحالفات</span><span>▼</span></div>
-          <div class="accordion-body">يجب اعتماد الحروب من إدارة السيرفر وتحديد الأسباب والعدد المسموح به قبل بدء الشباك.</div>
-        </div>
+  <!-- ==================== 2. صفحة القوانين (الأقسام الـ 19 كاملة + الشرطة والإسعاف والعصابات) ==================== -->
+  <div id="rules-page" class="page-section">
+    <div class="banner-card">
+      <span class="banner-badge">OFFICIAL SERVER RULES • TOWN 77</span>
+      <h1 class="banner-title">القوانين العامة واللوائح التنظيمية</h1>
+      <p class="banner-desc">دخولك إلى مدينة TOWN 77 يُعد إقراراً رسمياً منك بالاطلاع على القوانين والموافقة عليها والتزامك بها. (19 قسم معتمد • 211 بند قانوني شامل)</p>
+      
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchCat('cat-general', this)">الأقسام الـ 19 الأساسية</button>
+        <button class="tab-btn" onclick="switchCat('cat-police', this)">قوانين الشرطة</button>
+        <button class="tab-btn" onclick="switchCat('cat-ems', this)">قوانين المستشفى والإسعاف</button>
+        <button class="tab-btn" onclick="switchCat('cat-gangs', this)">قوانين العصابات الرسمية</button>
       </div>
     </div>
 
-    <!-- 2. صفحة صناع المحتوى -->
-    <div id="creators-page" class="page-section">
-      <div class="banner-card">
-        <span class="banner-badge">OFFICIAL CREATORS • TOWN 77</span>
-        <h1 class="banner-title">🎮 صناع المحتوى</h1>
-        <p class="banner-desc">استكشف نخبة صناع المحتوى والبثوث المباشرة لسيرفر TOWN 77</p>
-      </div>
-
-      <div class="cards-grid">
-        <div class="card">
-          <img src="https://i.ibb.co/6P0J97N/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png" style="width:70px; border-radius:50%; border:2px solid #f59e0b; margin-bottom:10px;">
-          <h3>Dooraming (D-OR)</h3>
-          <p style="color:#94a3b8; font-size:0.85rem;">صانع المحتوى الرسمي للسيرفر</p>
-          <a href="https://kick.com/d-or00" target="_blank" class="btn-action">متابعة على Kick 🟢</a>
-          <a href="https://www.tiktok.com/@dooraming" target="_blank" class="btn-action" style="background:#ff0050; color:#fff;">TikTok 🎵</a>
-        </div>
-      </div>
+    <!-- الأقسام الـ 19 الأساسية (211 بند) -->
+    <div id="cat-general" class="rules-category">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. أولاً: شروط الدخول إلى المدينة والهوية (11 بند)</span><span>▼</span></div><div class="accordion-body">يشترط استخدام اسماً واقعياً مطابقاً لمعايير الرول بلاي، ومنع الأسماء السياسية أو المهينة، وضبط إعدادات الصوت والشخصية بدقة قبل الدخول.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. ثانياً: الأجهزة والحسابات (8 بند)</span><span>؍</span></div><div class="accordion-body">الحسابات والبرامج المساعدة مسؤولية كاملة لصاحب الحساب، ويمنع تماماً استخدام أي برامج تعديل أو هاك تؤدي للإضرار بعدالة اللعب.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. ثالثاً: نظام الشخصيات (7 بند)</span><span>▼</span></div><div class="accordion-body">منع نقل الأموال أو الممتلكات بين الشخصيات (Multi-Char Transfer) واعتبار كل شخصية كياناً مستقلاً بذاته.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. رابعاً: الرول بلاي والسلوك العام (22 بند)</span><span>▼</span></div><div class="accordion-body">التمثيل الواقعي للشخصية طوال فترة تواجدك في المدينة، وعدم كسر السيناريوهات أو استخدام ألفاظ خارجة عن إطار اللعبة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. تحذير شديد – السلوك السام (8 بند)</span><span>▼</span></div><div class="accordion-body">يمنع منعاً باتاً التعرض للآخرين بألفاظ نابية أو شتم خارج إطار الشخصية (OOC). العقوبة: حظر نهائي مباشر بدون إنذار.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. قوانين الحياة الجديدة NLR (8 بند)</span><span>▼</span></div><div class="accordion-body">نسيان كافة الأحداث والسيناريوهات والأشخاص الذين تسببوا في وفاة شخصيتك عند نقلك للمستشفى.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. قوانين سلوك اللاعب وآداب التعامل (12 بند)</span><span>▼</span></div><div class="accordion-body">احترام الكوادر الإدارية واللاعبين الآخرين والالتزام بآداب الحوار العام والخاص.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. القتل العشوائي RDM (8 بند)</span><span>▼</span></div><div class="accordion-body">يحظر إطلاق النار أو قتل أي لاعب دون سبب رول بلاي مسبق وتحذير كلامي معلن.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. الدهس المتعمد VDM (6 بند)</span><span>▼</span></div><div class="accordion-body">يمنع استخدام السيارات كأداة لقتل أو صدم اللاعبين بشكل متعمد ودون مبرر رول بلاي.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. الباور جيمنج Power Gaming (4 بند)</span><span>▼</span></div><div class="accordion-body">أداء تصرفات خارقة للطبيعة أو إجبار اللاعبين الآخرين على تفاعلات دون منحهم فرصة للرد.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. الميتا جيمنج Meta Gaming (3 بند)</span><span>▼</span></div><div class="accordion-body">نقل أو استغلال معلومات تم الحصول عليها من خارج اللعبة (ديسكورد، بثوث) وتوظيفها داخل الرول بلاي.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. الخروج أثناء القتال Combat Logging (6 بند)</span><span>▼</span></div><div class="accordion-body">الخروج من اللعبة أو قطع الاتصال عمداً أثناء سيناريو نشط (مطاردة، إطلاق نار، تحقيق).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. تقدير الحياة NVL (7 بند)</span><span>▼</span></div><div class="accordion-body">إظهار الخوف الطبيعي وحماية حياة شخصيتك عند التعرض لتهديد مباشر بالأسلحة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. الاستغلال والمخالفات التقنية (8 بند)</span><span>▼</span></div><div class="accordion-body">استغلال الأخطاء البرمجية أو الثغرات في مصلحة الشخصية ويجب الإبلاغ عنها للإدارة فوراً.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. الخوف الواقعي Fear RP (8 بند)</span><span>▼</span></div><div class="accordion-body">الاستجابة لتعليمات المسلحين في حال تفوقهم العددي أو السيطرة التامة عليك.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. كسر الرول بلاي Fail RP (4 بند)</span><span>▼</span></div><div class="accordion-body">القيام بتصرفات غير منطقية تنافي الواقع المهني أو الاجتماعي للشخصية الممثلة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>17. قوانين الخطف والرهائن (23 بند)</span><span>▼</span></div><div class="accordion-body">الالتزام بالعدد المطلوب من الشرطة لتفعيل خطف الرهائن وشروط المطالب المالية والأمان.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. التذاكر والتعويضات (51 بند)</span><span>▼</span></div><div class="accordion-body">آلية فتح تذاكر الدعم الفني وتقديم الأدلة المرئية الصحيحة لطلب التعويضات وإلغاء العقوبات.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>19. جودة الصوت والمايك والتأثيرات الصوتية (7 بند)</span><span>▼</span></div><div class="accordion-body">استخدام مايكروفون واضح نقي وخالٍ من التشويش أو الأصوات الجانبية المزعجة.</div></div>
     </div>
 
-    <!-- 3. صفحة التقديم -->
-    <div id="apply-page" class="page-section">
-      <div class="banner-card">
-        <span class="banner-badge">OFFICIAL WHITELIST PORTAL • TOWN 77</span>
-        <h1 class="banner-title">📝 التقديم والتوظيف</h1>
-        <p class="banner-desc">بوابة التقديم الرسمية لسيرفر ومجتمع TOWN 77. قدم الآن للحصول على تصريح الدخول.</p>
-      </div>
-
-      <div class="card" style="text-align:right;">
-        <h2 style="color:#f59e0b; margin-bottom:10px;">🚔 التقديم للحصول على المقابلة الصوتية (الوايت ليست)</h2>
-        <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">انقر على الزر أدناه للانتقال الفوري إلى استمارة التقديم الرسمية المربوطة بـ Discord Webhook.</p>
-        <a href="https://domaup9-hash.github.io/town77-policee/town77-policee" target="_blank" class="btn-action">بدء تقديم الوايت ليست الآن ↗</a>
-      </div>
+    <!-- قوانين الشرطة -->
+    <div id="cat-police" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. قانون منع الفساد والتشكي</span><span>▼</span></div><div class="accordion-body">يمنع بتاتاً تورط أي فرد شرطي في أعمال فساد أو تسريب أسرار التحقيقات والأسلحة للعصابات.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. الواجبات العامة والسلوك العسكري</span><span>▼</span></div><div class="accordion-body">الالتزام التام بتنفيذ الأوامر، الحفاظ على الزي الرسمي، والاحترام المتبادل بين الرتب.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. بروتوكولات التفتيش واستخدام القوة</span><span>▼</span></div><div class="accordion-body">التدرج في استخدام القوة بدءاً من التحذير والسيطرة وصولاً للأسلحة وفقاً لخطورة الموقف.</div></div>
     </div>
 
+    <!-- قوانين المستشفى والإسعاف -->
+    <div id="cat-ems" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. العمليات الميدانية وبروتوكول الإسعاف</span><span>▼</span></div><div class="accordion-body">تقديم الرعاية الطبية الفورية لجميع المدنيين والعسكريين دون تمييز أو تحيز لأطراف النزاع.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. السلوك المهني واللوائح الداخلية</span><span>▼</span></div><div class="accordion-body">الحفاظ على سرية المرضى والالتزام بأوقات المناوبة والتعليمات الإدارية للمستشفى.</div></div>
+    </div>
+
+    <!-- قوانين العصابات الرسمية -->
+    <div id="cat-gangs" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الهيكل الإداري ونظام العصابات</span><span>▼</span></div><div class="accordion-body">اعتماد قيادة العصابة رسمياً، وتحديد مناطق النفوذ والالتزام بقواعد الاشتباك والحروب المعتمدة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. قواعد العمليات والسرقات</span><span>▼</span></div><div class="accordion-body">الالتزام بالحد الأقصى للأعضاء المشاركين في السرقات والحروب وفقاً للجداول الإدارية.</div></div>
+    </div>
+  </div>
+
+  <!-- ==================== 3. صفحة صناع المحتوى ==================== -->
+  <div id="creators-page" class="page-section">
+    <div class="banner-card">
+      <span class="banner-badge">OFFICIAL CREATORS • TOWN 77</span>
+      <h1 class="banner-title">صناع المحتوى</h1>
+      <p class="banner-desc">تابع أقوى البثوث الحصرية لمدينة TOWN 77</p>
+    </div>
+    <div class="cards-grid">
+      <div class="content-card">
+        <img src="https://i.ibb.co/6P0J97N/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png" style="width:70px; border-radius:50%; border:2px solid var(--gold-main); margin-bottom:10px;">
+        <h3>Dooraming (D-OR)</h3>
+        <p style="color:var(--text-muted); font-size:0.85rem;">صانع المحتوى الرسمي للسيرفر</p>
+        <a href="https://kick.com/d-or00" target="_blank" class="btn-action">متابعة على Kick 🟢</a>
+        <a href="https://www.tiktok.com/@dooraming" target="_blank" class="btn-action" style="background:#ff0050; color:#fff;">TikTok 🎵</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 4. صفحة التقديم ==================== -->
+  <div id="apply-page" class="page-section">
+    <div class="banner-card">
+      <span class="banner-badge">OFFICIAL WHITELIST PORTAL</span>
+      <h1 class="banner-title">التقديمات والتوظيف</h1>
+      <p class="banner-desc">بوابة القبول الرسمية للانضمام إلى مجتمع TOWN 77 والوايت ليست.</p>
+    </div>
+    <div class="content-card" style="text-align:right;">
+      <h2 style="color:var(--gold-main); margin-bottom:10px;">🚔 تقديم الوايت ليست والمقابلة الصوتية</h2>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:15px;">انقر للانتقال الفوري إلى استمارة التقديم الرسمية المربوطة بـ Discord Webhook.</p>
+      <a href="https://domaup9-hash.github.io/town77-policee/town77-policee" target="_blank" class="btn-action">بدء تقديم الوايت ليست الآن ↗</a>
+    </div>
   </div>
 
   <footer>
@@ -365,14 +260,14 @@
       document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
       document.getElementById(pId).classList.add('active');
-      btn.classList.add('active');
+      if(btn) btn.classList.add('active');
     }
 
     function switchCat(cId, btn) {
-      document.querySelectorAll('.rule-cat').forEach(c => c.style.display = 'none');
+      document.querySelectorAll('.rules-category').forEach(c => c.style.display = 'none');
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById(cId).style.display = 'block';
-      btn.classList.add('active');
+      if(btn) btn.classList.add('active');
     }
 
     function toggleAcc(el) {

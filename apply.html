@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقديم على الوايت ليست | KAYAN Apply</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #07090e;
+            --bg-card: #11141d;
+            --accent: #e50914;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --border: #1f2433;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); direction: rtl; }
+        
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: rgba(7, 9, 14, 0.95); border-bottom: 1px solid var(--border); }
+        .logo-area { display: flex; align-items: center; gap: 12px; font-weight: bold; font-size: 1.2rem; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        
+        .container { width: 85%; max-width: 800px; margin: 0 auto; padding: 60px 0; }
+        .form-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 40px; }
+        .form-title { font-size: 2rem; margin-bottom: 10px; text-align: center; }
+        .form-subtitle { color: var(--text-muted); text-align: center; margin-bottom: 30px; }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 500; }
+        .input-group input, .input-group textarea { width: 100%; padding: 12px 15px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px; color: white; font-size: 1rem; outline: none; transition: 0.3s; }
+        .input-group input:focus, .input-group textarea:focus { border-color: var(--accent); }
+        
+        .submit-btn { background: var(--accent); color: white; border: none; width: 100%; padding: 14px; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .submit-btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo-area">
+            <i class="fa-solid fa-file-lines" style="color: var(--accent);"></i>
+            <span>KAYAN APPLY</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">الرئيسية</a></li>
+            <li><a href="/rules">القوانين</a></li>
+            <li><a href="/creators">صناع المحتوى</a></li>
+            <li><a href="/apply" class="active">التقديم</a></li>
+            <li><a href="/store">المتجر</a></li>
+        </ul>
+    </header>
+
+    <div class="container">
+        <div class="form-card">
+            <h1 class="form-title">استمارة التقديم على الوايت ليست</h1>
+            <p class="form-subtitle">يرجى تعبئة البيانات بدقة واجتياز الشروط للقبول في المدينة.</p>
+            
+            <form id="applyForm">
+                <div class="input-group">
+                    <label for="discord">معرف ديسكورد (Discord Username)</label>
+                    <input type="text" id="discord" placeholder="username#0000" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="age">العمر الحقيقي</label>
+                    <input type="number" id="age" min="16" placeholder="يجب ألا يقل عن 16 عاماً" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="story">خلفية الشخصية (Backstory)</label>
+                    <textarea id="story" rows="4" placeholder="اكتب قصة موجزة عن شخصيتك..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">إرسال الطلب</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("applyForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            alert("تم إرسال طلبك بنجاح!");
+        });
+    </script>
+</body>
+</html>

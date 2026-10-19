@@ -73,15 +73,17 @@
       color: var(--gold-main); text-shadow: 0 0 8px var(--gold-glow);
     }
 
-    /* الشعار الحقيقي الفخم T77 */
-    .nav-center-logo {
-      width: 44px; height: 44px; border-radius: 50%; object-fit: cover;
-      margin: 0 8px; border: 1.5px solid var(--gold-main);
-      box-shadow: 0 0 12px var(--gold-glow);
-      vertical-align: middle; transition: transform 0.3s ease;
+    /* شعار SVG مובاشر وفخم لا يمكن أن يختفي أو يتعطل */
+    .nav-logo-box {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: radial-gradient(circle, #2a0808 0%, #050608 80%);
+      border: 2px solid #ef4444;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.5), 0 0 10px var(--gold-glow);
+      display: inline-flex; align-items: center; justify-content: center;
+      vertical-align: middle; transition: transform 0.3s ease; cursor: pointer;
     }
 
-    .nav-center-logo:hover { transform: scale(1.1); }
+    .nav-logo-box:hover { transform: scale(1.12); }
 
     .nav-login-section {
       padding-right: 15px; border-right: 1px solid rgba(255, 255, 255, 0.15);
@@ -97,10 +99,10 @@
       background: var(--gold-main); color: #000; box-shadow: 0 0 15px var(--gold-glow);
     }
 
-    /* زر التحكم العائم بالموسيقى بالأسفل */
+    /* زر التحكم العائم بالموسيقى */
     .music-float-btn {
       position: fixed; bottom: 25px; left: 25px;
-      background: rgba(20, 25, 35, 0.85);
+      background: rgba(20, 25, 35, 0.9);
       backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
       border: 1px solid var(--gold-main); color: var(--gold-main);
       padding: 10px 22px; border-radius: 30px; font-weight: 800; font-size: 0.88rem;
@@ -173,13 +175,13 @@
 
   <div class="hero-bg"></div>
 
-  <!-- ملف الصوت الخلفي (يعمل تلقائياً عند الدخول) -->
-  <audio id="bg-audio" loop autoplay src="https://files.catbox.moe/o3d8g2.mp3"></audio>
+  <!-- عنصر الصوت الخلفي المباشر -->
+  <audio id="bg-audio" loop src="https://files.catbox.moe/o3d8g2.mp3"></audio>
 
   <!-- زر التحكم العائم بالموسيقى -->
   <button id="music-btn" class="music-float-btn" onclick="toggleAudio()">
-    <span id="music-icon">⏸️</span>
-    <span id="music-text">إيقاف الموسيقى</span>
+    <span id="music-icon">🎵</span>
+    <span id="music-text">تشغيل الموسيقى</span>
   </button>
 
   <!-- Navbar عائم -->
@@ -198,8 +200,13 @@
       <li><button class="nav-btn" onclick="switchPage('creators-page', this)">صناع المحتوى</button></li>
       
       <li>
-        <a href="#" onclick="switchPage('home-page', null)">
-          <img src="https://i.ibb.co/6R59B9Y/logo.jpg" class="nav-center-logo" alt="TOWN 77" onerror="this.onerror=null; this.src='https://i.postimg.cc/mD8NfW4x/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png';">
+        <a href="#" onclick="switchPage('home-page', null)" title="TOWN 77">
+          <div class="nav-logo-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path d="M4 18L10 6H14L20 18H16L12 10L8 18H4Z" fill="#ef4444"/>
+              <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="7" font-weight="900" font-family="Cairo">77</text>
+            </svg>
+          </div>
         </a>
       </li>
 
@@ -221,9 +228,14 @@
       <p class="hero-desc">
         مرحباً بك في عالم TOWN 77، حيث تتجاوز التجربة كل الحدود. مجتمع متكامل، وأداء استثنائي، ومغامرات لا تُنسى في انتظارك. استعد لبدء رحلتك الآن.
       </p>
-      <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="hero-login-btn">
-        <span>[→] تسجيل الدخول</span>
-      </a>
+      <div style="display: flex; gap: 15px; justify-content: center; align-items: center; flex-wrap: wrap;">
+        <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="hero-login-btn">
+          <span>[→] تسجيل الدخول</span>
+        </a>
+        <button onclick="toggleAudio()" class="hero-login-btn" style="background: var(--gold-main); color: #000;">
+          <span id="hero-music-icon">🎵</span> تشغيل الموسيقى
+        </button>
+      </div>
     </div>
   </div>
 
@@ -335,7 +347,12 @@
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
       <div style="background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:25px; text-align:center;">
-        <img src="https://i.ibb.co/6R59B9Y/logo.jpg" style="width:75px; height:75px; border-radius:50%; border:2px solid var(--gold-main); margin-bottom:10px; object-fit:cover;" onerror="this.onerror=null; this.src='https://i.postimg.cc/mD8NfW4x/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png';">
+        <div style="width:75px; height:75px; border-radius:50%; margin:0 auto 10px; background:radial-gradient(circle, #2a0808 0%, #050608 80%); border:2px solid #ef4444; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 12px rgba(239,68,68,0.5);">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M4 18L10 6H14L20 18H16L12 10L8 18H4Z" fill="#ef4444"/>
+            <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="7" font-weight="900" font-family="Cairo">77</text>
+          </svg>
+        </div>
         <h3>Dooraming (D-OR)</h3>
         <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:15px;">صانع المحتوى الرسمي للسيرفر</p>
         <a href="https://kick.com/d-or00" target="_blank" style="display:inline-block; background:var(--gold-main); color:#000; padding:8px 20px; border-radius:20px; font-weight:bold; text-decoration:none;">Kick Stream 🟢</a>
@@ -380,22 +397,24 @@
       el.classList.toggle('open');
     }
 
-    // دالة التحكم التلقائي بالصوت وتجاوز قيود المتصفح
+    // تشغيل الموسيقى فور الدخول مع تجاوز حظر المتصفحات
     const audio = document.getElementById('bg-audio');
     const musicIcon = document.getElementById('music-icon');
     const musicText = document.getElementById('music-text');
+    const heroMusicIcon = document.getElementById('hero-music-icon');
 
     window.addEventListener('DOMContentLoaded', () => {
       audio.volume = 0.6;
       audio.play().then(() => {
         musicIcon.textContent = '⏸️';
         musicText.textContent = 'إيقاف الموسيقى';
+        if(heroMusicIcon) heroMusicIcon.textContent = '⏸️';
       }).catch(() => {
-        // إذا قام المتصفح بحظر التشغيل التلقائي المباشر، ستبدأ الأغنية فور أول نقرة أو تفاعل في الصفحة
         const unlockAudio = () => {
           audio.play();
           musicIcon.textContent = '⏸️';
           musicText.textContent = 'إيقاف الموسيقى';
+          if(heroMusicIcon) heroMusicIcon.textContent = '⏸️';
           window.removeEventListener('click', unlockAudio);
           window.removeEventListener('keydown', unlockAudio);
         };
@@ -409,10 +428,12 @@
         audio.play();
         musicIcon.textContent = '⏸️';
         musicText.textContent = 'إيقاف الموسيقى';
+        if(heroMusicIcon) heroMusicIcon.textContent = '⏸️';
       } else {
         audio.pause();
         musicIcon.textContent = '🎵';
         musicText.textContent = 'تشغيل الموسيقى';
+        if(heroMusicIcon) heroMusicIcon.textContent = '🎵';
       }
     }
   </script>

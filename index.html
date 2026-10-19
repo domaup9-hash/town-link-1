@@ -74,10 +74,12 @@
     }
 
     .nav-center-logo {
-      width: 38px; height: 38px; border-radius: 50%; object-fit: cover;
-      margin: 0 8px; border: 1px solid var(--gold-main); filter: drop-shadow(0 0 8px var(--gold-glow));
-      display: inline-block; vertical-align: middle;
+      width: 42px; height: 42px; border-radius: 50%; object-fit: cover;
+      margin: 0 8px; border: 1.5px solid var(--gold-main); filter: drop-shadow(0 0 8px var(--gold-glow));
+      vertical-align: middle; transition: transform 0.3s ease;
     }
+
+    .nav-center-logo:hover { transform: scale(1.1); }
 
     .nav-login-section {
       padding-right: 15px; border-right: 1px solid rgba(255, 255, 255, 0.15);
@@ -91,6 +93,21 @@
 
     .btn-login-nav:hover {
       background: var(--gold-main); color: #000; box-shadow: 0 0 15px var(--gold-glow);
+    }
+
+    /* زر التحكم العائم بالموسيقى (Music Toggle) */
+    .music-float-btn {
+      position: fixed; bottom: 25px; left: 25px;
+      background: rgba(20, 25, 35, 0.85);
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      border: 1px solid var(--gold-main); color: var(--gold-main);
+      padding: 10px 22px; border-radius: 30px; font-weight: 800; font-size: 0.88rem;
+      cursor: pointer; z-index: 1000; display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6); transition: all 0.3s ease;
+    }
+
+    .music-float-btn:hover {
+      background: var(--gold-main); color: #000; box-shadow: 0 0 20px var(--gold-glow); transform: translateY(-3px);
     }
 
     .page-section { display: none; min-height: 100vh; padding: 120px 20px 50px; max-width: 1000px; margin: 0 auto; }
@@ -154,6 +171,15 @@
 
   <div class="hero-bg"></div>
 
+  <!-- ملف الصوت الخلفي المشغل للساوند -->
+  <audio id="bg-audio" loop src="https://files.catbox.moe/k9b3m1.mp3"></audio>
+
+  <!-- زر التحكم بالموسيقى -->
+  <button id="music-btn" class="music-float-btn" onclick="toggleAudio()">
+    <span id="music-icon">🎵</span>
+    <span id="music-text">تشغيل الموسيقى</span>
+  </button>
+
   <!-- Navbar عائم -->
   <nav>
     <div class="nav-socials">
@@ -171,9 +197,7 @@
       
       <li>
         <a href="#" onclick="switchPage('home-page', null)">
-          <svg class="nav-center-logo" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="background: rgba(245, 158, 11, 0.1); padding: 4px;">
-            <path d="M3 21h18M3 7v14M21 7v14M6 21V11m4 10V11m4 10V11m4 10V11M9 3h6l3 4H6l3-4z"/>
-          </svg>
+          <img src="./logo.png" class="nav-center-logo" alt="Town 77">
         </a>
       </li>
 
@@ -309,9 +333,7 @@
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
       <div style="background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:25px; text-align:center;">
-        <svg class="nav-center-logo" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width: 70px; height: 70px; background: rgba(245, 158, 11, 0.1); padding: 8px; margin-bottom: 10px;">
-          <path d="M3 21h18M3 7v14M21 7v14M6 21V11m4 10V11m4 10V11m4 10V11M9 3h6l3 4H6l3-4z"/>
-        </svg>
+        <img src="./logo.png" style="width:75px; height:75px; border-radius:50%; border:2px solid var(--gold-main); margin-bottom:10px; object-fit:cover;">
         <h3>Dooraming (D-OR)</h3>
         <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:15px;">صانع المحتوى الرسمي للسيرفر</p>
         <a href="https://kick.com/d-or00" target="_blank" style="display:inline-block; background:var(--gold-main); color:#000; padding:8px 20px; border-radius:20px; font-weight:bold; text-decoration:none;">Kick Stream 🟢</a>
@@ -354,6 +376,23 @@
 
     function toggleAcc(el) {
       el.classList.toggle('open');
+    }
+
+    // دالة التحكم بـ الصوت في الخلفية
+    function toggleAudio() {
+      const audio = document.getElementById('bg-audio');
+      const icon = document.getElementById('music-icon');
+      const text = document.getElementById('music-text');
+
+      if (audio.paused) {
+        audio.play();
+        icon.textContent = '⏸️';
+        text.textContent = 'إيقاف الموسيقى';
+      } else {
+        audio.pause();
+        icon.textContent = '🎵';
+        text.textContent = 'تشغيل الموسيقى';
+      }
     }
   </script>
 </body>

@@ -11,7 +11,7 @@
       --gold-glow: rgba(245, 158, 11, 0.4);
       --bg-dark: #050608;
       --card-bg: rgba(15, 18, 24, 0.85);
-      --card-border: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 255, 255, 0.1);
       --text-muted: #94a3b8;
     }
 
@@ -23,131 +23,170 @@
       min-height: 100vh;
       overflow-x: hidden;
       direction: rtl;
-      position: relative;
     }
 
-    /* خلفية سينمائية مظلمة مطابقة للصورة */
+    /* خلفية سينمائية مظلمة */
     .hero-bg {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-image: linear-gradient(rgba(5, 6, 8, 0.85), rgba(5, 6, 8, 0.95)), url('https://i.ibb.co/6P0J97N/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png');
-      background-size: cover; background-position: center; filter: blur(4px); transform: scale(1.05); z-index: -1;
+      background-image: linear-gradient(rgba(5, 6, 8, 0.88), rgba(5, 6, 8, 0.96)), url('./logo.png');
+      background-size: cover; background-position: center; filter: blur(6px); transform: scale(1.05); z-index: -1;
     }
 
-    /* Navbar عائم مطابق للصورة بالظبط */
+    /* Navbar عائم مطابق للصور */
     nav {
       position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-      width: 90%; max-width: 1000px; background: rgba(12, 15, 20, 0.85);
-      backdrop-filter: blur(15px); border: 1px solid var(--card-border);
-      border-radius: 50px; padding: 10px 25px; display: flex; justify-content: space-between; align-items: center;
-      z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      width: 92%; max-width: 1050px;
+      background: rgba(25, 30, 40, 0.65);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50px; padding: 8px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.6);
     }
 
-    .nav-links { display: flex; align-items: center; gap: 15px; list-style: none; }
-    .nav-links button, .nav-links a {
-      background: none; border: none; color: #cbd5e1; font-size: 0.9rem; font-weight: 700;
-      cursor: pointer; transition: 0.3s; padding: 6px 14px; border-radius: 20px; text-decoration: none;
-    }
-    .nav-links button.active, .nav-links button:hover {
-      color: var(--gold-main); background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3);
+    .nav-socials {
+      display: flex; align-items: center; gap: 10px;
+      padding-left: 15px; border-left: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    .nav-logo-area { display: flex; align-items: center; gap: 10px; }
-    .nav-logo { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--gold-main); object-fit: cover; }
+    .social-icon {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      display: flex; justify-content: center; align-items: center;
+      color: #fff; text-decoration: none; transition: 0.3s;
+    }
+
+    .social-icon:hover {
+      border-color: var(--gold-main); background: rgba(245, 158, 11, 0.2);
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+
+    .nav-center-menu {
+      display: flex; align-items: center; gap: 15px; list-style: none;
+    }
+
+    .nav-center-menu button, .nav-center-menu a {
+      background: none; border: none; color: #e2e8f0; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; transition: 0.3s; padding: 4px 10px; border-radius: 15px; text-decoration: none;
+    }
+
+    .nav-center-menu button:hover, .nav-center-menu button.active {
+      color: var(--gold-main); text-shadow: 0 0 8px var(--gold-glow);
+    }
+
+    .nav-center-logo {
+      width: 38px; height: 38px; border-radius: 50%; object-fit: cover;
+      margin: 0 8px; border: 1px solid var(--gold-main); filter: drop-shadow(0 0 8px var(--gold-glow));
+    }
+
+    .nav-login-section {
+      padding-right: 15px; border-right: 1px solid rgba(255, 255, 255, 0.15);
+    }
 
     .btn-login-nav {
-      background: rgba(245, 158, 11, 0.1); border: 1px solid var(--gold-main); color: var(--gold-main);
-      padding: 6px 18px; border-radius: 20px; font-weight: 700; text-decoration: none; font-size: 0.85rem; transition: 0.3s;
+      background: rgba(245, 158, 11, 0.08); border: 1px solid var(--gold-main); color: var(--gold-main);
+      padding: 6px 20px; border-radius: 25px; font-weight: 800; text-decoration: none; font-size: 0.85rem;
+      display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;
     }
-    .btn-login-nav:hover { background: var(--gold-main); color: #000; box-shadow: 0 0 15px var(--gold-glow); }
 
-    /* الصفحات */
+    .btn-login-nav:hover {
+      background: var(--gold-main); color: #000; box-shadow: 0 0 15px var(--gold-glow);
+    }
+
     .page-section { display: none; min-height: 100vh; padding: 120px 20px 50px; max-width: 1000px; margin: 0 auto; }
     .page-section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* الواجهة الرئيسية (Hero) المطابقة للصورة */
     .hero-content {
       height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px;
     }
+
     .hero-title {
-      font-size: 4rem; font-weight: 900; letter-spacing: 2px; color: var(--gold-main);
+      font-size: 4rem; font-weight: 900; color: var(--gold-main);
       text-shadow: 0 0 35px var(--gold-glow); margin-bottom: 15px; text-transform: uppercase;
     }
+
     .hero-desc { max-width: 600px; color: var(--text-muted); font-size: 1rem; line-height: 1.7; margin-bottom: 30px; font-weight: 600; }
+
     .hero-login-btn {
       background: transparent; border: 1px solid rgba(245, 158, 11, 0.5); color: var(--gold-main);
       padding: 12px 35px; border-radius: 40px; font-size: 1rem; font-weight: 700; cursor: pointer;
       display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease; text-decoration: none;
     }
+
     .hero-login-btn:hover { background: var(--gold-main); color: #000; box-shadow: 0 0 25px var(--gold-glow); transform: translateY(-2px); }
 
-    /* بنر القوانين وتنسيق الأقسام الـ 19 */
     .banner-card {
       background: linear-gradient(180deg, rgba(20, 25, 35, 0.95), rgba(10, 12, 18, 0.98));
       border: 1px solid var(--card-border); border-radius: 20px; padding: 30px 20px; text-align: center; margin-bottom: 25px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
     }
+
     .banner-badge {
       background: rgba(245, 158, 11, 0.15); color: var(--gold-main); border: 1px solid rgba(245, 158, 11, 0.3);
       padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; display: inline-block; margin-bottom: 10px;
     }
-    .banner-title { font-size: 2.2rem; font-weight: 900; color: var(--gold-main); margin-bottom: 10px; }
-    .banner-desc { color: var(--text-muted); font-size: 0.9rem; max-width: 700px; margin: 0 auto; }
 
-    /* الأزرار الفرعية للقوانين */
+    .banner-title { font-size: 2.2rem; font-weight: 900; color: var(--gold-main); margin-bottom: 10px; }
+
     .tab-buttons { display: flex; justify-content: center; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+
     .tab-btn {
       background: rgba(255, 255, 255, 0.04); border: 1px solid var(--card-border); color: var(--text-muted);
       padding: 8px 16px; border-radius: 12px; cursor: pointer; font-size: 0.85rem; font-weight: 700; transition: 0.3s;
     }
+
     .tab-btn.active, .tab-btn:hover { background: var(--gold-main); color: #000; border-color: var(--gold-main); }
 
-    /* القابل للطي (Accordion) للـ 211 بند */
-    .accordion-item {
-      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; margin-bottom: 8px; overflow: hidden;
-    }
-    .accordion-header {
-      padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 800; font-size: 0.9rem;
-    }
-    .accordion-header:hover { background: rgba(255, 255, 255, 0.02); color: var(--gold-main); }
-    .accordion-body {
-      padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; background: rgba(0,0,0,0.3);
-    }
-    .accordion-item.open .accordion-body { padding: 15px 20px; max-height: 400px; border-top: 1px solid var(--card-border); overflow-y: auto; }
+    .accordion-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; margin-bottom: 8px; overflow: hidden; }
 
-    /* كروت التقديم وصناع المحتوى */
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-    .content-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 25px; text-align: center; }
-    .btn-action {
-      display: inline-block; background: var(--gold-main); color: #000; padding: 10px 24px; border-radius: 20px;
-      font-weight: 800; text-decoration: none; margin-top: 15px; font-size: 0.9rem; transition: 0.3s;
-    }
-    .btn-action:hover { box-shadow: 0 0 15px var(--gold-glow); transform: translateY(-2px); }
+    .accordion-header { padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 800; font-size: 0.9rem; }
+
+    .accordion-header:hover { background: rgba(255, 255, 255, 0.02); color: var(--gold-main); }
+
+    .accordion-body { padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; color: var(--text-muted); font-size: 0.88rem; line-height: 1.7; background: rgba(0,0,0,0.3); }
+
+    .accordion-item.open .accordion-body { padding: 15px 20px; max-height: 500px; border-top: 1px solid var(--card-border); }
 
     footer { text-align: center; padding: 25px; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--card-border); margin-top: 40px; }
   </style>
 </head>
 <body>
 
-  <!-- خلفية سينمائية مطابقة للصورة -->
   <div class="hero-bg"></div>
 
-  <!-- Navbar مطابق تماماً -->
+  <!-- Navbar عائم -->
   <nav>
-    <ul class="nav-links">
-      <li><button class="nav-btn" onclick="switchPage('home-page', this)">الرئيسية</button></li>
+    <div class="nav-socials">
+      <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="social-icon" title="Discord">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      </a>
+      <a href="https://instagram.com" target="_blank" class="social-icon" title="Instagram">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+    </div>
+
+    <ul class="nav-center-menu">
       <li><button class="nav-btn" onclick="switchPage('rules-page', this)">القوانين</button></li>
       <li><button class="nav-btn" onclick="switchPage('creators-page', this)">صناع المحتوى</button></li>
+      
+      <li>
+        <a href="#" onclick="switchPage('home-page', null)">
+          <img src="./logo.png" class="nav-center-logo" alt="Town 77" onerror="this.onerror=null; this.src='https://api.iconify.design/game-icons:city-skyline.svg?color=%23f59e0b';">
+        </a>
+      </li>
+
       <li><button class="nav-btn" onclick="switchPage('apply-page', this)">التقديم</button></li>
+      <li><a href="https://discord.gg/XXjHdu8wr8" target="_blank">المتجر</a></li>
     </ul>
 
-    <div class="nav-logo-area">
-      <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="btn-login-nav">تسجيل الدخول 🔑</a>
-      <img src="https://i.ibb.co/6P0J97N/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png" class="nav-logo" alt="Town 77">
+    <div class="nav-login-section">
+      <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="btn-login-nav">
+        <span>[→] تسجيل الدخول</span>
+      </a>
     </div>
   </nav>
 
-  <!-- ==================== 1. الصفحة الرئيسية (Home) المطابقة للصورة ==================== -->
+  <!-- 1. الرئيسية Home -->
   <div id="home-page" class="page-section active" style="padding:0;">
     <div class="hero-content">
       <h1 class="hero-title">TOWN 77 CFW</h1>
@@ -155,99 +194,139 @@
         مرحباً بك في عالم TOWN 77، حيث تتجاوز التجربة كل الحدود. مجتمع متكامل، وأداء استثنائي، ومغامرات لا تُنسى في انتظارك. استعد لبدء رحلتك الآن.
       </p>
       <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="hero-login-btn">
-        <span>تسجيل الدخول</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+        <span>[→] تسجيل الدخول</span>
       </a>
     </div>
   </div>
 
-  <!-- ==================== 2. صفحة القوانين (الأقسام الـ 19 كاملة + الشرطة والإسعاف والعصابات) ==================== -->
+  <!-- 2. القوانين الرسمية بالكامل -->
   <div id="rules-page" class="page-section">
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL SERVER RULES • TOWN 77</span>
-      <h1 class="banner-title">القوانين العامة واللوائح التنظيمية</h1>
-      <p class="banner-desc">دخولك إلى مدينة TOWN 77 يُعد إقراراً رسمياً منك بالاطلاع على القوانين والموافقة عليها والتزامك بها. (19 قسم معتمد • 211 بند قانوني شامل)</p>
+      <h1 class="banner-title">القوانين واللوائح التنظيمية الرسمية</h1>
+      <p style="color:#94a3b8; font-size:0.9rem;">دخولك إلى مدينة TOWN 77 يُعد إقراراً رسمياً منك بالاطلاع على القوانين والموافقة عليها والتزامك بها دون استثناء.</p>
       
       <div class="tab-buttons">
-        <button class="tab-btn active" onclick="switchCat('cat-general', this)">الأقسام الـ 19 الأساسية</button>
-        <button class="tab-btn" onclick="switchCat('cat-police', this)">قوانين الشرطة</button>
-        <button class="tab-btn" onclick="switchCat('cat-ems', this)">قوانين المستشفى والإسعاف</button>
-        <button class="tab-btn" onclick="switchCat('cat-gangs', this)">قوانين العصابات الرسمية</button>
+        <button class="tab-btn active" onclick="switchCat('cat-general', this)">القواعد العامة</button>
+        <button class="tab-btn" onclick="switchCat('cat-rp', this)">قواعد الرول بلاي</button>
+        <button class="tab-btn" onclick="switchCat('cat-chars', this)">قواعد الشخصيات</button>
+        <button class="tab-btn" onclick="switchCat('cat-gangs', this)">قواعد العصابات والرهائن</button>
+        <button class="tab-btn" onclick="switchCat('cat-feuds', this)">قواعد العداوات</button>
       </div>
     </div>
 
-    <!-- الأقسام الـ 19 الأساسية (211 بند) -->
+    <!-- القواعد العامة -->
     <div id="cat-general" class="rules-category">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. أولاً: شروط الدخول إلى المدينة والهوية (11 بند)</span><span>▼</span></div><div class="accordion-body">يشترط استخدام اسماً واقعياً مطابقاً لمعايير الرول بلاي، ومنع الأسماء السياسية أو المهينة، وضبط إعدادات الصوت والشخصية بدقة قبل الدخول.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. ثانياً: الأجهزة والحسابات (8 بند)</span><span>؍</span></div><div class="accordion-body">الحسابات والبرامج المساعدة مسؤولية كاملة لصاحب الحساب، ويمنع تماماً استخدام أي برامج تعديل أو هاك تؤدي للإضرار بعدالة اللعب.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. ثالثاً: نظام الشخصيات (7 بند)</span><span>▼</span></div><div class="accordion-body">منع نقل الأموال أو الممتلكات بين الشخصيات (Multi-Char Transfer) واعتبار كل شخصية كياناً مستقلاً بذاته.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. رابعاً: الرول بلاي والسلوك العام (22 بند)</span><span>▼</span></div><div class="accordion-body">التمثيل الواقعي للشخصية طوال فترة تواجدك في المدينة، وعدم كسر السيناريوهات أو استخدام ألفاظ خارجة عن إطار اللعبة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. تحذير شديد – السلوك السام (8 بند)</span><span>▼</span></div><div class="accordion-body">يمنع منعاً باتاً التعرض للآخرين بألفاظ نابية أو شتم خارج إطار الشخصية (OOC). العقوبة: حظر نهائي مباشر بدون إنذار.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. قوانين الحياة الجديدة NLR (8 بند)</span><span>▼</span></div><div class="accordion-body">نسيان كافة الأحداث والسيناريوهات والأشخاص الذين تسببوا في وفاة شخصيتك عند نقلك للمستشفى.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. قوانين سلوك اللاعب وآداب التعامل (12 بند)</span><span>▼</span></div><div class="accordion-body">احترام الكوادر الإدارية واللاعبين الآخرين والالتزام بآداب الحوار العام والخاص.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. القتل العشوائي RDM (8 بند)</span><span>▼</span></div><div class="accordion-body">يحظر إطلاق النار أو قتل أي لاعب دون سبب رول بلاي مسبق وتحذير كلامي معلن.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. الدهس المتعمد VDM (6 بند)</span><span>▼</span></div><div class="accordion-body">يمنع استخدام السيارات كأداة لقتل أو صدم اللاعبين بشكل متعمد ودون مبرر رول بلاي.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. الباور جيمنج Power Gaming (4 بند)</span><span>▼</span></div><div class="accordion-body">أداء تصرفات خارقة للطبيعة أو إجبار اللاعبين الآخرين على تفاعلات دون منحهم فرصة للرد.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. الميتا جيمنج Meta Gaming (3 بند)</span><span>▼</span></div><div class="accordion-body">نقل أو استغلال معلومات تم الحصول عليها من خارج اللعبة (ديسكورد، بثوث) وتوظيفها داخل الرول بلاي.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. الخروج أثناء القتال Combat Logging (6 بند)</span><span>▼</span></div><div class="accordion-body">الخروج من اللعبة أو قطع الاتصال عمداً أثناء سيناريو نشط (مطاردة، إطلاق نار، تحقيق).</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. تقدير الحياة NVL (7 بند)</span><span>▼</span></div><div class="accordion-body">إظهار الخوف الطبيعي وحماية حياة شخصيتك عند التعرض لتهديد مباشر بالأسلحة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. الاستغلال والمخالفات التقنية (8 بند)</span><span>▼</span></div><div class="accordion-body">استغلال الأخطاء البرمجية أو الثغرات في مصلحة الشخصية ويجب الإبلاغ عنها للإدارة فوراً.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. الخوف الواقعي Fear RP (8 بند)</span><span>▼</span></div><div class="accordion-body">الاستجابة لتعليمات المسلحين في حال تفوقهم العددي أو السيطرة التامة عليك.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. كسر الرول بلاي Fail RP (4 بند)</span><span>▼</span></div><div class="accordion-body">القيام بتصرفات غير منطقية تنافي الواقع المهني أو الاجتماعي للشخصية الممثلة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>17. قوانين الخطف والرهائن (23 بند)</span><span>▼</span></div><div class="accordion-body">الالتزام بالعدد المطلوب من الشرطة لتفعيل خطف الرهائن وشروط المطالب المالية والأمان.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. التذاكر والتعويضات (51 بند)</span><span>▼</span></div><div class="accordion-body">آلية فتح تذاكر الدعم الفني وتقديم الأدلة المرئية الصحيحة لطلب التعويضات وإلغاء العقوبات.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>19. جودة الصوت والمايك والتأثيرات الصوتية (7 بند)</span><span>▼</span></div><div class="accordion-body">استخدام مايكروفون واضح نقي وخالٍ من التشويش أو الأصوات الجانبية المزعجة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. تقمص الشخصية الجاد</span><span>▼</span></div><div class="accordion-body">الالتزام بتقمص الشخصية بشكل جاد طوال فترة وجودك داخل المدينة، والخروج من الشخصية يكون فقط عند الضرورة أو بتوجيه من الإدارة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. إفساد تجربة اللعب</span><span>▼</span></div><div class="accordion-body">يمنع استخدام الأساليب غير اللائقة أو التصرفات التي تهدف لإفساد تجربة اللاعبين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. حل المشاكل داخل السيناريو</span><span>▼</span></div><div class="accordion-body">أي مشكلة تحدث داخل السيناريو يتم التعامل معها داخل الرول بلاي قدر الإمكان، ويكون التواصل مع الإدارة بعد انتهاء الموقف.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. توثيق اللعب والتصوير</span><span>▼</span></div><div class="accordion-body">يفضل تسجيل لعبك بشكل مستمر مع وجود الصوت لضمان حقك في حالة تقديم شكوى أو تذكرة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. جودة الميكروفون</span><span>▼</span></div><div class="accordion-body">يجب التأكد من جودة الميكروفون وعدم وجود أصوات مزعجة أو تشويش يؤثر على اللاعبين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. منع تسريب المعلومات الميتا</span><span>▼</span></div><div class="accordion-body">يمنع الاستعانة بمعلومات تم الحصول عليها من بثوث اللاعبين أو الديسكورد أو أي مصدر خارج اللعبة لمعرفة أحداث داخل المدينة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. مساعدة الجدد واستكشاف الأسرار</span><span>▼</span></div><div class="accordion-body">يمنع مساعدة اللاعبين الجدد على اكتشاف أماكن أو معلومات سرية بشكل مباشر؛ يجب أن يتعرف عليها اللاعب من خلال تجربته داخل المدينة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. استغلال الثغرات والأخطاء</span><span>▼</span></div><div class="accordion-body">يمنع استغلال الأخطاء البرمجية أو الثغرات بأي صورة، حتى لو كان استخدامها لا يسبب ضرراً واضحاً للاعبين الآخرين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. دور المسعفين بالخدمة</span><span>▼</span></div><div class="accordion-body">عند وجود مسعفين بالخدمة يجب نقل المصاب إلى المستشفى بالطريقة الطبيعية وعدم تجاوز دورهم بدون سبب.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. الاعتداء على البوتات</span><span>▼</span></div><div class="accordion-body">يمنع الاعتداء على البوتات أو تعطيلهم أو قتلهم دون وجود مبرر مرتبط بسيناريو.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. نقل المصابين وتغيير الموقف</span><span>▼</span></div><div class="accordion-body">يمنع نقل المصابين بعيداً عن موقع الجريمة أو حرب العصابات بغرض تغيير مجريات الموقف.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. بيع أو مشاركة الحسابات</span><span>▼</span></div><div class="accordion-body">يمنع مشاركة أو بيع حسابات Steam / Rockstar / Discord المستخدمة في الدخول إلى المدينة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. التصرفات العدائية والتخريبية</span><span>▼</span></div><div class="accordion-body">يمنع القيام بتصرفات عدائية أو تخريبية خارج نطاق السيناريو، ويجب الحفاظ على تجربة مناسبة لجميع اللاعبين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. شروط تذاكر التعويض والتصوير</span><span>▼</span></div><div class="accordion-body">أي تذكرة تعويض مرتبطة بحادثة داخل اللعبة يجب أن تحتوي على فيديو واضح لا يقل عن 15 ثانية ويظهر الواقعة بشكل كامل؛ وأي طلب لا يحتوي على دليل كافٍ يمكن رفضه.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. التجمع أمام المستشفى</span><span>▼</span></div><div class="accordion-body">يمنع الوقوف أو التجمع أمام المستشفى بدون سبب، ويكون التواجد هناك للحالات التي تحتاج العلاج فقط. بعد انتهاء العلاج يجب مغادرة المنطقة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. التجارة بأموال واقعية (RMT)</span><span>▼</span></div><div class="accordion-body">يمنع بيع الممتلكات أو الخدمات داخل المدينة مقابل أموال أو منافع حقيقية خارج اللعبة، ويعرض ذلك جميع الأطراف للعقوبة.</div></div>
     </div>
 
-    <!-- قوانين الشرطة -->
-    <div id="cat-police" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. قانون منع الفساد والتشكي</span><span>▼</span></div><div class="accordion-body">يمنع بتاتاً تورط أي فرد شرطي في أعمال فساد أو تسريب أسرار التحقيقات والأسلحة للعصابات.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. الواجبات العامة والسلوك العسكري</span><span>▼</span></div><div class="accordion-body">الالتزام التام بتنفيذ الأوامر، الحفاظ على الزي الرسمي، والاحترام المتبادل بين الرتب.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. بروتوكولات التفتيش واستخدام القوة</span><span>▼</span></div><div class="accordion-body">التدرج في استخدام القوة بدءاً من التحذير والسيطرة وصولاً للأسلحة وفقاً لخطورة الموقف.</div></div>
+    <!-- قواعد الرول بلاي -->
+    <div id="cat-rp" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. مفهوم تمثيل الأدوار</span><span>▼</span></div><div class="accordion-body">المقصود بالرول بلاي هو تمثيل شخصيتك بأكبر قدر ممكن من الواقعية والمنطق.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. القتل العشوائي (RDM)</span><span>▼</span></div><div class="accordion-body">يمنع قتل أي لاعب بدون سبب أو سيناريو واضح (RDM).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. الدهس المتعمد (VDM)</span><span>▼</span></div><div class="accordion-body">يمنع استخدام المركبة كسلاح لقتل أو دهس اللاعبين بشكل متعمد (VDM).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. تقدير قيمة الحياة (NVL)</span><span>▼</span></div><div class="accordion-body">يجب التعامل مع حياة شخصيتك باعتبارها ذات قيمة وعدم الدخول في مخاطر غير منطقية (NVL).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. إظهار الخوف (Fear RP)</span><span>▼</span></div><div class="accordion-body">عند وجود خطر مباشر على حياتك يجب إظهار الخوف والتصرف بناءً على الموقف (Fear RP).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. الميتا جيمنج (Meta Gaming)</span><span>▼</span></div><div class="accordion-body">يمنع استخدام معلومات لا يمكن لشخصيتك معرفتها داخل اللعبة (Meta Gaming).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. الباور جيمنج (Power Gaming)</span><span>▼</span></div><div class="accordion-body">يمنع القيام بأفعال غير واقعية أو حيل مصطنعة فقط بهدف الفوز بالموقف أو الحصول على أفضلية (Power Gaming).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. استفزاز الشرطة (Cop Baiting)</span><span>▼</span></div><div class="accordion-body">يمنع استفزاز الشرطة أو افتعال المشاكل معها بهدف بدء مطاردة أو سيناريو بدون سبب منطقي (Cop Baiting).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. فصل علاقات الشخصيات</span><span>▼</span></div><div class="accordion-body">أي خلاف أو عداوة حدثت في شخصية سابقة لا يتم نقلها تلقائياً لشخصية أخرى؛ كل شخصية لها علاقاتها ومعلوماتها الخاصة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. التدخل في سيناريوهات الآخرين</span><span>▼</span></div><div class="accordion-body">يمنع التدخل في سيناريو لا علاقة لك به إلا إذا أصبح لديك سبب واضح داخل الرول بلاي.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. احترام الجدية في التمثيل</span><span>▼</span></div><div class="accordion-body">يجب احترام أجواء الرول بلاي وعدم تحويل المواقف الجدية إلى مزاح أو عبث.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. التدخل في الاشتباكات القائمة</span><span>▼</span></div><div class="accordion-body">يمنع الدخول في اشتباك قائم بين طرفين إذا لم يكن لك ارتباط مباشر بأحد الطرفين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. استخدام السلاح</span><span>▼</span></div><div class="accordion-body">استخدام السلاح يكون كخيار أخير عند وجود سبب يستدعي ذلك، وليس أول وسيلة لحل أي خلاف.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. التجاهل أو الرفض للسيناريو</span><span>▼</span></div><div class="accordion-body">يمنع تجاهل السيناريو القائم أو رفض المشاركة فيه لمجرد أن نتيجته لا تناسبك.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. استخدام أمر /me</span><span>▼</span></div><div class="accordion-body">أمر /me يستخدم لوصف فعل تقوم به شخصيتك أو حالة جسدية لا يستطيع النظام إظهارها بوضوح.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. التواصل خارج الشخصية (OOC)</span><span>▼</span></div><div class="accordion-body">أي وسيلة مخصصة للتواصل خارج الشخصية (OOC) تستخدم فقط للمعلومات الخارجة عن نطاق الرول بلاي ولا يجوز استخدامها للتأثير على الأحداث.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>17. الخروج أثناء السيناريو (Combat Logging)</span><span>▼</span></div><div class="accordion-body">يمنع الخروج من السيرفر أثناء وجودك في موقف فعال أو مطاردة أو تحقيق أو سيناريو لم ينتهِ؛ ويجب إنهاء الموقف قبل المغادرة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. مشاركة الشاشة والبثوث</span><span>▼</span></div><div class="accordion-body">يمنع استخدام أي وسيلة خارجية أو مشاركة شاشة/ستريم للحصول على أفضلية داخل اللعبة أو معرفة مواقع ومعلومات اللاعبين.</div></div>
     </div>
 
-    <!-- قوانين المستشفى والإسعاف -->
-    <div id="cat-ems" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. العمليات الميدانية وبروتوكول الإسعاف</span><span>▼</span></div><div class="accordion-body">تقديم الرعاية الطبية الفورية لجميع المدنيين والعسكريين دون تمييز أو تحيز لأطراف النزاع.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. السلوك المهني واللوائح الداخلية</span><span>▼</span></div><div class="accordion-body">الحفاظ على سرية المرضى والالتزام بأوقات المناوبة والتعليمات الإدارية للمستشفى.</div></div>
+    <!-- قواعد الشخصيات -->
+    <div id="cat-chars" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. استقلالية معرفة الشخصيات</span><span>▼</span></div><div class="accordion-body">يمنع نقل المعلومات التي تعرفها بشخصية إلى شخصية أخرى تملكها، وكل شخصية تعتبر مستقلة في معرفتها وعلاقاتها.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. قصة وتطور الشخصية</span><span>▼</span></div><div class="accordion-body">يجب أن تكون لكل شخصية قصة واضحة وتطور منطقي يناسب أسلوب اللعب.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. منع ربط المصالح بين الشخصيات</span><span>▼</span></div><div class="accordion-body">يمنع إنشاء شخصيات مرتبطة ببعضها بشكل يسمح بتبادل المعلومات أو المصالح بطريقة غير عادلة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. منع نقل الخلافات والعداوات</span><span>▼</span></div><div class="accordion-body">يمنع نقل الخلافات أو العداوات بين شخصياتك المختلفة حتى بصورة غير مباشرة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. إنهاء الشخصيات الدائم (CK)</span><span>▼</span></div><div class="accordion-body">في حالة الرغبة بإنهاء شخصية لاعب بشكل دائم يجب أن يكون هناك سبب قوي ومقنع داخل القصة مع تقديم التفاصيل للإدارة قبل تنفيذ السيناريو عند الحاجة.</div></div>
     </div>
 
-    <!-- قوانين العصابات الرسمية -->
+    <!-- قواعد العصابات والرهائن والسرقات -->
     <div id="cat-gangs" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الهيكل الإداري ونظام العصابات</span><span>▼</span></div><div class="accordion-body">اعتماد قيادة العصابة رسمياً، وتحديد مناطق النفوذ والالتزام بقواعد الاشتباك والحروب المعتمدة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. قواعد العمليات والسرقات</span><span>▼</span></div><div class="accordion-body">الالتزام بالحد الأقصى للأعضاء المشاركين في السرقات والحروب وفقاً للجداول الإدارية.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. المناطق الآمنة وضوابطها</span><span>▼</span></div><div class="accordion-body">المناطق الآمنة: تشمل المستشفى، مركز الشرطة، الجهات الحكومية، المواقع الرسمية التي تحددها الإدارة، وورش السيارات والمناطق الخدمية التي تعلن عنها الإدارة. داخل المنطقة الآمنة يمنع القتل وإطلاق النار والسرقة والخطف والتهديد المباشر بالسلاح وتجارة الممنوعات أو بدء واستكمال الأعمال الإجرامية. ولا يجوز استخدامها للهروب من سيناريو بدأ خارجها.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. خطف الرهائن وبدء السيناريو</span><span>▼</span></div><div class="accordion-body">الخطف والرهائن: يمنع خطف لاعب دون سبب واضح أو هدف منطقي للسيناريو.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. أماكن أخذ الرهائن</span><span>▼</span></div><div class="accordion-body">يجب أخذ الرهينة من مكان يسمح ببدء سيناريو مناسب وليس بشكل عشوائي وسط تجمعات اللاعبين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. خطف الموظفين بالخدمة</span><span>▼</span></div><div class="accordion-body">يمنع استخدام الموظفين أثناء تأدية عملهم كرهائن فقط لبدء سرقة أو سيناريو سريع.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. خطف عناصر الشرطة</span><span>▼</span></div><div class="accordion-body">يمنع خطف عناصر الشرطة أو احتجازهم بدون سيناريو قوي ومبرر.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. تكرار خطف نفس اللاعب</span><span>▼</span></div><div class="accordion-body">يمنع خطف نفس اللاعب بشكل متكرر خلال فترة قصيرة بهدف المضايقة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. المحافظة على حياة الرهينة</span><span>▼</span></div><div class="accordion-body">يجب المحافظة على حياة الرهينة والتعامل معها كعنصر أساسي في السيناريو.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. شروط طلبات التفاوض</span><span>▼</span></div><div class="accordion-body">عند التفاوض تكون الطلبات منطقية وقابلة للتنفيذ ومتوافقة مع جودة الرول بلاي.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. قوانين السرقات والممتلكات</span><span>▼</span></div><div class="accordion-body">السرقة: يسمح بأخذ الممتلكات المرتبطة بالسيناريو مثل الأموال أو الأشياء المسروقة أو بعض الأسلحة وفق قوانين المدينة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. منع التجريد الكامل للتخريب</span><span>▼</span></div><div class="accordion-body">يمنع سرقة اللاعب بالكامل وتركه دون أي شيء لمجرد التخريب.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. سرقة الأغراض غير المرتبطة</span><span>▼</span></div><div class="accordion-body">لا يجوز سرقة أغراض لا علاقة لها بالموقف إذا لم يكن لها سبب منطقي.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. الترصد في الأماكن الإجرامية</span><span>▼</span></div><div class="accordion-body">يمنع استخدام أماكن إجرامية معروفة فقط للترصد للاعبين وسرقتهم بشكل متكرر.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. مدة احتجاز الرهينة بعد السرقة</span><span>▼</span></div><div class="accordion-body">في بعض الحالات يحق للسارق الاحتفاظ بالرهينة لفترة محدودة بعد السرقة بما يخدم عملية الهروب والتفاوض، ويمنع الاستمرار في احتجاز الرهينة بدون داعٍ بعد انتهاء الهدف من السيناريو.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. الممتلكات والمعدات الحكومية</span><span>▼</span></div><div class="accordion-body">الشرطة والممتلكات الحكومية: يمنع سرقة مركبات الشرطة أو معداتها أو أسلحتها بدون سيناريو ومبرر واضح.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. الاحتفاظ بالمركبات الحكومية</span><span>▼</span></div><div class="accordion-body">يمنع الاحتفاظ بالمركبات الحكومية لفترات طويلة بغرض استخدامها الشخصي.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. تخزين المعدات الأمنية</span><span>▼</span></div><div class="accordion-body">لا يجوز سرقة معدات أمنية بهدف تخزينها أو نقلها للاعبين دون سيناريو مناسب.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>17. اقتحام المنشآت الأمنية</span><span>▼</span></div><div class="accordion-body">اقتحام المنشآت الأمنية أو محاولة تحرير سجناء يحتاج إلى تخطيط وسيناريو قوي ويتبع تعليمات الإدارة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. الفواصل بين الجرائم المتتابعة</span><span>▼</span></div><div class="accordion-body">الجرائم المتتابعة: يمنع الانتقال من جريمة إلى أخرى بصورة متكررة بدون فاصل مناسب؛ يجب ترك وقت بين السيناريوهات الإجرامية حتى لا يتحول اللعب إلى سلسلة سرقات ومطاردات دون رول بلاي.</div></div>
+    </div>
+
+    <!-- قواعد العداوات -->
+    <div id="cat-feuds" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. شرط التاريخ الفعلي للعداوة</span><span>▼</span></div><div class="accordion-body">تعتبر العداوة قائمة عندما يكون هناك تاريخ واضح من الخلافات والأحداث بين الطرفين داخل الرول بلاي.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. توثيق أصل العداوة</span><span>▼</span></div><div class="accordion-body">يجب أن يكون أصل العداوة موثقاً من خلال أحداث ومواقف فعلية داخل اللعبة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. الخلاف البسيط ليس عداوة</span><span>▼</span></div><div class="accordion-body">خلاف واحد بسيط لا يعتبر عداوة دائمة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. تبرير القتل بالعداوة</span><span>▼</span></div><div class="accordion-body">لا يجوز استخدام كلمة «عداوة» كتبرير لقتل لاعب في أي وقت.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. استمرارية التفاعل والعداوة</span><span>▼</span></div><div class="accordion-body">استمرار العداوة يحتاج إلى وجود تفاعل وأحداث سابقة واضحة بين الطرفين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. الاحتفاظ بالتوثيق للإدارة</span><span>▼</span></div><div class="accordion-body">يفضل الاحتفاظ بتسجيلات للمواقف المهمة في حالة حدوث خلاف إداري لاحقاً.</div></div>
     </div>
   </div>
 
-  <!-- ==================== 3. صفحة صناع المحتوى ==================== -->
+  <!-- 3. صناع المحتوى -->
   <div id="creators-page" class="page-section">
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL CREATORS • TOWN 77</span>
       <h1 class="banner-title">صناع المحتوى</h1>
-      <p class="banner-desc">تابع أقوى البثوث الحصرية لمدينة TOWN 77</p>
+      <p style="color:#94a3b8; font-size:0.9rem;">تابع أقوى البثوث الحصرية لمدينة TOWN 77</p>
     </div>
-    <div class="cards-grid">
-      <div class="content-card">
-        <img src="https://i.ibb.co/6P0J97N/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png" style="width:70px; border-radius:50%; border:2px solid var(--gold-main); margin-bottom:10px;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+      <div style="background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:25px; text-align:center;">
+        <img src="./logo.png" style="width:70px; height:70px; border-radius:50%; border:2px solid var(--gold-main); margin-bottom:10px; object-fit:cover;" onerror="this.onerror=null; this.src='https://api.iconify.design/game-icons:city-skyline.svg?color=%23f59e0b';">
         <h3>Dooraming (D-OR)</h3>
-        <p style="color:var(--text-muted); font-size:0.85rem;">صانع المحتوى الرسمي للسيرفر</p>
-        <a href="https://kick.com/d-or00" target="_blank" class="btn-action">متابعة على Kick 🟢</a>
-        <a href="https://www.tiktok.com/@dooraming" target="_blank" class="btn-action" style="background:#ff0050; color:#fff;">TikTok 🎵</a>
+        <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:15px;">صانع المحتوى الرسمي للسيرفر</p>
+        <a href="https://kick.com/d-or00" target="_blank" style="display:inline-block; background:var(--gold-main); color:#000; padding:8px 20px; border-radius:20px; font-weight:bold; text-decoration:none;">Kick Stream 🟢</a>
       </div>
     </div>
   </div>
 
-  <!-- ==================== 4. صفحة التقديم ==================== -->
+  <!-- 4. التقديم -->
   <div id="apply-page" class="page-section">
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL WHITELIST PORTAL</span>
       <h1 class="banner-title">التقديمات والتوظيف</h1>
-      <p class="banner-desc">بوابة القبول الرسمية للانضمام إلى مجتمع TOWN 77 والوايت ليست.</p>
+      <p style="color:#94a3b8; font-size:0.9rem;">بوابة القبول الرسمية للانضمام إلى مجتمع TOWN 77 والوايت ليست.</p>
     </div>
-    <div class="content-card" style="text-align:right;">
+    <div style="background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:25px; text-align:right;">
       <h2 style="color:var(--gold-main); margin-bottom:10px;">🚔 تقديم الوايت ليست والمقابلة الصوتية</h2>
-      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:15px;">انقر للانتقال الفوري إلى استمارة التقديم الرسمية المربوطة بـ Discord Webhook.</p>
-      <a href="https://domaup9-hash.github.io/town77-policee/town77-policee" target="_blank" class="btn-action">بدء تقديم الوايت ليست الآن ↗</a>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">انقر للانتقال الفوري إلى استمارة التقديم الرسمية المربوطة بـ Discord Webhook.</p>
+      <a href="https://domaup9-hash.github.io/town77-policee/town77-policee" target="_blank" style="display:inline-block; background:var(--gold-main); color:#000; padding:10px 24px; border-radius:20px; font-weight:bold; text-decoration:none;">بدء تقديم الوايت ليست الآن ↗</a>
     </div>
   </div>
 

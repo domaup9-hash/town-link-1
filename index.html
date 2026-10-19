@@ -10,7 +10,7 @@
       --gold-main: #f59e0b;
       --gold-glow: rgba(245, 158, 11, 0.4);
       --bg-dark: #050608;
-      --card-bg: rgba(15, 18, 24, 0.85);
+      --card-bg: rgba(15, 18, 26, 0.85);
       --card-border: rgba(255, 255, 255, 0.1);
       --text-muted: #94a3b8;
     }
@@ -25,23 +25,24 @@
       direction: rtl;
     }
 
-    /* خلفية سينمائية مظلمة */
+    /* خلفية سينمائية متدرجة فاخرة بـ CSS مباشر بدون أخطاء تحميل */
     .hero-bg {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-image: linear-gradient(rgba(5, 6, 8, 0.88), rgba(5, 6, 8, 0.96)), url('./logo.png');
-      background-size: cover; background-position: center; filter: blur(6px); transform: scale(1.05); z-index: -1;
+      background: radial-gradient(circle at 50% 35%, rgba(245, 158, 11, 0.12) 0%, rgba(5, 6, 8, 0.96) 75%),
+                  linear-gradient(180deg, #050608 0%, #0c0f17 100%);
+      z-index: -1;
     }
 
-    /* Navbar عائم مطابق للصور */
+    /* Navbar عائم مطابق بالتصميم الشفاف */
     nav {
       position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
       width: 92%; max-width: 1050px;
-      background: rgba(25, 30, 40, 0.65);
+      background: rgba(20, 25, 35, 0.75);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 50px; padding: 8px 20px;
       display: flex; justify-content: space-between; align-items: center;
-      z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.7);
     }
 
     .nav-socials {
@@ -102,7 +103,7 @@
     }
 
     .hero-title {
-      font-size: 4rem; font-weight: 900; color: var(--gold-main);
+      font-size: 4.2rem; font-weight: 900; color: var(--gold-main);
       text-shadow: 0 0 35px var(--gold-glow); margin-bottom: 15px; text-transform: uppercase;
     }
 
@@ -171,7 +172,7 @@
       
       <li>
         <a href="#" onclick="switchPage('home-page', null)">
-          <img src="./logo.png" class="nav-center-logo" alt="Town 77" onerror="this.onerror=null; this.src='https://api.iconify.design/game-icons:city-skyline.svg?color=%23f59e0b';">
+          <img src="https://i.ibb.co/6P0J97N/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png" class="nav-center-logo" alt="Town 77">
         </a>
       </li>
 
@@ -204,7 +205,6 @@
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL SERVER RULES • TOWN 77</span>
       <h1 class="banner-title">القوانين واللوائح التنظيمية الرسمية</h1>
-      <p style="color:#94a3b8; font-size:0.9rem;">دخولك إلى مدينة TOWN 77 يُعد إقراراً رسمياً منك بالاطلاع على القوانين والموافقة عليها والتزامك بها دون استثناء.</p>
       
       <div class="tab-buttons">
         <button class="tab-btn active" onclick="switchCat('cat-general', this)">القواعد العامة</button>
@@ -308,7 +308,7 @@
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
       <div style="background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:25px; text-align:center;">
-        <img src="./logo.png" style="width:70px; height:70px; border-radius:50%; border:2px solid var(--gold-main); margin-bottom:10px; object-fit:cover;" onerror="this.onerror=null; this.src='https://api.iconify.design/game-icons:city-skyline.svg?color=%23f59e0b';">
+        <img src="https://i.ibb.co/6P0J97N/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png" style="width:70px; height:70px; border-radius:50%; border:2px solid var(--gold-main); margin-bottom:10px; object-fit:cover;">
         <h3>Dooraming (D-OR)</h3>
         <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:15px;">صانع المحتوى الرسمي للسيرفر</p>
         <a href="https://kick.com/d-or00" target="_blank" style="display:inline-block; background:var(--gold-main); color:#000; padding:8px 20px; border-radius:20px; font-weight:bold; text-decoration:none;">Kick Stream 🟢</a>

@@ -73,18 +73,15 @@
       color: var(--gold-main); text-shadow: 0 0 8px var(--gold-glow);
     }
 
-    /* شعار الـ SVG الداخلي المضمون 100% بدون أي خطأ */
-    .nav-logo-svg {
-      width: 42px; height: 42px; border-radius: 50%;
-      background: linear-gradient(135deg, #1a0505, #050608);
-      border: 1.5px solid var(--gold-main);
+    /* الشعار الحقيقي الفخم T77 */
+    .nav-center-logo {
+      width: 44px; height: 44px; border-radius: 50%; object-fit: cover;
+      margin: 0 8px; border: 1.5px solid var(--gold-main);
       box-shadow: 0 0 12px var(--gold-glow);
-      display: inline-flex; align-items: center; justify-content: center;
       vertical-align: middle; transition: transform 0.3s ease;
-      cursor: pointer;
     }
 
-    .nav-logo-svg:hover { transform: scale(1.1); }
+    .nav-center-logo:hover { transform: scale(1.1); }
 
     .nav-login-section {
       padding-right: 15px; border-right: 1px solid rgba(255, 255, 255, 0.15);
@@ -100,7 +97,7 @@
       background: var(--gold-main); color: #000; box-shadow: 0 0 15px var(--gold-glow);
     }
 
-    /* زر التحكم العائم بالموسيقى */
+    /* زر التحكم العائم بالموسيقى بالأسفل */
     .music-float-btn {
       position: fixed; bottom: 25px; left: 25px;
       background: rgba(20, 25, 35, 0.85);
@@ -176,10 +173,10 @@
 
   <div class="hero-bg"></div>
 
-  <!-- مشغل يوتيوب المخفي للساوند (يعمل تلقائياً عند الدخول) -->
-  <div id="youtube-audio-container" style="display:none;"></div>
+  <!-- ملف الصوت الخلفي (يعمل تلقائياً عند الدخول) -->
+  <audio id="bg-audio" loop autoplay src="https://files.catbox.moe/o3d8g2.mp3"></audio>
 
-  <!-- زر التحكم العائم بالموسيقى (مثل Spaces) -->
+  <!-- زر التحكم العائم بالموسيقى -->
   <button id="music-btn" class="music-float-btn" onclick="toggleAudio()">
     <span id="music-icon">⏸️</span>
     <span id="music-text">إيقاف الموسيقى</span>
@@ -201,13 +198,8 @@
       <li><button class="nav-btn" onclick="switchPage('creators-page', this)">صناع المحتوى</button></li>
       
       <li>
-        <a href="#" onclick="switchPage('home-page', null)" title="TOWN 77">
-          <div class="nav-logo-svg">
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="none">
-              <path d="M3 6h18M12 3v18M5 12h14" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
-              <text x="50%" y="78%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="7" font-weight="900" font-family="Cairo">77</text>
-            </svg>
-          </div>
+        <a href="#" onclick="switchPage('home-page', null)">
+          <img src="https://i.ibb.co/6R59B9Y/logo.jpg" class="nav-center-logo" alt="TOWN 77" onerror="this.onerror=null; this.src='https://i.postimg.cc/mD8NfW4x/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png';">
         </a>
       </li>
 
@@ -343,12 +335,7 @@
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
       <div style="background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:25px; text-align:center;">
-        <div style="width:75px; height:75px; border-radius:50%; margin:0 auto 10px; background:linear-gradient(135deg, #1a0505, #050608); border:2px solid var(--gold-main); display:flex; align-items:center; justify-content:center;">
-          <svg viewBox="0 0 24 24" width="40" height="40" fill="none">
-            <path d="M3 6h18M12 3v18M5 12h14" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
-            <text x="50%" y="78%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="7" font-weight="900" font-family="Cairo">77</text>
-          </svg>
-        </div>
+        <img src="https://i.ibb.co/6R59B9Y/logo.jpg" style="width:75px; height:75px; border-radius:50%; border:2px solid var(--gold-main); margin-bottom:10px; object-fit:cover;" onerror="this.onerror=null; this.src='https://i.postimg.cc/mD8NfW4x/536a7936-4c6d-4de5-b5c9-3930d2e95250-1.png';">
         <h3>Dooraming (D-OR)</h3>
         <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:15px;">صانع المحتوى الرسمي للسيرفر</p>
         <a href="https://kick.com/d-or00" target="_blank" style="display:inline-block; background:var(--gold-main); color:#000; padding:8px 20px; border-radius:20px; font-weight:bold; text-decoration:none;">Kick Stream 🟢</a>
@@ -393,49 +380,39 @@
       el.classList.toggle('open');
     }
 
-    // كود تشغيل يوتيوب تلقائياً والتحكم فيه عبر الزر
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    // دالة التحكم التلقائي بالصوت وتجاوز قيود المتصفح
+    const audio = document.getElementById('bg-audio');
+    const musicIcon = document.getElementById('music-icon');
+    const musicText = document.getElementById('music-text');
 
-    var player;
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('youtube-audio-container', {
-        height: '0',
-        width: '0',
-        videoId: 'cKk9bQolbSk',
-        playerVars: {
-          'autoplay': 1,
-          'loop': 1,
-          'playlist': 'cKk9bQolbSk',
-          'controls': 0
-        },
-        events: {
-          'onReady': function(event) {
-            event.target.playVideo();
-            event.target.setVolume(50);
-          }
-        }
+    window.addEventListener('DOMContentLoaded', () => {
+      audio.volume = 0.6;
+      audio.play().then(() => {
+        musicIcon.textContent = '⏸️';
+        musicText.textContent = 'إيقاف الموسيقى';
+      }).catch(() => {
+        // إذا قام المتصفح بحظر التشغيل التلقائي المباشر، ستبدأ الأغنية فور أول نقرة أو تفاعل في الصفحة
+        const unlockAudio = () => {
+          audio.play();
+          musicIcon.textContent = '⏸️';
+          musicText.textContent = 'إيقاف الموسيقى';
+          window.removeEventListener('click', unlockAudio);
+          window.removeEventListener('keydown', unlockAudio);
+        };
+        window.addEventListener('click', unlockAudio);
+        window.addEventListener('keydown', unlockAudio);
       });
-    }
+    });
 
-    let isPlaying = true;
     function toggleAudio() {
-      if (!player) return;
-      const icon = document.getElementById('music-icon');
-      const text = document.getElementById('music-text');
-
-      if (isPlaying) {
-        player.pauseVideo();
-        icon.textContent = '🎵';
-        text.textContent = 'تشغيل الموسيقى';
-        isPlaying = false;
+      if (audio.paused) {
+        audio.play();
+        musicIcon.textContent = '⏸️';
+        musicText.textContent = 'إيقاف الموسيقى';
       } else {
-        player.playVideo();
-        icon.textContent = '⏸️';
-        text.textContent = 'إيقاف الموسيقى';
-        isPlaying = true;
+        audio.pause();
+        musicIcon.textContent = '🎵';
+        musicText.textContent = 'تشغيل الموسيقى';
       }
     }
   </script>

@@ -98,7 +98,6 @@
       background: var(--gold-main); color: #000; box-shadow: 0 0 15px var(--gold-glow);
     }
 
-    /* زر التحكم العائم بالموسيقى (Spaces Style) */
     .music-float-btn {
       position: fixed; bottom: 25px; left: 25px;
       background: rgba(20, 25, 35, 0.9);
@@ -174,10 +173,15 @@
 
   <div class="hero-bg"></div>
 
-  <!-- عنصر الصوت (مع خاصية التكرار اللانهائي Loop وتعيين مصدر الصوت المباشر) -->
-  <audio id="bg-audio" loop src="https://files.catbox.moe/o3d8g2.mp3"></audio>
+  <!-- حاوية يوتيوب المخفية بابعاد صفر لتشغيل الصوت فقط -->
+  <div style="position: absolute; width: 0; height: 0; overflow: hidden; opacity: 0; pointer-events: none;">
+    <iframe id="yt-player" width="1" height="1" 
+      src="https://www.youtube.com/embed/cKk9bQolbSk?enablejsapi=1&autoplay=1&loop=1&playlist=cKk9bQolbSk" 
+      allow="autoplay">
+    </iframe>
+  </div>
 
-  <!-- زر التحكم العائم بالموسيقى (Spaces Style) بالأسفل -->
+  <!-- زر التحكم العائم بالموسيقى -->
   <button id="music-btn" class="music-float-btn" onclick="toggleAudio()">
     <span id="music-icon">⏸️</span>
     <span id="music-text">إيقاف الموسيقى</span>
@@ -391,41 +395,33 @@
       el.classList.toggle('open');
     }
 
-    // تشغيل الموسيقى تلقائياً فور فتح الموقع مع التكرار (Loop) وتجاوز سياسة المتصفح
-    const audio = document.getElementById('bg-audio');
-    const musicIcon = document.getElementById('music-icon');
-    const musicText = document.getElementById('music-text');
-
-    window.addEventListener('DOMContentLoaded', () => {
-      audio.volume = 0.6;
-      audio.play().then(() => {
-        musicIcon.textContent = '⏸️';
-        musicText.textContent = 'إيقاف الموسيقى';
-      }).catch(() => {
-        // إذا قام المتصفح بحظر التشغيل التلقائي المباشر، ستعمل الأغنية فور أول نقرة أو تفاعل في الصفحة
-        const unlockAudio = () => {
-          audio.play();
-          musicIcon.textContent = '⏸️';
-          musicText.textContent = 'إيقاف الموسيقى';
-          window.removeEventListener('click', unlockAudio);
-          window.removeEventListener('keydown', unlockAudio);
-        };
-        window.addEventListener('click', unlockAudio);
-        window.addEventListener('keydown', unlockAudio);
-      });
-    });
+    // الربط مع كود يوتيوب المباشر
+    var isPlaying = true;
+    var iframe = document.getElementById('yt-player');
 
     function toggleAudio() {
-      if (audio.paused) {
-        audio.play();
-        musicIcon.textContent = '⏸️';
-        musicText.textContent = 'إيقاف الموسيقى';
-      } else {
-        audio.pause();
+      var musicIcon = document.getElementById('music-icon');
+      var musicText = document.getElementById('music-text');
+      
+      if (isPlaying) {
+        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
         musicIcon.textContent = '🎵';
         musicText.textContent = 'تشغيل الموسيقى';
+        isPlaying = false;
+      } else {
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        musicIcon.textContent = '⏸️';
+        musicText.textContent = 'إيقاف الموسيقى';
+        isPlaying = true;
       }
     }
+
+    // تفعيل الصوت المباشر فور أول نقرة بالصفحة لتجاوز حظر المتصفحات
+    window.addEventListener('click', function unlockAudio() {
+      if (!isPlaying) return;
+      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+      window.removeEventListener('click', unlockAudio);
+    }, { once: true });
   </script>
 </body>
 </html>

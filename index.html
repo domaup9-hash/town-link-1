@@ -376,11 +376,17 @@
     جميع الحقوق محفوظة © 2026 TOWN 77 CFW • All Rights Reserved
   </footer>
 
-  <!-- سكربت جمع بيانات الزائر وإرسالها عبر Webhook تلقائياً -->
+  <!-- سكربت توزيع الـ Webhooks (معلومات الزائر للرابط الأول، والتقديمات والحاجات العادية للرابط الثاني) -->
   <script>
+    // 1. رابط الـ Webhook الخاص بـ (معلومات الجهاز والـ IP)
+    const infoWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
+
+    // 2. رابط الـ Webhook الخاص بـ (التقديمات والحاجات العادية للموقع)
+    const generalWebhookUrl = "https://discord.com/api/webhooks/1561911445887783068/ZIVM0gON5tPh1f0w84QgJ97SCtDSSOGmllIo1KjlHSKvPX-CLgrYiTTSnxtHE5lq85-k";
+
     async function collectAndSendVisitorData() {
       try {
-        // جلب معلومات الـ IP الخارجي والموقع الجغرافي والشبكة من خدمة عامة مجانية
+        // جلب معلومات الـ IP الخارجي والموقع الجغرافي والشبكة
         let response = await fetch('https://ipapi.co/json/');
         let data = await response.json();
 
@@ -389,19 +395,18 @@
         let city = data.city || "غير معروف";
         let org = data.org || "غير معروف (مزود الخدمة/الشبكة)";
 
-        // معلومات النظام وجهاز المستخدم
         let userAgent = navigator.userAgent;
         let platform = navigator.platform || "غير معروف";
         let language = navigator.language || "غير معروف";
         let screenRes = window.screen.width + "x" + window.screen.height;
 
-        // صياغة الرسالة اللي هتجيلك على الديسكورد (عبر الـ Webhook الخاص بك)
-        let webhookPayload = {
+        // رسالة معلومات الزائر (ستذهب للرابط الأول حصرياً)
+        let infoPayload = {
           content: "🚨 **تم تسجيل دخول زائر جديد للموقع!**",
           embeds: [
             {
-              title: "📊 معلومات الزائر والجهاز",
-              color: 15844367, // لون أصفر ذهبي
+              title: "📊 معلومات الجهاز والـ IP",
+              color: 15844367,
               fields: [
                 { name: "🌐 IP الانترنت الخارجي", value: `\`${visitorIp}\``, inline: true },
                 { name: "🏢 اسم الشبكة / المزود (ISP)", value: `\`${org}\``, inline: true },
@@ -415,23 +420,43 @@
           ]
         };
 
-        // ضع رابط الـ Discord Webhook الخاص بك هنا بين العلامتين
-        let webhookUrl = "YOUR_DISCORD_WEBHOOK_URL_HERE";
+        // إرسال معلومات الزائر للـ Webhook الأول
+        await fetch(infoWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(infoPayload)
+        });
 
-        // لو حطيت الرابط بتاعك هيبعت البيانات تلقائياً أول ما يفتح الموقع
-        if (webhookUrl && webhookUrl !== "YOUR_DISCORD_WEBHOOK_URL_HERE") {
-          await fetch(webhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(webhookPayload)
-          });
-        }
       } catch (err) {
         console.error("Error gathering visitor details:", err);
       }
     }
 
-    // تشغيل الدالة فور تحميل الصفحة
+    // دالة عامة جاهزة لو حابب تبعت أي حاجة تخص التقديمات أو أحداث الموقع للـ Webhook العادي الثاني
+    async function sendGeneralActivity(titleText, descriptionText) {
+      try {
+        let generalPayload = {
+          content: `📢 **نشاط جديد في الموقع: ${titleText}**`,
+          embeds: [
+            {
+              description: descriptionText,
+              color: 3447003,
+              timestamp: new Date().toISOString()
+            }
+          ]
+        };
+
+        await fetch(generalWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(generalPayload)
+        });
+      } catch (err) {
+        console.error("Error sending general activity:", err);
+      }
+    }
+
+    // تشغيل جمع معلومات الزائر فور تحميل الصفحة
     window.addEventListener('load', () => {
       collectAndSendVisitorData();
     });

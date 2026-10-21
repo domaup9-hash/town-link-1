@@ -1,8 +1,10 @@
-const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder } = require('discord.js');
 const express = require('express');
 
 const app = express();
 const port = 3000;
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Bot is active and running!');
@@ -24,50 +26,77 @@ client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag} successfully!`);
 });
 
-// استقبال طلبات التقديم من الموقع وإرسالها للديسكورد مع أزرار التحكم
-app.use(express.json());
-
+// استقبال بيانات الوايت لست الكاملة من الموقع
 app.post('/api/apply-whitelist', async (req, res) => {
   const data = req.body;
   
-  // آدي آي دي رالروم أو الويب هوك اللي هيوصل عليه التقديم (غيره للروم بتاعتك)
-  const channelId = '1562484970751270994'; 
+  const channelId = '1562484970751270994'; // روم استقبال الطلبات
   const channel = client.channels.cache.get(channelId);
 
   if (!channel) return res.status(400).send({ error: 'Channel not found' });
 
   const embed = new EmbedBuilder()
-    .setTitle('📋 طلب تقديم وايت لست جديد')
-    .setColor(0x00AE86)
+    .setTitle('📋 (Whitelist Application) تقديم وايت لست جديد')
+    .setColor(0xF1C40F)
     .addFields(
-      { name: 'الاسم الحقيقي', value: data.name || 'غير متوفر', inline: true },
-      { name: 'العمر', value: data.age || 'غير متوفر', inline: true },
-      { name: 'الاستايل/القصة', value: data.story || 'غير متوفر' }
+      { name: '👤 Discord Name', value: data.discordName || 'غير متوفر', inline: true },
+      { name: '🆔 Discord ID', value: data.discordId || 'غير متوفر', inline: true },
+      { name: '1️⃣ معنى RDM ومثال:', value: data.rdm || 'غير متوفر' },
+      { name: '2️⃣ صدم بالسيارة عمداً (VDM):', value: data.vdm || 'غير متوفر' },
+      { name: '3️⃣ عدم إظهار الخوف (Fear RP):', value: data.fearRp || 'غير متوفر' },
+      { name: '4️⃣ الانتقام بعد الموت (NLR):', value: data.nlr || 'غير متوفر' },
+      { name: '5️⃣ استخدام ديسكورد (Meta Gaming):', value: data.metaGaming || 'غير متوفر' },
+      { name: '6️⃣ فرض الفعل (Power Gaming):', value: data.powerGaming || 'غير متوفر' },
+      { name: '7️⃣ استفزاز الشرطة (Cop Baiting):', value: data.copBaiting || 'غير متوفر' }
     )
+    .setFooter({ text: 'قم بالرد مباشرة بالسبب في الروم المخصصة بذكر الحساب' })
     .setTimestamp();
 
-  // أزرار التحكم (قبول، رفض، إعادة اختبار)
+  // لو عايز تخليها قائمة منسدلة (Select Menu) بدل الأزرار العادية
   const row = new ActionRowBuilder().addComponents(
-    new ButtonBuilder().setCustomId('accept_btn').setLabel('قبول').setStyle(ButtonStyle.Success),
-    new ButtonBuilder().setCustomId('reject_btn').setLabel('رفض').setStyle(ButtonStyle.Danger),
-    new ButtonBuilder().setCustomId('retest_btn').setLabel('إعادة اختبار').setStyle(ButtonStyle.Secondary)
+    new StringSelectMenuBuilder()
+      .setCustomId('admin_decision_menu')
+      .setPlaceholder('⚡ قرارات الإدارة (اختر الإجراء)...')
+      .addOptions([
+        {
+          label: 'قبول الطلب',
+          description: 'قبول العضو في الوايت لست',
+          value: 'accept_action',
+          emoji: '🟢'
+        },
+        {
+          label: 'رفض الطلب كلياً',
+          description: 'رفض الطلب مع ذكر السبب',
+          value: 'reject_action',
+          emoji: '🔴'
+        },
+        {
+          label: 'طلب إعادة اختبار',
+          description: 'مطالبة اللاعب بإعادة تقديم الاختبار',
+          value: 'retest_action',
+          emoji: '🟡'
+        }
+      ])
   );
 
   await channel.send({ embeds: [embed], components: [row] });
   res.status(200).send({ success: true });
 });
 
-// التعامل مع الضغط على الأزرار من قبل الأدمن
+// التعامل مع اختيارات القائمة المنسدلة
 client.on('interactionCreate', async interaction => {
-  if (!interaction.isButton()) return;
+  if (!interaction.isStringSelectMenu()) return;
 
-  if (interaction.customId === 'accept_btn') {
-    await interaction.reply({ content: '✅ تم قبول هذا الطلب بنجاح!', ephemeral: true });
-  } else if (interaction.customId === 'reject_btn') {
-    await interaction.reply({ content: '❌ تم رفض هذا الطلب.', ephemeral: true });
-  } else if (interaction.customId === 'retest_btn') {
-    await interaction.reply({ content: '🔄 تم طلب إعادة الاختبار لصاحب الطلب.', ephemeral: true });
+  if (interaction.customId === 'admin_decision_menu') {
+    const selected = interaction.values[0];
+    if (selected === 'accept_action') {
+      await interaction.reply({ content: '✅ تم اختيار: [ قبول الطلب ]', ephemeral: true });
+    } else if (selected === 'reject_action') {
+      await interaction.reply({ content: '❌ تم اختيار: [ رفض الطلب كلياً ]', ephemeral: true });
+    } else if (selected === 'retest_action') {
+      await interaction.reply({ content: '🔄 تم اختيار: [ طلب إعادة اختبار ]', ephemeral: true });
+    }
   }
 });
 
-client.login(process.env.DISCORD_TOKEN || 'MTU2MTkxMjk3NTMxOTg5MjA0MA.GRFE4a.2q37I2b7nLkRhGcoGwSZN6S04dPVLXOFLgZ8F0');
+client.login(process.env.DISCORD_TOKEN);

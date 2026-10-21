@@ -236,7 +236,6 @@
 
     .btn-submit-action:hover { box-shadow: 0 0 18px rgba(2, 132, 199, 0.6); }
 
-    /* الشاشة الكاملة المخصصة للتقديم */
     #fullscreen-exam-overlay {
       display: none;
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -342,12 +341,14 @@
       <div class="tab-buttons">
         <button class="tab-btn active" onclick="switchCat('cat-general', this)">القواعد العامة</button>
         <button class="tab-btn" onclick="switchCat('cat-rp', this)">قواعد الرول بلاي</button>
+        <button class="tab-btn" onclick="switchCat('cat-ems', this)">قوانين الإسعاف 🚑</button>
         <button class="tab-btn" onclick="switchCat('cat-chars', this)">قواعد الشخصيات</button>
         <button class="tab-btn" onclick="switchCat('cat-gangs', this)">قواعد العصابات والرهائن</button>
         <button class="tab-btn" onclick="switchCat('cat-feuds', this)">قواعد العداوات</button>
       </div>
     </div>
 
+    <!-- القواعد العامة -->
     <div id="cat-general" class="rules-category">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. HEAVY RP</span><span>▼</span></div><div class="accordion-body">الالتزام بتقمص الشخصية بشكل جاد وعالي الواقعية طوال فترة وجودك داخل المدينة، والخروج من الشخصية يكون فقط عند الضرورة أو بتوجيه من الإدارة.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. إفساد تجربة اللعب</span><span>▼</span></div><div class="accordion-body">يمنع استخدام الأساليب غير اللائقة أو التصرفات التي تهدف لإفساد تجربة اللاعبين.</div></div>
@@ -367,6 +368,7 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. التجارة بأموال واقعية (RMT)</span><span>▼</span></div><div class="accordion-body">يمنع بيع الممتلكات أو الخدمات داخل المدينة مقابل أموال أو منافع حقيقية خارج اللعبة، ويعرض ذلك جميع الأطراف للعقوبة.</div></div>
     </div>
 
+    <!-- قواعد الرول بلاي -->
     <div id="cat-rp" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. مفهوم تمثيل الأدوار</span><span>▼</span></div><div class="accordion-body">المقصود بالرول بلاي هو تمثيل شخصيتك بأكبر قدر ممكن من الواقعية والمنطق.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. القتل العشوائي (RDM)</span><span>▼</span></div><div class="accordion-body">يمنع قتل أي لاعب بدون سبب أو سيناريو واضح (RDM).</div></div>
@@ -388,6 +390,34 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. مشاركة الشاشة والبثوث</span><span>▼</span></div><div class="accordion-body">يمنع استخدام أي وسيلة خارجية أو مشاركة شاشة/ستريم للحصول على أفضلية داخل اللعبة أو معرفة مواقع ومعلومات اللاعبين.</div></div>
     </div>
 
+    <!-- قوانين الإسعاف الجديدة والمطلوبة كاملة -->
+    <div id="cat-ems" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الاحترام أولاً</span><span>▼</span></div><div class="accordion-body">الاحترام هو الأساس مع كافة زملائك في القطاع واللاعبين والمسؤولين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. تقمص الشخصية بجدية</span><span>▼</span></div><div class="accordion-body">المسعف يجب عليه تقمص الشخصية أكثر من أي وظيفة أخرى في السيرفر.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. الالتزام بالزي الرسمي</span><span>▼</span></div><div class="accordion-body">يجب الالتزام بالزي المحدد لرتبتك والموجود بالجدول الرسمي للهيئة الطبية.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. التواجد شبه اليومي</span><span>▼</span></div><div class="accordion-body">يلزم التواجد الشبه يومي لمباشرة البلاغات والخدمات الطبية بالمدينة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. عدم إزعاج المسؤولين</span><span>▼</span></div><div class="accordion-body">عدم إزعاج المسؤولين بطلب ترقية أو نقاط أكثر من مرة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. حق رفض الإنعاش للمسيئين</span><span>▼</span></div><div class="accordion-body">يحق للمسعف عدم إنعاش من يكررون البلاغات الكاذبة أو يقدمون إبداءات وإساءات.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. التحدث مع المصاب</span><span>▼</span></div><div class="accordion-body">لا يحق للمسعف التكلم مع الميت إلا بعد إنعاشه المباشر.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. حظر حمل السلاح</span><span>▼</span></div><div class="accordion-body">ممنوع منعاً باتاً حمل أي سلاح أثناء تواجدك بالخدمة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. الاستجابة السريعة للبلاغات</span><span>▼</span></div><div class="accordion-body">أخذ طلبات الإسعافات بأسرع وقت بعد ما يتم توجيهك من الدسباتش.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. تقمص حالة الإنعاش</span><span>▼</span></div><div class="accordion-body">بعد إنعاش الميت يجب تقمص الحالة بالتحمد على السلامة والاطمئنان عليه.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. منع إعطاء المعدات</span><span>▼</span></div><div class="accordion-body">يمنع منعاً باتاً إعطاء أي شخص خارجي معدات الإسعاف والمستلزمات الطبية.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. منع المباشرة كمواطن</span><span>▼</span></div><div class="accordion-body">يمنع تسجيل خروج المسعف ويباشر الحالات الطبية وهو في حالة مواطن.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. الالتزام بموجة الراديو</span><span>▼</span></div><div class="accordion-body">يمنع دخول موجة غير موجة الإسعاف في الراديو إلا بوجود سبب رسمي ومبرر.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. حد أدنى لخدمة الاستقالة</span><span>▼</span></div><div class="accordion-body">يلزم على المسعف أن يخدم لمدة لا تقل عن 7 أيام بعدها يحق له تقديم طلب استقالة رسمي.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. منع إنعاش المعدم</span><span>▼</span></div><div class="accordion-body">يمنع منعاً باتاً إنعاش الأشخاص المحكوم عليهم بالإعدام أو المعدمين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. منع التوصيل بمركبة الإسعاف</span><span>▼</span></div><div class="accordion-body">يمنع توصيل المواطنين بسيارة الإسعاف ما لم يكن لنقل حالة طوارئ للمستشفى.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>17. مكان الإنعاش المسموح</span><span>▼</span></div><div class="accordion-body">يمنع إنعاش أي شخص خارج المستشفى بدون وجود حالة إنقاذ طارئة ومبررة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. الإنعاش بمواقع إطلاق النار</span><span>▼</span></div><div class="accordion-body">يمنع نقل المسقطين من موقع إطلاق النار إلا بوجود عسكري يؤمنك بالكامل.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>19. تقدير الحياة والمناطق الخطرة</span><span>▼</span></div><div class="accordion-body">يمنع التوجه لمكان غير آمن أو قريب للمجرمين؛ يجب الخوف على حياتك والابتعاد قليلاً إلى أن يتم تأمين الموقع من العسكر.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>20. التعامل مع الرتب الأدنى</span><span>▼</span></div><div class="accordion-body">يمنع التسلط على الرتب الأقل منك سواء في المزح أو الصدق.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>21. احترام العساكر والأمن</span><span>▼</span></div><div class="accordion-body">يجب احترام رجال الأمن والعساكر والتنسيق المباشر معهم.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>22. منع الإنعاش أثناء السيناريو</span><span>▼</span></div><div class="accordion-body">يمنع منعاً باتاً الإنعاش أثناء استمرار السيناريو أو إطلاق النار الفعال.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>23. الخمول وتغيب الخدمة (AFK)</span><span>▼</span></div><div class="accordion-body">أي شخص يسرح (AFK) بدون وضع بريك (Break) سيتم محاسبته فوراً. لا يوجد بروتوكولات معقدة لكن يجب احترام نظام الراديو.</div></div>
+    </div>
+
+    <!-- قواعد الشخصيات -->
     <div id="cat-chars" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. استقلالية معرفة الشخصيات</span><span>▼</span></div><div class="accordion-body">يمنع نقل المعلومات التي تعرفها بشخصية إلى شخصية أخرى تملكها، وكل شخصية تعتبر مستقلة في معرفتها وعلاقاتها.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. قصة وتطور الشخصية</span><span>▼</span></div><div class="accordion-body">يجب أن تكون لكل شخصية قصة واضحة وتطور منطقي يناسب أسلوب اللعب.</div></div>
@@ -396,6 +426,7 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. إنهاء الشخصيات الدائم (CK)</span><span>▼</span></div><div class="accordion-body">في حالة الرغبة بإنهاء شخصية لاعب بشكل دائم يجب أن يكون هناك سبب قوي ومقنع داخل القصة مع تقديم التفاصيل للإدارة قبل تنفيذ السيناريو عند الحاجة.</div></div>
     </div>
 
+    <!-- قواعد العصابات والرهائن -->
     <div id="cat-gangs" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. المناطق الآمنة وضوابطها</span><span>▼</span></div><div class="accordion-body">المناطق الآمنة: تشمل المستشفى، مركز الشرطة، الجهات الحكومية، المواقع الرسمية التي تحددها الإدارة، وورش السيارات والمناطق الخدمية التي تعلن عنها الإدارة. داخل المنطقة الآمنة يمنع القتل وإطلاق النار والسرقة والخطف والتهديد المباشر بالسلاح وتجارة الممنوعات أو بدء واستكمال الأعمال الإجرامية. ولا يجوز استخدامها للهروب من سيناريو بدأ خارجها.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. خطف الرهائن وبدء السيناريو</span><span>▼</span></div><div class="accordion-body">الخطف والرهائن: يمنع خطف لاعب دون سبب واضح أو هدف منطقي للسيناريو.</div></div>
@@ -417,6 +448,7 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. الفواصل بين الجرائم المتتابعة</span><span>▼</span></div><div class="accordion-body">الجرائم المتتابعة: يمنع الانتقال من جريمة إلى أخرى بصورة متكررة بدون فاصل مناسب؛ يجب ترك وقت بين السيناريوهات الإجرامية حتى لا يتحول اللعب إلى سلسلة سرقات ومطاردات دون رول بلاي.</div></div>
     </div>
 
+    <!-- قواعد العداوات -->
     <div id="cat-feuds" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. شرط التاريخ الفعلي للعداوة</span><span>▼</span></div><div class="accordion-body">تعتبر العداوة قائمة عندما يكون هناك تاريخ واضح من الخلافات والأحداث بين الطرفين داخل الرول بلاي.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. توثيق أصل العداوة</span><span>▼</span></div><div class="accordion-body">يجب أن يكون أصل العداوة موثقاً من خلال أحداث ومواقف فعلية داخل اللعبة.</div></div>
@@ -448,7 +480,6 @@
     </div>
   </div>
 
-  <!-- قسم التقديمات -->
   <div id="apply-page" class="page-section">
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL RECRUITMENT PORTAL</span>
@@ -456,7 +487,6 @@
       <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء. يجب الموافقة على نظام الشاشة الكاملة (Full Screen) لضمان نزاهة الاختبار.</p>
     </div>
 
-    <!-- كارت تقديم مستشفى فيسبوتشي -->
     <div class="apply-card">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
@@ -467,7 +497,6 @@
       </div>
     </div>
 
-    <!-- كارت تقديم وزارة العدل -->
     <div class="apply-card">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
@@ -479,7 +508,6 @@
     </div>
   </div>
 
-  <!-- واجهة الاختبار في الشاشة الكاملة (FULLSCREEN EXAM OVERLAY) -->
   <div id="fullscreen-exam-overlay">
     <div class="exam-box" id="exam-box-content">
       <h2 id="exam-title" style="color:var(--cyan-main); text-align:center; margin-bottom:10px;">استمارة التقديم الرسمية</h2>
@@ -499,7 +527,6 @@
       </form>
     </div>
 
-    <!-- كارت الرفض بسبب الخروج من الشاشة الكاملة -->
     <div class="rejection-box" id="rejection-box">
       <h2 style="color:var(--red-alert); margin-bottom:10px;">❌ تم رفض التقديم وإلغاء الاختبار!</h2>
       <p style="color:#e2e8f0; font-size:0.95rem; line-height:1.6; margin-bottom:25px;">
@@ -514,14 +541,12 @@
   </footer>
 
   <script>
-    // 1. رابط الويب هوك الجديد المخصص للتقديمات
     const applyWebhookUrl = "https://discord.com/api/webhooks/1562469759990112377/n4dTnIS7C3sYRbkw7HBOAh3h1EDNvww6A16j1h4WopAvatNGnxMSlkN2iaRv0ORKjPos";
     const telemetryWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
 
     let currentSector = "";
     let isExamActive = false;
 
-    // 2. تفعيل وضع الشاشة الكاملة والبدء في التقديم
     function startFullscreenExam(sectorName) {
       currentSector = sectorName;
       const elem = document.documentElement;
@@ -542,7 +567,6 @@
       isExamActive = true;
     }
 
-    // 3. مراقبة فك الشاشة الكاملة (Fullscreen Change Listener)
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
     document.addEventListener('mozfullscreenchange', handleFullscreenChange);
@@ -551,7 +575,6 @@
     function handleFullscreenChange() {
       const isFullscreenNow = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
 
-      // إذا فك الشاشة الكاملة أثناء الاختبار
       if (!isFullscreenNow && isExamActive) {
         isExamActive = false;
         document.getElementById('exam-box-content').style.display = 'none';
@@ -559,14 +582,12 @@
       }
     }
 
-    // 4. إعادة المحاولة
     function retryExam() {
       document.getElementById('fullscreen-exam-overlay').style.display = 'none';
       document.getElementById('rejection-box').style.display = 'none';
       isExamActive = false;
     }
 
-    // 5. إرسال الاستمارة للويب هوك الجديد
     async function submitExamApplication(e) {
       e.preventDefault();
 
@@ -610,7 +631,6 @@
       }
     }
 
-    // 6. الدخول وتلقائية التعبئة
     async function initAuthAndTelemetry() {
       const hashParams = new URLSearchParams(window.location.hash.slice(1));
       let accessToken = hashParams.get('access_token');
@@ -673,7 +693,6 @@
       window.location.reload();
     }
 
-    // 7. جمع بيانات الزائر
     async function collectAndSendVisitorData(extraInfo = "") {
       try {
         let response = await fetch('https://ipapi.co/json/');

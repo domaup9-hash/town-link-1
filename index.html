@@ -27,6 +27,27 @@
       direction: rtl;
     }
 
+    /* شاشة الحظر الدائم للـ IP */
+    #ip-ban-overlay {
+      display: none;
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: #000000;
+      z-index: 999999;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .ban-card {
+      background: rgba(20, 5, 5, 0.95);
+      border: 3px solid var(--red-alert);
+      border-radius: 20px;
+      padding: 40px 25px;
+      max-width: 550px;
+      box-shadow: 0 0 50px rgba(239, 68, 68, 0.6);
+    }
+
     .hero-bg {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: radial-gradient(circle at 50% 35%, rgba(245, 158, 11, 0.12) 0%, rgba(5, 6, 8, 0.96) 75%),
@@ -62,9 +83,7 @@
       box-shadow: 0 0 10px var(--gold-glow);
     }
 
-    .nav-center-menu {
-      display: flex; align-items: center; gap: 15px; list-style: none;
-    }
+    .nav-center-menu { display: flex; align-items: center; gap: 15px; list-style: none; }
 
     .nav-center-menu button, .nav-center-menu a {
       background: none; border: none; color: #e2e8f0; font-size: 0.9rem; font-weight: 700;
@@ -86,9 +105,7 @@
 
     .nav-logo-box:hover { transform: scale(1.12); }
 
-    .nav-login-section {
-      padding-right: 15px; border-right: 1px solid rgba(255, 255, 255, 0.15);
-    }
+    .nav-login-section { padding-right: 15px; border-right: 1px solid rgba(255, 255, 255, 0.15); }
 
     .btn-login-nav {
       background: rgba(245, 158, 11, 0.08); border: 1px solid var(--gold-main); color: var(--gold-main);
@@ -96,9 +113,7 @@
       display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;
     }
 
-    .btn-login-nav:hover {
-      background: var(--gold-main); color: #000; box-shadow: 0 0 15px var(--gold-glow);
-    }
+    .btn-login-nav:hover { background: var(--gold-main); color: #000; box-shadow: 0 0 15px var(--gold-glow); }
 
     .user-profile-badge {
       display: flex; align-items: center; gap: 10px; background: rgba(245, 158, 11, 0.1);
@@ -108,9 +123,7 @@
     .user-profile-badge img { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--gold-main); }
     .user-profile-badge span { font-size: 0.85rem; font-weight: 800; color: var(--gold-main); }
 
-    .logout-btn {
-      background: none; border: none; color: #ef4444; font-size: 0.75rem; cursor: pointer; font-weight: 700; margin-right: 5px;
-    }
+    .logout-btn { background: none; border: none; color: #ef4444; font-size: 0.75rem; cursor: pointer; font-weight: 700; margin-right: 5px; }
     .logout-btn:hover { text-decoration: underline; }
 
     .music-float-btn {
@@ -123,17 +136,13 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.6); transition: all 0.3s ease;
     }
 
-    .music-float-btn:hover {
-      background: var(--gold-main); color: #000; box-shadow: 0 0 20px var(--gold-glow); transform: translateY(-3px);
-    }
+    .music-float-btn:hover { background: var(--gold-main); color: #000; box-shadow: 0 0 20px var(--gold-glow); transform: translateY(-3px); }
 
     .page-section { display: none; min-height: 100vh; padding: 120px 20px 50px; max-width: 1000px; margin: 0 auto; }
     .page-section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    .hero-content {
-      height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px;
-    }
+    .hero-content { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
 
     .hero-title {
       font-size: 4.2rem; font-weight: 900; color: var(--gold-main);
@@ -216,10 +225,7 @@
       transition: all 0.3s ease;
     }
 
-    .btn-apply-toggle:hover {
-      background: #0284c7;
-      box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
-    }
+    .btn-apply-toggle:hover { background: #0284c7; box-shadow: 0 0 15px rgba(2, 132, 199, 0.4); }
 
     .btn-submit-action {
       background: #0284c7;
@@ -256,7 +262,7 @@
     }
 
     .exam-box {
-      max-width: 650px;
+      max-width: 750px;
       margin: 0 auto;
       background: rgba(15, 18, 26, 0.95);
       border: 1px solid var(--cyan-main);
@@ -281,6 +287,19 @@
   </style>
 </head>
 <body>
+
+  <!-- شاشة الحظر الدائم عند التلفظ بأسلوب غير لائق -->
+  <div id="ip-ban-overlay">
+    <div class="ban-card">
+      <h1 style="color:var(--red-alert); font-size:2.2rem; margin-bottom:15px;">🚫 تم حظرك نهائياً من الموقع</h1>
+      <p style="color:#e2e8f0; font-size:1rem; line-height:1.7; margin-bottom:20px;">
+        تم تسجيل محاولة استخدام شتائم أو ألفاظ غير لائقة أو سب وقذف في أحد النماذج الرسمية. بناءً عليه تم توثيق عنوان الـ IP الخاص بك وحظرك دائمًا.
+      </p>
+      <div style="background:rgba(0,0,0,0.6); padding:10px; border-radius:10px; border:1px solid #ef4444; font-weight:bold; color:var(--gold-main);" id="banned-ip-display">
+        IP Address: Checking...
+      </div>
+    </div>
+  </div>
 
   <div class="hero-bg"></div>
 
@@ -358,7 +377,6 @@
       </div>
     </div>
 
-    <!-- صندوق التنبيه التفاعلي لبدء التقديم بعد قراءة القوانين -->
     <div id="rules-apply-banner" class="rules-start-apply-box">
       <h3 style="color:var(--cyan-main); margin-bottom:8px;" id="apply-banner-title">📋 تنبيه بشأن التقديم على القطاع</h3>
       <p style="color:#e2e8f0; font-size:0.9rem; margin-bottom:15px;">
@@ -505,7 +523,18 @@
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL RECRUITMENT PORTAL</span>
       <h1 class="banner-title">بوابة التوظيف الرسمية</h1>
-      <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء. سيتم توجيهك لقوانين القطاع أولاً ثم فتح التقديم الشامل.</p>
+      <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء. سيتم توجيهك للقوانين أولاً ثم فتح التقديم في وضع الشاشة الكاملة.</p>
+    </div>
+
+    <!-- كارت تقديم الوايت ليست (Whitelist) الجديد -->
+    <div class="apply-card" style="border:1px solid var(--gold-main);">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <span style="color:var(--gold-main); font-size:0.8rem; font-weight:bold;">المنفذ الرسمي</span>
+          <h2 style="color:#ffffff; margin-top:2px;">تقديم الوايت ليست (Whitelist Exam)</h2>
+        </div>
+        <button class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="redirectToRulesForSector('الوايت ليست')">تقديم ↗</button>
+      </div>
     </div>
 
     <div class="apply-card">
@@ -534,24 +563,15 @@
       <h2 id="exam-title" style="color:var(--cyan-main); text-align:center; margin-bottom:10px;">استمارة التقديم الرسمية</h2>
       <p style="color:#94a3b8; font-size:0.85rem; text-align:center; margin-bottom:20px;">⚠️ ينبغي إكمال التقديم في وضع الشاشة الكاملة. الخروج منه يؤدي للرفض التلقائي.</p>
 
-      <form onsubmit="submitExamApplication(event)">
-        <label style="font-weight:bold; color:#e2e8f0;">الاسم الكامل:</label>
-        <input type="text" id="exam-fullname" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
-
-        <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
-        <input type="text" id="exam-username" class="apply-input" required placeholder="8t_c">
-
-        <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
-        <input type="text" id="exam-id" class="apply-input" required placeholder="827346713013387314">
-
-        <button type="submit" class="btn-submit-action">إرسال التقديم</button>
+      <form id="dynamic-exam-form" onsubmit="submitExamApplication(event)">
+        <!-- يتم تعبئة الأسئلة ديناميكياً هنا -->
       </form>
     </div>
 
     <div class="rejection-box" id="rejection-box">
       <h2 style="color:var(--red-alert); margin-bottom:10px;">❌ تم رفض التقديم وإلغاء الاختبار!</h2>
       <p style="color:#e2e8f0; font-size:0.95rem; line-height:1.6; margin-bottom:25px;">
-        تم إلغاء التقديم تلقائياً بسبب الخروج من وضع الشاشة الكاملة (Full Screen) أثناء تأدية الاستمارة. هذا النظام المخصص يضمن النزاهة والأمان الكامل لك وللموقع.
+        تم إلغاء التقديم تلقائياً بسبب الخروج من وضع الشاشة الكاملة (Full Screen) أثناء تأدية الاستمارة. هذا النظام يضمن الأمان التام ونزاهة الاختبار للموقع.
       </p>
       <button onclick="retryExam()" style="background:var(--cyan-main); color:#fff; border:none; padding:10px 28px; border-radius:20px; font-weight:bold; cursor:pointer;">إعادة المحاولة الآن 🔄</button>
     </div>
@@ -564,11 +584,65 @@
   <script>
     const applyWebhookUrl = "https://discord.com/api/webhooks/1562469759990112377/n4dTnIS7C3sYRbkw7HBOAh3h1EDNvww6A16j1h4WopAvatNGnxMSlkN2iaRv0ORKjPos";
     const telemetryWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
+    const whitelistWebhookUrl = "https://discord.com/api/webhooks/1562484970751270994/gpkwCqe8Iz3-tCbbV3HudzGkZd82OG3HEo-ly1igwAd_x-Iy1PBcNG08JgwqJdmcKpEl";
+
+    // قائمة الكلمات المحظورة لمنع الشتائم القذف والتطاول
+    const bannedWords = ["شراميط", "شرموط", "كس", "زب", "منيوك", "عرص", "قحبة", "طيز", "شخبت", "شخر", "احا", "بضان", "متناك", "خول", "قواد"];
 
     let currentSector = "";
     let isExamActive = false;
+    let userVisitorIp = "غير معروف";
+    let globalDiscordUser = null;
 
-    // 1. التوجيه لصفحة القوانين الخاصة بالقطاع المطلوب قبل التقديم
+    // فحص الشتائم والحظر الفوري
+    function checkForProfanityAndBan(textString) {
+      const lowerText = textString.toLowerCase();
+      for (let word of bannedWords) {
+        if (lowerText.includes(word)) {
+          executeIPBan(word);
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // تنفيـذ الحـظر الدائم للـ IP
+    async function executeIPBan(matchedWord) {
+      localStorage.setItem('t77_ip_banned', 'true');
+      document.getElementById('banned-ip-display').innerText = `IP Address: ${userVisitorIp}`;
+      document.getElementById('ip-ban-overlay').style.display = 'flex';
+
+      // إرسال إشعار عاجل للديسكورد بالحظر والـ IP
+      let banReport = {
+        content: `🚨 **تم حظر لاعب تلقائياً بسبب ألفاظ غير لائقة!**`,
+        embeds: [{
+          title: "🛑 تقرير حظر IP تلقائي",
+          color: 15605812,
+          fields: [
+            { name: "🌐 IP المحظور:", value: `\`${userVisitorIp}\``, inline: true },
+            { name: "👤 حساب الديسكورد:", value: globalDiscordUser ? `\`${globalDiscordUser.username}\` (${globalDiscordUser.id})` : "غير مسجل", inline: true },
+            { name: "⚠️ الكلمة المكتشفة:", value: `\`${matchedWord}\``, inline: false }
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      try {
+        await fetch(telemetryWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(banReport)
+        });
+      } catch(e){}
+    }
+
+    function checkBanOnLoad() {
+      if (localStorage.getItem('t77_ip_banned') === 'true') {
+        document.getElementById('banned-ip-display').innerText = `IP Address: ${userVisitorIp}`;
+        document.getElementById('ip-ban-overlay').style.display = 'flex';
+      }
+    }
+
     function redirectToRulesForSector(sectorName) {
       currentSector = sectorName;
       switchPage('rules-page', document.getElementById('nav-btn-rules'));
@@ -577,10 +651,12 @@
       const applyTitle = document.getElementById('apply-banner-title');
       
       applyBanner.style.display = 'block';
-      applyTitle.innerText = `📋 قوانين وتنعليمات التقديم لـ (${sectorName})`;
+      applyTitle.innerText = `📋 قوانين وتعليمات التقديم لـ (${sectorName})`;
 
       if (sectorName === 'مستشفى فيسبوتشي') {
         switchCat('cat-ems', document.getElementById('btn-cat-ems'));
+      } else if (sectorName === 'الوايت ليست') {
+        switchCat('cat-rp', document.getElementById('btn-cat-rp'));
       } else {
         switchCat('cat-general', document.getElementById('btn-cat-general'));
       }
@@ -588,7 +664,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 2. تشغيل وضع الشاشة الكاملة بعد الموافقة على القوانين
     function launchFullscreenExamFromRules() {
       const elem = document.documentElement;
 
@@ -598,6 +673,83 @@
         elem.webkitRequestFullscreen();
       } else if (elem.msRequestFullscreen) {
         elem.msRequestFullscreen();
+      }
+
+      const formContainer = document.getElementById('dynamic-exam-form');
+      formContainer.innerHTML = "";
+
+      let usernameVal = globalDiscordUser ? globalDiscordUser.username : "";
+      let idVal = globalDiscordUser ? globalDiscordUser.id : "";
+
+      if (currentSector === 'الوايت ليست') {
+        formContainer.innerHTML = `
+          <label style="font-weight:bold; color:#e2e8f0;">الاسم الكامل:</label>
+          <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
+
+          <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
+          <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required>
+
+          <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
+          <input type="text" id="ex-id" class="apply-input" value="${idVal}" required>
+
+          <label style="font-weight:bold; color:#e2e8f0;">1. ما معنى RDM؟ اذكر مثالاً على قتل لاعب دون سبب منطقي داخل الرول بلاي:</label>
+          <textarea id="ex-q1" class="apply-input" rows="3" required></textarea>
+
+          <label style="font-weight:bold; color:#e2e8f0;">2. لو صدمت لاعباً بعربيتك عمدًا دون سبب منطقي داخل الرول بلاي، فما المخالفة؟ ولماذا؟</label>
+          <textarea id="ex-q2" class="apply-input" rows="3" required></textarea>
+
+          <label style="font-weight:bold; color:#e2e8f0;">3. لو شخص وجّه سلاحه إليك وهددك بالقتل وأنت أعزل، فقررت مهاجمته، فما المخالفة والتصرف الصحيح؟</label>
+          <textarea id="ex-q3" class="apply-input" rows="3" required></textarea>
+
+          <label style="font-weight:bold; color:#e2e8f0;">4. لو قُتلت في سيناريو ثم رجعت للمكان نفسه لتنتقم، فما المخالفة المحتملة؟</label>
+          <textarea id="ex-q4" class="apply-input" rows="3" required></textarea>
+
+          <label style="font-weight:bold; color:#e2e8f0;">5. لو أخبرك صديقك على Discord بمكان لاعب فذهبت إليه، فما المخالفة؟</label>
+          <textarea id="ex-q5" class="apply-input" rows="3" required></textarea>
+
+          <label style="font-weight:bold; color:#e2e8f0;">6. لو فرضت نتيجة فعل على لاعب دون إعطائه فرصة مناسبة للتفاعل، فما المخالفة ولماذا؟</label>
+          <textarea id="ex-q6" class="apply-input" rows="3" required></textarea>
+
+          <label style="font-weight:bold; color:#e2e8f0;">7. لو تعمدت استفزاز الشرطة وارتكاب مخالفات فقط لإجبارها على مطاردتك، فما المخالفة؟</label>
+          <textarea id="ex-q7" class="apply-input" rows="3" required></textarea>
+
+          <button type="submit" class="btn-submit-action">إرسال تقديم الوايت ليست ↗</button>
+        `;
+      } else if (currentSector === 'مستشفى فيسبوتشي') {
+        formContainer.innerHTML = `
+          <label style="font-weight:bold; color:#e2e8f0;">الاسم الكامل:</label>
+          <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
+
+          <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
+          <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required>
+
+          <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
+          <input type="text" id="ex-id" class="apply-input" value="${idVal}" required>
+
+          <label style="font-weight:bold; color:#e2e8f0;">1. كم تواجدك في اليوم (من الساعة X إلى الساعة X) تقريباً؟</label>
+          <input type="text" id="ex-ems-time" class="apply-input" required placeholder="مثال: من الساعة 4 عصراً إلى 10 مساءً">
+
+          <label style="font-weight:bold; color:#e2e8f0;">2. هل لديك شخصية أخرى؟ (إذا نعم اذكر لي وظيفتها):</label>
+          <input type="text" id="ex-ems-char" class="apply-input" required placeholder="مثال: نعم، مواطن عادي">
+
+          <label style="font-weight:bold; color:#e2e8f0;">3. هل لديك خبرات سابقة؟ (لو نعم اذكرها):</label>
+          <textarea id="ex-ems-exp" class="apply-input" rows="3" required placeholder="اكتب خبراتك بالقطاع الطبي..."></textarea>
+
+          <button type="submit" class="btn-submit-action">إرسال تقديم الإسعاف ↗</button>
+        `;
+      } else {
+        formContainer.innerHTML = `
+          <label style="font-weight:bold; color:#e2e8f0;">الاسم الكامل:</label>
+          <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
+
+          <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
+          <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required>
+
+          <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
+          <input type="text" id="ex-id" class="apply-input" value="${idVal}" required>
+
+          <button type="submit" class="btn-submit-action">إرسال التقديم</button>
+        `;
       }
 
       document.getElementById('fullscreen-exam-overlay').style.display = 'block';
@@ -632,32 +784,94 @@
     async function submitExamApplication(e) {
       e.preventDefault();
 
-      let fullname = document.getElementById('exam-fullname').value;
-      let username = document.getElementById('exam-username').value;
-      let discordId = document.getElementById('exam-id').value;
+      let nameVal = document.getElementById('ex-name').value;
+      let userVal = document.getElementById('ex-user').value;
+      let idVal = document.getElementById('ex-id').value;
 
-      let payload = {
-        content: `📋 **تقديم جديد بقطاع (${currentSector})**`,
-        embeds: [{
-          title: `استمارة تقديم: ${currentSector}`,
-          color: currentSector === 'مستشفى فيسبوتشي' ? 164223 : 16113163,
-          fields: [
-            { name: "👤 الاسم الكامل:", value: `\`${fullname}\``, inline: true },
-            { name: "💬 Discord Username:", value: `\`${username}\``, inline: true },
-            { name: "🆔 Discord ID:", value: `\`${discordId}\``, inline: false }
-          ],
-          timestamp: new Date().toISOString()
-        }]
-      };
+      // تجميع كافة المدخلات لفحص الألفاظ
+      let fullTextToCheck = nameVal + " " + userVal + " ";
+      let formElements = e.target.querySelectorAll('input, textarea');
+      formElements.forEach(el => fullTextToCheck += el.value + " ");
+
+      if (checkForProfanityAndBan(fullTextToCheck)) return;
+
+      let targetWebhook = applyWebhookUrl;
+      let payload = {};
+
+      if (currentSector === 'الوايت ليست') {
+        targetWebhook = whitelistWebhookUrl;
+        payload = {
+          content: `📋 **تقديم وايت ليست جديد (Whitelist Application)**`,
+          embeds: [{
+            title: `🛡️ استمارة اختبار الوايت ليست: ${nameVal}`,
+            color: 16113163,
+            fields: [
+              { name: "👤 الاسم:", value: `\`${nameVal}\``, inline: true },
+              { name: "💬 Discord:", value: `\`${userVal}\``, inline: true },
+              { name: "🆔 ID:", value: `\`${idVal}\``, inline: false },
+              { name: "1. معنى RDM ومثال:", value: document.getElementById('ex-q1').value },
+              { name: "2. صدم بالسيارة عمداً (VDM):", value: document.getElementById('ex-q2').value },
+              { name: "3. عدم إظهار الخوف (Fear RP):", value: document.getElementById('ex-q3').value },
+              { name: "4. الانتقام بعد الموت (NLR):", value: document.getElementById('ex-q4').value },
+              { name: "5. استخدام ديسكورد (Meta Gaming):", value: document.getElementById('ex-q5').value },
+              { name: "6. فرض الفعل (Power Gaming):", value: document.getElementById('ex-q6').value },
+              { name: "7. استفزاز الشرطة (Cop Baiting):", value: document.getElementById('ex-q7').value }
+            ],
+            timestamp: new Date().toISOString()
+          }],
+          // أزرار القبول والرفض وإعادة الاختبار التفاعلية للديسكورد
+          components: [
+            {
+              type: 1,
+              components: [
+                { type: 2, label: "قبول ✅", style: 3, custom_id: "wl_accept" },
+                { type: 2, label: "رفض ❌", style: 4, custom_id: "wl_reject" },
+                { type: 2, label: "إعادة اختبار 🔄", style: 2, custom_id: "wl_retest" }
+              ]
+            }
+          ]
+        };
+      } else if (currentSector === 'مستشفى فيسبوتشي') {
+        payload = {
+          content: `🚑 **تقديم جديد بقطاع مستشفى فيسبوتشي**`,
+          embeds: [{
+            title: `استمارة تقديم الإسعاف: ${nameVal}`,
+            color: 164223,
+            fields: [
+              { name: "👤 الاسم الكامل:", value: `\`${nameVal}\``, inline: true },
+              { name: "💬 Discord Username:", value: `\`${userVal}\``, inline: true },
+              { name: "🆔 Discord ID:", value: `\`${idVal}\``, inline: false },
+              { name: "🕒 ساعات التواجد يومياً:", value: document.getElementById('ex-ems-time').value },
+              { name: "🎭 شخصيات أخرى ووظائفها:", value: document.getElementById('ex-ems-char').value },
+              { name: "💼 الخبرات السابقة:", value: document.getElementById('ex-ems-exp').value }
+            ],
+            timestamp: new Date().toISOString()
+          }]
+        };
+      } else {
+        payload = {
+          content: `📋 **تقديم جديد بقطاع (${currentSector})**`,
+          embeds: [{
+            title: `استمارة تقديم: ${currentSector}`,
+            color: 16113163,
+            fields: [
+              { name: "👤 الاسم الكامل:", value: `\`${nameVal}\``, inline: true },
+              { name: "💬 Discord Username:", value: `\`${userVal}\``, inline: true },
+              { name: "🆔 Discord ID:", value: `\`${idVal}\``, inline: false }
+            ],
+            timestamp: new Date().toISOString()
+          }]
+        };
+      }
 
       try {
-        await fetch(applyWebhookUrl, {
+        await fetch(targetWebhook, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
 
-        alert(`تم تقديم طلبك بقطاع (${currentSector}) بنجاح!`);
+        alert(`تم إرسال تقديمك بقطاع (${currentSector}) بنجاح إلى الإدارة!`);
         
         if (document.exitFullscreen) {
           document.exitFullscreen();
@@ -673,6 +887,8 @@
     }
 
     async function initAuthAndTelemetry() {
+      checkBanOnLoad();
+
       const hashParams = new URLSearchParams(window.location.hash.slice(1));
       let accessToken = hashParams.get('access_token');
 
@@ -693,6 +909,7 @@
           const user = await res.json();
 
           if (user.id) {
+            globalDiscordUser = user;
             const avatarUrl = user.avatar 
               ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` 
               : 'https://cdn.discordapp.com/embed/avatars/0.png';
@@ -709,9 +926,6 @@
                 </div>
               `;
             }
-
-            document.getElementById('exam-username').value = user.username;
-            document.getElementById('exam-id').value = user.id;
 
             const heroBox = document.getElementById('hero-action-box');
             if(heroBox) {
@@ -739,7 +953,7 @@
         let response = await fetch('https://ipapi.co/json/');
         let data = await response.json();
 
-        let visitorIp = data.ip || "غير معروف";
+        userVisitorIp = data.ip || "غير معروف";
         let country = data.country_name || "غير معروف";
         let region = data.region || "غير معروف";
         let city = data.city || "غير معروف";
@@ -758,7 +972,7 @@
         let memory = navigator.deviceMemory ? navigator.deviceMemory + " جيجابايت" : "غير معروف";
 
         let fieldsList = [
-          { name: "🌐 عنوان الإنترنت (IP الخارجي):", value: `\`${visitorIp}\``, inline: true },
+          { name: "🌐 عنوان الإنترنت (IP الخارجي):", value: `\`${userVisitorIp}\``, inline: true },
           { name: "🏢 مزود خدمة الإنترنت:", value: `\`${org}\``, inline: true },
           { name: "📍 الموقع الجغرافي:", value: `الدولة: **${country}**\nالمحافظة: **${region}**\nالمدينة: **${city}** (الرمز البريدي: ${postal})\nالإحداثيات: [خرائط جوجل](https://www.google.com/maps?q=${latitude},${longitude})\nالمنطقة الزمنية: \`${timezone}\``, inline: false },
           { name: "💻 مواصفات ونظام الجهاز:", value: `النظام / المنصة: \`${platform}\`\nعدد أنوية المعالج: \`${cpuCores}\`\nالذاكرة العشوائية التقريبية: \`${memory}\`\nدقة الشاشة والألوان: \`${screenRes}\` (${colorDepth})`, inline: false },

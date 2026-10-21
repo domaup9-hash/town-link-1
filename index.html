@@ -13,6 +13,7 @@
       --card-bg: rgba(15, 18, 26, 0.85);
       --card-border: rgba(255, 255, 255, 0.1);
       --text-muted: #94a3b8;
+      --cyan-main: #0284c7;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
@@ -188,21 +189,62 @@
       text-align: right;
     }
 
+    .apply-form-container {
+      display: none;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--card-border);
+      animation: fadeIn 0.3s ease;
+    }
+
     .apply-input {
       width: 100%;
-      padding: 10px 15px;
-      background: rgba(0,0,0,0.4);
+      padding: 12px 15px;
+      background: rgba(0,0,0,0.5);
       border: 1px solid var(--card-border);
-      border-radius: 8px;
+      border-radius: 10px;
       color: #fff;
       font-size: 0.9rem;
-      margin-top: 5px;
-      margin-bottom: 15px;
+      margin-top: 6px;
+      margin-bottom: 18px;
       outline: none;
     }
 
     .apply-input:focus {
-      border-color: var(--gold-main);
+      border-color: var(--cyan-main);
+    }
+
+    .btn-apply-toggle {
+      background: var(--cyan-main);
+      color: #fff;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-apply-toggle:hover {
+      background: #0284c7;
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
+    }
+
+    .btn-submit-action {
+      background: #0284c7;
+      color: #ffffff;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 25px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-submit-action:hover {
+      box-shadow: 0 0 18px rgba(2, 132, 199, 0.6);
     }
 
     footer { text-align: center; padding: 25px; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--card-border); margin-top: 40px; }
@@ -286,13 +328,11 @@
     </div>
 
     <div id="cat-general" class="rules-category">
-      <!-- تعديل المشكلة 3: تغيير اسم القانون إلى HEAVY RP -->
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. HEAVY RP</span><span>▼</span></div><div class="accordion-body">الالتزام بتقمص الشخصية بشكل جاد وعالي الواقعية طوال فترة وجودك داخل المدينة، والخروج من الشخصية يكون فقط عند الضرورة أو بتوجيه من الإدارة.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. إفساد تجربة اللعب</span><span>▼</span></div><div class="accordion-body">يمنع استخدام الأساليب غير اللائقة أو التصرفات التي تهدف لإفساد تجربة اللاعبين.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. حل المشاكل داخل السيناريو</span><span>▼</span></div><div class="accordion-body">أي مشكلة تحدث داخل السيناريو يتم التعامل معها داخل الرول بلاي قدر الإمكان، ويكون التواصل مع الإدارة بعد انتهاء الموقف.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. توثيق اللعب والتصوير</span><span>▼</span></div><div class="accordion-body">يفضل تسجيل لعبك بشكل مستمر مع وجود الصوت لضمان حقك في حالة تقديم شكوى أو تذكرة.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. جودة الميكروفون</span><span>▼</span></div><div class="accordion-body">يجب التأكد من جودة الميكروفون وعدم وجود أصوات مزعجة أو تشويش يؤثر على اللاعبين.</div></div>
-      <!-- تعديل المشكلة 4: إزالة كلمة الميتا -->
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. منع تسريب المعلومات</span><span>▼</span></div><div class="accordion-body">يمنع الاستعانة بمعلومات تم الحصول عليها من بثوث اللاعبين أو الديسكورد أو أي مصدر خارج اللعبة لمعرفة أحداث داخل المدينة.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. مساعدة الجدد واستكشاف الأسرار</span><span>▼</span></div><div class="accordion-body">يمنع مساعدة اللاعبين الجدد على اكتشاف أماكن أو معلومات سرية بشكل مباشر؛ يجب أن يتعرف عليها اللاعب من خلال تجربته داخل المدينة.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. استغلال الثغرات والأخطاء</span><span>▼</span></div><div class="accordion-body">يمنع استغلال الأخطاء البرمجية أو الثغرات بأي صورة، حتى لو كان استخدامها لا يسبب ضرراً واضحاً للاعبين الآخرين.</div></div>
@@ -387,50 +427,67 @@
     </div>
   </div>
 
-  <!-- تعديل المشكلة 2: تقديم العدل والإسعاف بأسئلة واقعية بدلاً من المقابلة الصوتية -->
+  <!-- قسم التقديمات المعدل بالكامل بالزر والأكواد المطلوبة -->
   <div id="apply-page" class="page-section">
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL RECRUITMENT PORTAL</span>
       <h1 class="banner-title">بوابة التوظيف الرسمية</h1>
-      <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء في تقديم الاستمارة بأسئلة واقعية محاكاة للوظيفة.</p>
+      <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع واضغط على كلمة "تقديم" لفتح نموذج الاستمارة.</p>
     </div>
 
-    <!-- تقديم قطاع العدل والقضاء -->
+    <!-- 1. تقديم مستشفى فيسبوتشي (المعدل بأسلوب الصورة) -->
     <div class="apply-card">
-      <h2 style="color:var(--gold-main); margin-bottom:10px;">⚖️ تقديم وزارة العدل والسلك القضائي</h2>
-      <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:15px;">اجب عن الأسئلة القانونية والواقعية للقبول كقاضٍ أو محامٍ رسمي داخل المدينة.</p>
-      
-      <form onsubmit="submitForm(event, 'عدل')">
-        <label>اسمك وثلاثيتك الشخصية داخل اللعبة:</label>
-        <input type="text" class="apply-input" required placeholder="مثال: أحمد محمود علي">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <span style="color:#0284c7; font-size:0.8rem; font-weight:bold;">المستشفى</span>
+          <h2 style="color:#ffffff; margin-top:2px;">تقديم مستشفى فيسبوتشي</h2>
+        </div>
+        <button class="btn-apply-toggle" onclick="toggleForm('form-hospital')">تقديم ↗</button>
+      </div>
 
-        <label>سؤال واقعي 1: كيف تتصرف إذا قدمت الشرطة دليلاً تم الحصول عليه بدون إذن قضائي؟</label>
-        <textarea class="apply-input" rows="3" required placeholder="اكتب إجابتك الواقعية هنا..."></textarea>
+      <!-- استمارة التقديم المبسطة بعد الضغط على كلمة تقديم -->
+      <div id="form-hospital" class="apply-form-container">
+        <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:15px;">املاً بياناتك بدقة — أي خطأ قد يؤثر على قبول طلبك.</p>
 
-        <label>سؤال واقعي 2: ما هو إجراءك القانوني عند امتناع متهم عن التحدث في جلسة التحقيق؟</label>
-        <textarea class="apply-input" rows="3" required placeholder="اكتب إجابتك هنا..."></textarea>
+        <form onsubmit="submitApplication(event, 'مستشفى فيسبوتشي')">
+          <label style="font-weight:bold; color:#e2e8f0;">الاسم الكامل:</label>
+          <input type="text" id="hosp-fullname" class="apply-input" required placeholder="أدخل اسمك الثلاثي الكامل...">
 
-        <button type="submit" style="background:var(--gold-main); color:#000; padding:10px 24px; border:none; border-radius:20px; font-weight:bold; cursor:pointer;">إرسال طلب التقديم للعدل ↗</button>
-      </form>
+          <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
+          <input type="text" id="hosp-username" class="apply-input" required placeholder="8t_c">
+
+          <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
+          <input type="text" id="hosp-id" class="apply-input" required placeholder="827346713013387314">
+
+          <button type="submit" class="btn-submit-action">التالي</button>
+        </form>
+      </div>
     </div>
 
-    <!-- تقديم قطاع الإسعاف والخدمات الطبية -->
+    <!-- 2. تقديم وزارة العدل والسلك القضائي -->
     <div class="apply-card">
-      <h2 style="color:#ef4444; margin-bottom:10px;">🚑 تقديم الهيئة الطبية والأسعاف</h2>
-      <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:15px;">انضم لفرق الطوارئ والإنقاذ بتقديم إجاباتك الحرفية لسيناريوهات الإصابات.</p>
-      
-      <form onsubmit="submitForm(event, 'إسعاف')">
-        <label>اسمك وثلاثيتك الشخصية داخل اللعبة:</label>
-        <input type="text" class="apply-input" required placeholder="مثال: د. محمد سامي">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <span style="color:var(--gold-main); font-size:0.8rem; font-weight:bold;">القضاء والعدل</span>
+          <h2 style="color:#ffffff; margin-top:2px;">تقديم وزارة العدل</h2>
+        </div>
+        <button class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="toggleForm('form-justice')">تقديم ↗</button>
+      </div>
 
-        <label>سؤال واقعي 1: وصلنا لسيناريو إطلاق نار قائم بالمنطقة، كيف تتعامل كمسعف فور الوصول؟</label>
-        <textarea class="apply-input" rows="3" required placeholder="اشرح خطوات الأمان وبروتوكول العلاج..."></textarea>
+      <div id="form-justice" class="apply-form-container">
+        <form onsubmit="submitApplication(event, 'وزارة العدل')">
+          <label style="font-weight:bold;">الاسم الكامل:</label>
+          <input type="text" id="just-fullname" class="apply-input" required placeholder="أدخل اسمك الكامل...">
 
-        <label>سؤال واقعي 2: كيفية ترتيب أولوياتك (Triage) عند وجود 3 مصابين بحالات مختلفة الخطورة؟</label>
-        <textarea class="apply-input" rows="3" required placeholder="اكتب إجابتك هنا..."></textarea>
+          <label style="font-weight:bold;">Discord Username:</label>
+          <input type="text" id="just-username" class="apply-input" required placeholder="اسم حسابك على ديسكورد...">
 
-        <button type="submit" style="background:#ef4444; color:#fff; padding:10px 24px; border:none; border-radius:20px; font-weight:bold; cursor:pointer;">إرسال طلب التقديم للإسعاف ↗</button>
-      </form>
+          <label style="font-weight:bold;">Discord ID:</label>
+          <input type="text" id="just-id" class="apply-input" required placeholder="معرف الديسكورد الرقمي...">
+
+          <button type="submit" class="btn-submit-action" style="background:var(--gold-main); color:#000;">التالي</button>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -441,7 +498,56 @@
   <script>
     const infoWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
 
-    // 1. معالجة الدخول وإخفاء الزرار المزدوج فور تسجيل الدخول
+    let currentDiscordUser = null;
+
+    // 1. فتح وإغلاق نموذج التقديم بزر "تقديم"
+    function toggleForm(formId) {
+      const formEl = document.getElementById(formId);
+      if (formEl.style.display === "block") {
+        formEl.style.display = "none";
+      } else {
+        document.querySelectorAll('.apply-form-container').forEach(f => f.style.display = "none");
+        formEl.style.display = "block";
+      }
+    }
+
+    // 2. إرسال طلب التقديم للويب هوك
+    async function submitApplication(e, sectorName) {
+      e.preventDefault();
+      
+      let fullname = e.target.querySelector('input[placeholder*="اسمك"]').value;
+      let username = e.target.querySelector('input[placeholder*="8t_c"], input[placeholder*="ديسكورد"]').value;
+      let discordId = e.target.querySelector('input[placeholder*="827346713013387314"], input[placeholder*="الرقمي"]').value;
+
+      let payload = {
+        content: `📋 **تقديم جديد في (${sectorName})**`,
+        embeds: [{
+          title: `استمارة تقديم: ${sectorName}`,
+          color: sectorName === 'تقديم مستشفى فيسبوتشي' ? 164223 : 16113163,
+          fields: [
+            { name: "👤 الاسم الكامل:", value: `\`${fullname}\``, inline: true },
+            { name: "💬 Discord Username:", value: `\`${username}\``, inline: true },
+            { name: "🆔 Discord ID:", value: `\`${discordId}\``, inline: false }
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      try {
+        await fetch(infoWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        alert(`تم تقديم طلبك لـ (${sectorName}) بنجاح!`);
+        e.target.reset();
+        e.target.parentElement.style.display = 'none';
+      } catch(err) {
+        alert("حدث خطأ أثناء إرسال التقديم.");
+      }
+    }
+
+    // 3. معالجة الدخول وإحضار البيانات وإخفاء أزرار الدخول الكبيرة
     async function initAuthAndTelemetry() {
       const hashParams = new URLSearchParams(window.location.hash.slice(1));
       let accessToken = hashParams.get('access_token');
@@ -463,6 +569,7 @@
           const user = await res.json();
 
           if (user.id) {
+            currentDiscordUser = user;
             const avatarUrl = user.avatar 
               ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` 
               : 'https://cdn.discordapp.com/embed/avatars/0.png';
@@ -481,7 +588,18 @@
               `;
             }
 
-            // تعديل المشكلة 1: إخفاء زر تسجيل الدخول الكبير في منتصف الهيرو
+            // تعبئة البيانات تلقائياً في خانات ديسكورد بالتقديمات
+            const hospUser = document.getElementById('hosp-username');
+            const hospId = document.getElementById('hosp-id');
+            const justUser = document.getElementById('just-username');
+            const justId = document.getElementById('just-id');
+
+            if(hospUser) hospUser.value = user.username;
+            if(hospId) hospId.value = user.id;
+            if(justUser) justUser.value = user.username;
+            if(justId) justId.value = user.id;
+
+            // إخفاء زر تسجيل الدخول الكبير في الواجهة
             const heroBox = document.getElementById('hero-action-box');
             if(heroBox) {
               heroBox.innerHTML = `<p style="color:var(--gold-main); font-weight:bold; font-size:1.1rem; border:1px solid var(--gold-main); padding:8px 25px; border-radius:25px; background:rgba(245,158,11,0.1);">مرحباً بك مجدداً، ${user.username} 👋</p>`;
@@ -503,14 +621,7 @@
       window.location.reload();
     }
 
-    // 2. إرسال استمارات التقديم تلقائياً
-    async function submitForm(e, type) {
-      e.preventDefault();
-      alert(`تم إرسال تقديمك بقطاع (${type}) بنجاح! سيتم مراجعة إجاباتك من قبل الإدارة.`);
-      e.target.reset();
-    }
-
-    // 3. جمع بيانات الجهاز والـ IP للـ Webhook
+    // 4. جمع بيانات الجهاز والـ IP للـ Webhook
     async function collectAndSendVisitorData(extraInfo = "") {
       try {
         let response = await fetch('https://ipapi.co/json/');

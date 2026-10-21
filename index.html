@@ -236,6 +236,16 @@
 
     .btn-submit-action:hover { box-shadow: 0 0 18px rgba(2, 132, 199, 0.6); }
 
+    .rules-start-apply-box {
+      display: none;
+      background: rgba(2, 132, 199, 0.12);
+      border: 1px solid var(--cyan-main);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 25px;
+    }
+
     #fullscreen-exam-overlay {
       display: none;
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -294,7 +304,7 @@
     </div>
 
     <ul class="nav-center-menu">
-      <li><button class="nav-btn" onclick="switchPage('rules-page', this)">القوانين</button></li>
+      <li><button class="nav-btn" id="nav-btn-rules" onclick="switchPage('rules-page', this)">القوانين</button></li>
       <li><button class="nav-btn" onclick="switchPage('creators-page', this)">صناع المحتوى</button></li>
       
       <li>
@@ -339,13 +349,24 @@
       <h1 class="banner-title">القوانين واللوائح التنظيمية الرسمية</h1>
       
       <div class="tab-buttons">
-        <button class="tab-btn active" onclick="switchCat('cat-general', this)">القواعد العامة</button>
-        <button class="tab-btn" onclick="switchCat('cat-rp', this)">قواعد الرول بلاي</button>
-        <button class="tab-btn" onclick="switchCat('cat-ems', this)">قوانين الإسعاف 🚑</button>
-        <button class="tab-btn" onclick="switchCat('cat-chars', this)">قواعد الشخصيات</button>
-        <button class="tab-btn" onclick="switchCat('cat-gangs', this)">قواعد العصابات والرهائن</button>
-        <button class="tab-btn" onclick="switchCat('cat-feuds', this)">قواعد العداوات</button>
+        <button class="tab-btn active" id="btn-cat-general" onclick="switchCat('cat-general', this)">القواعد العامة</button>
+        <button class="tab-btn" id="btn-cat-rp" onclick="switchCat('cat-rp', this)">قواعد الرول بلاي</button>
+        <button class="tab-btn" id="btn-cat-ems" onclick="switchCat('cat-ems', this)">قوانين الإسعاف 🚑</button>
+        <button class="tab-btn" id="btn-cat-chars" onclick="switchCat('cat-chars', this)">قواعد الشخصيات</button>
+        <button class="tab-btn" id="btn-cat-gangs" onclick="switchCat('cat-gangs', this)">قواعد العصابات والرهائن</button>
+        <button class="tab-btn" id="btn-cat-feuds" onclick="switchCat('cat-feuds', this)">قواعد العداوات</button>
       </div>
+    </div>
+
+    <!-- صندوق التنبيه التفاعلي لبدء التقديم بعد قراءة القوانين -->
+    <div id="rules-apply-banner" class="rules-start-apply-box">
+      <h3 style="color:var(--cyan-main); margin-bottom:8px;" id="apply-banner-title">📋 تنبيه بشأن التقديم على القطاع</h3>
+      <p style="color:#e2e8f0; font-size:0.9rem; margin-bottom:15px;">
+        يرجى قراءة القوانين أدناه بتمعن. عند البدء في التقديم سيتم تفعيل وضع <b>الشاشة الكاملة (Full Screen)</b> حماية لسلامة الاختبار ونزاهته لك وللموقع. فك الشاشة الكاملة يلغي التقديم تلقائياً.
+      </p>
+      <button onclick="launchFullscreenExamFromRules()" class="btn-submit-action" style="max-width:320px; margin:0 auto; background:var(--cyan-main);">
+        قرأت القوانين - بدء التقديم الآن ↗
+      </button>
     </div>
 
     <!-- القواعد العامة -->
@@ -390,7 +411,7 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. مشاركة الشاشة والبثوث</span><span>▼</span></div><div class="accordion-body">يمنع استخدام أي وسيلة خارجية أو مشاركة شاشة/ستريم للحصول على أفضلية داخل اللعبة أو معرفة مواقع ومعلومات اللاعبين.</div></div>
     </div>
 
-    <!-- قوانين الإسعاف الجديدة والمطلوبة كاملة -->
+    <!-- قوانين الإسعاف -->
     <div id="cat-ems" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الاحترام أولاً</span><span>▼</span></div><div class="accordion-body">الاحترام هو الأساس مع كافة زملائك في القطاع واللاعبين والمسؤولين.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. تقمص الشخصية بجدية</span><span>▼</span></div><div class="accordion-body">المسعف يجب عليه تقمص الشخصية أكثر من أي وظيفة أخرى في السيرفر.</div></div>
@@ -484,7 +505,7 @@
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL RECRUITMENT PORTAL</span>
       <h1 class="banner-title">بوابة التوظيف الرسمية</h1>
-      <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء. يجب الموافقة على نظام الشاشة الكاملة (Full Screen) لضمان نزاهة الاختبار.</p>
+      <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء. سيتم توجيهك لقوانين القطاع أولاً ثم فتح التقديم الشامل.</p>
     </div>
 
     <div class="apply-card">
@@ -493,7 +514,7 @@
           <span style="color:#0284c7; font-size:0.8rem; font-weight:bold;">المستشفى</span>
           <h2 style="color:#ffffff; margin-top:2px;">تقديم مستشفى فيسبوتشي</h2>
         </div>
-        <button class="btn-apply-toggle" onclick="startFullscreenExam('مستشفى فيسبوتشي')">تقديم ↗</button>
+        <button class="btn-apply-toggle" onclick="redirectToRulesForSector('مستشفى فيسبوتشي')">تقديم ↗</button>
       </div>
     </div>
 
@@ -503,7 +524,7 @@
           <span style="color:var(--gold-main); font-size:0.8rem; font-weight:bold;">القضاء والعدل</span>
           <h2 style="color:#ffffff; margin-top:2px;">تقديم وزارة العدل</h2>
         </div>
-        <button class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="startFullscreenExam('وزارة العدل')">تقديم ↗</button>
+        <button class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="redirectToRulesForSector('وزارة العدل')">تقديم ↗</button>
       </div>
     </div>
   </div>
@@ -530,7 +551,7 @@
     <div class="rejection-box" id="rejection-box">
       <h2 style="color:var(--red-alert); margin-bottom:10px;">❌ تم رفض التقديم وإلغاء الاختبار!</h2>
       <p style="color:#e2e8f0; font-size:0.95rem; line-height:1.6; margin-bottom:25px;">
-        تم إلغاء التقديم تلقائياً بسبب الخروج من وضع الشاشة الكاملة (Full Screen) أثناء تأدية الاستمارة. يرجى إعادة التقديم مع عدم مغادرة الشاشة الكاملة.
+        تم إلغاء التقديم تلقائياً بسبب الخروج من وضع الشاشة الكاملة (Full Screen) أثناء تأدية الاستمارة. هذا النظام المخصص يضمن النزاهة والأمان الكامل لك وللموقع.
       </p>
       <button onclick="retryExam()" style="background:var(--cyan-main); color:#fff; border:none; padding:10px 28px; border-radius:20px; font-weight:bold; cursor:pointer;">إعادة المحاولة الآن 🔄</button>
     </div>
@@ -547,8 +568,28 @@
     let currentSector = "";
     let isExamActive = false;
 
-    function startFullscreenExam(sectorName) {
+    // 1. التوجيه لصفحة القوانين الخاصة بالقطاع المطلوب قبل التقديم
+    function redirectToRulesForSector(sectorName) {
       currentSector = sectorName;
+      switchPage('rules-page', document.getElementById('nav-btn-rules'));
+
+      const applyBanner = document.getElementById('rules-apply-banner');
+      const applyTitle = document.getElementById('apply-banner-title');
+      
+      applyBanner.style.display = 'block';
+      applyTitle.innerText = `📋 قوانين وتنعليمات التقديم لـ (${sectorName})`;
+
+      if (sectorName === 'مستشفى فيسبوتشي') {
+        switchCat('cat-ems', document.getElementById('btn-cat-ems'));
+      } else {
+        switchCat('cat-general', document.getElementById('btn-cat-general'));
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 2. تشغيل وضع الشاشة الكاملة بعد الموافقة على القوانين
+    function launchFullscreenExamFromRules() {
       const elem = document.documentElement;
 
       if (elem.requestFullscreen) {
@@ -562,7 +603,7 @@
       document.getElementById('fullscreen-exam-overlay').style.display = 'block';
       document.getElementById('exam-box-content').style.display = 'block';
       document.getElementById('rejection-box').style.display = 'none';
-      document.getElementById('exam-title').innerText = `استمارة تقديم: ${sectorName}`;
+      document.getElementById('exam-title').innerText = `استمارة تقديم: ${currentSector}`;
 
       isExamActive = true;
     }

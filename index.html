@@ -27,7 +27,6 @@
       direction: rtl;
     }
 
-    /* شاشة الحظر الدائم للـ IP */
     #ip-ban-overlay {
       display: none;
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -380,7 +379,7 @@
     <div id="rules-apply-banner" class="rules-start-apply-box">
       <h3 style="color:var(--cyan-main); margin-bottom:8px;" id="apply-banner-title">📋 تنبيه بشأن التقديم على القطاع</h3>
       <p style="color:#e2e8f0; font-size:0.9rem; margin-bottom:15px;">
-        يرجى قراءة القوانين أدناه بتمعن. عند البدء في التقديم سيتم تفعيل وضع <b>الشاشة الكاملة (Full Screen)</b> حماية لسلامة الاختبار ونزاهته لك وللموقع. فك الشاشة الكاملة يلغي التقديم تلقائياً.
+        يرجى قراءة القوانين أدناه بتمعن. عند البدء في التقديم سيتم تفعيل وضع <b>الشاشة الكاملة (Full Screen)</b> حماية لسلامة الاختبار ونزاهته لك ولالموقع. فك الشاشة الكاملة يلغي التقديم تلقائياً.
       </p>
       <button onclick="launchFullscreenExamFromRules()" class="btn-submit-action" style="max-width:320px; margin:0 auto; background:var(--cyan-main);">
         قرأت القوانين - بدء التقديم الآن ↗
@@ -526,7 +525,7 @@
       <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء. سيتم توجيهك للقوانين أولاً ثم فتح التقديم في وضع الشاشة الكاملة.</p>
     </div>
 
-    <!-- كارت تقديم الوايت ليست (Whitelist) الجديد -->
+    <!-- كارت تقديم الوايت ليست -->
     <div class="apply-card" style="border:1px solid var(--gold-main);">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
@@ -586,7 +585,6 @@
     const telemetryWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
     const whitelistWebhookUrl = "https://discord.com/api/webhooks/1562484970751270994/gpkwCqe8Iz3-tCbbV3HudzGkZd82OG3HEo-ly1igwAd_x-Iy1PBcNG08JgwqJdmcKpEl";
 
-    // قائمة الكلمات المحظورة لمنع الشتائم القذف والتطاول
     const bannedWords = ["شراميط", "شرموط", "كس", "زب", "منيوك", "عرص", "قحبة", "طيز", "شخبت", "شخر", "احا", "بضان", "متناك", "خول", "قواد"];
 
     let currentSector = "";
@@ -594,7 +592,6 @@
     let userVisitorIp = "غير معروف";
     let globalDiscordUser = null;
 
-    // فحص الشتائم والحظر الفوري
     function checkForProfanityAndBan(textString) {
       const lowerText = textString.toLowerCase();
       for (let word of bannedWords) {
@@ -606,13 +603,11 @@
       return false;
     }
 
-    // تنفيـذ الحـظر الدائم للـ IP
     async function executeIPBan(matchedWord) {
       localStorage.setItem('t77_ip_banned', 'true');
       document.getElementById('banned-ip-display').innerText = `IP Address: ${userVisitorIp}`;
       document.getElementById('ip-ban-overlay').style.display = 'flex';
 
-      // إرسال إشعار عاجل للديسكورد بالحظر والـ IP
       let banReport = {
         content: `🚨 **تم حظر لاعب تلقائياً بسبب ألفاظ غير لائقة!**`,
         embeds: [{
@@ -788,7 +783,6 @@
       let userVal = document.getElementById('ex-user').value;
       let idVal = document.getElementById('ex-id').value;
 
-      // تجميع كافة المدخلات لفحص الألفاظ
       let fullTextToCheck = nameVal + " " + userVal + " ";
       let formElements = e.target.querySelectorAll('input, textarea');
       formElements.forEach(el => fullTextToCheck += el.value + " ");
@@ -800,6 +794,10 @@
 
       if (currentSector === 'الوايت ليست') {
         targetWebhook = whitelistWebhookUrl;
+        
+        // بناء رابط الإدارة التفاعلي المباشر لإعطاء القرارات مع إرسال السبب
+        const manageBaseUrl = "https://domaup9-hash.github.io/town-link-1/";
+
         payload = {
           content: `📋 **تقديم وايت ليست جديد (Whitelist Application)**`,
           embeds: [{
@@ -815,21 +813,14 @@
               { name: "4. الانتقام بعد الموت (NLR):", value: document.getElementById('ex-q4').value },
               { name: "5. استخدام ديسكورد (Meta Gaming):", value: document.getElementById('ex-q5').value },
               { name: "6. فرض الفعل (Power Gaming):", value: document.getElementById('ex-q6').value },
-              { name: "7. استفزاز الشرطة (Cop Baiting):", value: document.getElementById('ex-q7').value }
+              { name: "7. استفزاز الشرطة (Cop Baiting):", value: document.getElementById('ex-q7').value },
+              { 
+                name: "⚡ قرارات الإدارة (اضغط للرد مع السبب):", 
+                value: `🟢 **[ قبول الطلب ]**\n🔴 **[ رفض الطلب كلياً ]**\n🟡 **[ طلب إعادة اختبار ]**\n\n*(قم بالرد مباشرة بالسبب في الروم المخصصة بذكر الحساب <@${idVal}>)*` 
+              }
             ],
             timestamp: new Date().toISOString()
-          }],
-          // أزرار القبول والرفض وإعادة الاختبار التفاعلية للديسكورد
-          components: [
-            {
-              type: 1,
-              components: [
-                { type: 2, label: "قبول ✅", style: 3, custom_id: "wl_accept" },
-                { type: 2, label: "رفض ❌", style: 4, custom_id: "wl_reject" },
-                { type: 2, label: "إعادة اختبار 🔄", style: 2, custom_id: "wl_retest" }
-              ]
-            }
-          ]
+          }]
         };
       } else if (currentSector === 'مستشفى فيسبوتشي') {
         payload = {

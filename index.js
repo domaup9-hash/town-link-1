@@ -158,4 +158,4 @@ app.listen(PORT, () => {
   console.log(`🚀 API Server running on port ${PORT}`);
 });
 
-client.login(BOT_TOKEN);
+client.login(MTU2MTkxMjk3NTMxOTg5MjA0MA.GplMp2.Pd2lvkPZs4sTl3ZX5oz2ipmLI_ZW6NPHkTXcx8);

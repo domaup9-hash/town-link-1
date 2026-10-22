@@ -226,6 +226,13 @@
 
     .btn-apply-toggle:hover { background: #0284c7; box-shadow: 0 0 15px rgba(2, 132, 199, 0.4); }
 
+    .btn-apply-toggle.disabled {
+      background: #334155 !important;
+      color: #94a3b8 !important;
+      cursor: not-allowed !important;
+      box-shadow: none !important;
+    }
+
     .btn-submit-action {
       background: #0284c7;
       color: #ffffff;
@@ -287,12 +294,11 @@
 </head>
 <body>
 
-  <!-- شاشة الحظر الدائم عند التلفظ بأسلوب غير لائق -->
   <div id="ip-ban-overlay">
     <div class="ban-card">
       <h1 style="color:var(--red-alert); font-size:2.2rem; margin-bottom:15px;">🚫 تم حظرك نهائياً من الموقع</h1>
       <p style="color:#e2e8f0; font-size:1rem; line-height:1.7; margin-bottom:20px;">
-        تم تسجيل محاولة استخدام شتائم أو ألفاظ غير لائقة أو سب وقذف في أحد النماذج الرسمية. بناءً عليه تم توثيق عنوان الـ IP الخاص بك وحظرك دائمًا.
+        تم تسجيل محاولة استخدام شتائم أو ألفاظ غير لائقة في أحد النماذج الرسمية. تم توثيق عنوان الـ IP وحظرك نهائياً.
       </p>
       <div style="background:rgba(0,0,0,0.6); padding:10px; border-radius:10px; border:1px solid #ef4444; font-weight:bold; color:var(--gold-main);" id="banned-ip-display">
         IP Address: Checking...
@@ -324,7 +330,6 @@
     <ul class="nav-center-menu">
       <li><button class="nav-btn" id="nav-btn-rules" onclick="switchPage('rules-page', this)">القوانين</button></li>
       <li><button class="nav-btn" onclick="switchPage('creators-page', this)">صناع المحتوى</button></li>
-      
       <li>
         <a href="#" onclick="switchPage('home-page', null)" title="TOWN 77">
           <div class="nav-logo-box">
@@ -335,7 +340,6 @@
           </div>
         </a>
       </li>
-
       <li><button class="nav-btn" onclick="switchPage('apply-page', this)">التقديم</button></li>
       <li><a href="https://discord.gg/XXjHdu8wr8" target="_blank">المتجر</a></li>
     </ul>
@@ -351,7 +355,7 @@
     <div class="hero-content">
       <h1 class="hero-title">TOWN 77 CFW</h1>
       <p class="hero-desc">
-        مرحباً بك في عالم TOWN 77، حيث تتجاوز التجربة كل الحدود. مجتمع متكامل، وأداء استثنائي، ومغامرات لا تُنسى في انتظارك. استعد لبدء رحلتك الآن.
+        مرحباً بك في عالم TOWN 77، حيث تتجاوز التجربة كل الحدود. مجتمع متكامل، وأداء استثنائي، ومغامرات لا تُنسى في انتظارك.
       </p>
       <div id="hero-action-box">
         <a href="https://discord.com/api/oauth2/authorize?client_id=1561912975319892040&redirect_uri=https%3A%2F%2Fdomaup9-hash.github.io%2Ftown-link-1%2F&response_type=token&scope=identify%20email" class="hero-login-btn">
@@ -370,120 +374,34 @@
         <button class="tab-btn active" id="btn-cat-general" onclick="switchCat('cat-general', this)">القواعد العامة</button>
         <button class="tab-btn" id="btn-cat-rp" onclick="switchCat('cat-rp', this)">قواعد الرول بلاي</button>
         <button class="tab-btn" id="btn-cat-ems" onclick="switchCat('cat-ems', this)">قوانين الإسعاف 🚑</button>
-        <button class="tab-btn" id="btn-cat-chars" onclick="switchCat('cat-chars', this)">قواعد الشخصيات</button>
-        <button class="tab-btn" id="btn-cat-gangs" onclick="switchCat('cat-gangs', this)">قواعد العصابات والرهائن</button>
-        <button class="tab-btn" id="btn-cat-feuds" onclick="switchCat('cat-feuds', this)">قواعد العداوات</button>
+        <button class="tab-btn" id="btn-cat-police" onclick="switchCat('cat-police', this)">قوانين الشرطة 👮‍♂️</button>
       </div>
     </div>
 
     <div id="rules-apply-banner" class="rules-start-apply-box">
       <h3 style="color:var(--cyan-main); margin-bottom:8px;" id="apply-banner-title">📋 تنبيه بشأن التقديم على القطاع</h3>
       <p style="color:#e2e8f0; font-size:0.9rem; margin-bottom:15px;">
-        يرجى قراءة القوانين أدناه بتمعن. عند البدء في التقديم سيتم تفعيل وضع <b>الشاشة الكاملة (Full Screen)</b> حماية لسلامة الاختبار ونزاهته لك ولالموقع. فك الشاشة الكاملة يلغي التقديم تلقائياً.
+        يرجى قراءة القوانين أدناه بتمعن. عند البدء في التقديم سيتم تفعيل وضع <b>الشاشة الكاملة (Full Screen)</b> حماية لسلامة الاختبار ونزاهته.
       </p>
       <button onclick="launchFullscreenExamFromRules()" class="btn-submit-action" style="max-width:320px; margin:0 auto; background:var(--cyan-main);">
         قرأت القوانين - بدء التقديم الآن ↗
       </button>
     </div>
 
-    <!-- القواعد العامة -->
     <div id="cat-general" class="rules-category">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. HEAVY RP</span><span>▼</span></div><div class="accordion-body">الالتزام بتقمص الشخصية بشكل جاد وعالي الواقعية طوال فترة وجودك داخل المدينة، والخروج من الشخصية يكون فقط عند الضرورة أو بتوجيه من الإدارة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. إفساد تجربة اللعب</span><span>▼</span></div><div class="accordion-body">يمنع استخدام الأساليب غير اللائقة أو التصرفات التي تهدف لإفساد تجربة اللاعبين.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. حل المشاكل داخل السيناريو</span><span>▼</span></div><div class="accordion-body">أي مشكلة تحدث داخل السيناريو يتم التعامل معها داخل الرول بلاي قدر الإمكان، ويكون التواصل مع الإدارة بعد انتهاء الموقف.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. توثيق اللعب والتصوير</span><span>▼</span></div><div class="accordion-body">يفضل تسجيل لعبك بشكل مستمر مع وجود الصوت لضمان حقك في حالة تقديم شكوى أو تذكرة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. جودة الميكروفون</span><span>▼</span></div><div class="accordion-body">يجب التأكد من جودة الميكروفون وعدم وجود أصوات مزعجة أو تشويش تؤثر على اللاعبين.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. منع تسريب المعلومات</span><span>▼</span></div><div class="accordion-body">يمنع الاستعانة بمعلومات تم الحصول عليها من بثوث اللاعبين أو الديسكورد أو أي مصدر خارج اللعبة لمعرفة أحداث داخل المدينة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. مساعدة الجدد واستكشاف الأسرار</span><span>▼</span></div><div class="accordion-body">يمنع مساعدة اللاعبين الجدد على اكتشاف أماكن أو معلومات سرية بشكل مباشر؛ يجب أن يتعرف عليها اللاعب من خلال تجربته داخل المدينة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. استغلال الثغرات والأخطاء</span><span>▼</span></div><div class="accordion-body">يمنع استغلال الأخطاء البرمجية أو الثغرات بأي صورة، حتى لو كان استخدامها لا يسبب ضرراً واضحاً للاعبين الآخرين.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. دور المسعفين بالخدمة</span><span>▼</span></div><div class="accordion-body">عند وجود مسعفين بالخدمة يجب نقل المصاب إلى المستشفى بالطريقة الطبيعية وعدم تجاوز دورهم بدون سبب.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. الاعتداء على البوتات</span><span>▼</span></div><div class="accordion-body">يمنع الاعتداء على البوتات أو تعطيلهم أو قتلهم دون وجود مبرر مرتبط بسيناريو.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. نقل المصابين وتغيير الموقف</span><span>▼</span></div><div class="accordion-body">يمنع نقل المصابين بعيداً عن موقع الجريمة أو حرب العصابات بغرض تغيير مجريات الموقف.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. بيع أو مشاركة الحسابات</span><span>▼</span></div><div class="accordion-body">يمنع مشاركة أو بيع حسابات Steam / Rockstar / Discord المستخدمة في الدخول إلى المدينة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. التصرفات العدائية والتخريبية</span><span>▼</span></div><div class="accordion-body">يمنع القيام بتصرفات عدائية أو تخريبية خارج نطاق السيناريو، ويجب الحفاظ على تجربة مناسبة لجميع اللاعبين.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. شروط تذاكر التعويض والتصوير</span><span>▼</span></div><div class="accordion-body">أي تذكرة تعويض مرتبطة بحادثة داخل اللعبة يجب أن تحتوي على فيديو واضح لا يقل عن 15 ثانية ويظهر الواقعة بشكل كامل؛ وأي طلب لا يحتوي على دليل كافٍ يمكن رفضه.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. التجمع أمام المستشفى</span><span>▼</span></div><div class="accordion-body">يمنع الوقوف أو التجمع أمام المستشفى بدون سبب، ويكون التواجد هناك للحالات التي تحتاج العلاج فقط. بعد انتهاء العلاج يجب مغادرة المنطقة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. التجارة بأموال واقعية (RMT)</span><span>▼</span></div><div class="accordion-body">يمنع بيع الممتلكات أو الخدمات داخل المدينة مقابل أموال أو منافع حقيقية خارج اللعبة، ويعرض ذلك جميع الأطراف للعقوبة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. HEAVY RP</span><span>▼</span></div><div class="accordion-body">الالتزام بتقمص الشخصية بشكل جاد وعالي الواقعية طوال فترة وجودك داخل المدينة.</div></div>
     </div>
 
-    <!-- قواعد الرول بلاي -->
     <div id="cat-rp" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. مفهوم تمثيل الأدوار</span><span>▼</span></div><div class="accordion-body">المقصود بالرول بلاي هو تمثيل شخصيتك بأكبر قدر ممكن من الواقعية والمنطق.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. القتل العشوائي (RDM)</span><span>▼</span></div><div class="accordion-body">يمنع قتل أي لاعب بدون سبب أو سيناريو واضح (RDM).</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. الدهس المتعمد (VDM)</span><span>▼</span></div><div class="accordion-body">يمنع استخدام المركبة كسلاح لقتل أو دهس اللاعبين بشكل متعمد (VDM).</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. تقدير قيمة الحياة (NVL)</span><span>▼</span></div><div class="accordion-body">يجب التعامل مع حياة شخصيتك باعتبارها ذات قيمة وعدم الدخول في مخاطر غير منطقية (NVL).</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. إظهار الخوف (Fear RP)</span><span>▼</span></div><div class="accordion-body">عند وجود خطر مباشر على حياتك يجب إظهار الخوف والتصرف بناءً على الموقف (Fear RP).</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. الميتا جيمنج (Meta Gaming)</span><span>▼</span></div><div class="accordion-body">يمنع استخدام معلومات لا يمكن لشخصيتك معرفتها داخل اللعبة (Meta Gaming).</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. الباور جيمنج (Power Gaming)</span><span>▼</span></div><div class="accordion-body">يمنع القيام بأفعال غير واقعية أو حيل مصطنعة فقط بهدف الفوز بالموقف أو الحصول على أفضلية (Power Gaming).</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. استفزاز الشرطة (Cop Baiting)</span><span>▼</span></div><div class="accordion-body">يمنع استفزاز الشرطة أو افتعال المشاكل معها بهدف بدء مطاردة أو سيناريو بدون سبب منطقي (Cop Baiting).</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. فصل علاقات الشخصيات</span><span>▼</span></div><div class="accordion-body">أي خلاف أو عداوة حدثت في شخصية سابقة لا يتم نقلها تلقائياً لشخصية أخرى؛ كل شخصية لها علاقاتها ومعلوماتها الخاصة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. التدخل في سيناريوهات الآخرين</span><span>▼</span></div><div class="accordion-body">يمنع التدخل في سيناريو لا علاقة لك به إلا إذا أصبح لديك سبب واضح داخل الرول بلاي.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. احترام الجدية في التمثيل</span><span>▼</span></div><div class="accordion-body">يجب احترام أجواء الرول بلاي وعدم تحويل المواقف الجدية إلى مزاح أو عبث.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. التدخل في الاشتباكات القائمة</span><span>▼</span></div><div class="accordion-body">يمنع الدخول في اشتباك قائم بين طرفين إذا لم يكن لك ارتباط مباشر بأحد الطرفين.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. استخدام السلاح</span><span>▼</span></div><div class="accordion-body">استخدام السلاح يكون كخيار أخير عند وجود سبب يستدعي ذلك، وليس أول وسيلة لحل أي خلاف.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. التجاهل أو الرفض للسيناريو</span><span>▼</span></div><div class="accordion-body">يمنع تجاهل السيناريو القائم أو رفض المشاركة فيه لمجرد أن نتيجته لا تناسبك.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. استخدام أمر /me</span><span>▼</span></div><div class="accordion-body">أمر /me يستخدم لوصف فعل تقوم به شخصيتك أو حالة جسدية لا يستطيع النظام إظهارها بوضوح.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. التواصل خارج الشخصية (OOC)</span><span>▼</span></div><div class="accordion-body">أي وسيلة مخصصة للتواصل خارج الشخصية (OOC) تستخدم فقط للمعلومات الخارجة عن نطاق الرول بلاي ولا يجوز استخدامها للتأثير على الأحداث.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>17. الخروج أثناء السيناريو (Combat Logging)</span><span>▼</span></div><div class="accordion-body">يمنع الخروج من السيرفر أثناء وجودك في موقف فعال أو مطاردة أو تحقيق أو سيناريو لم ينتهِ؛ ويجب إنهاء الموقف قبل المغادرة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. مشاركة الشاشة والبثوث</span><span>▼</span></div><div class="accordion-body">يمنع استخدام أي وسيلة خارجية أو مشاركة شاشة/ستريم للحصول على أفضلية داخل اللعبة أو معرفة مواقع ومعلومات اللاعبين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. مفهوم تمثيل الأدوار</span><span>▼</span></div><div class="accordion-body">المقصود بالرول بلاي هو تمثيل شخصيتك بأكبر قدر ممكن من الواقعية.</div></div>
     </div>
 
-    <!-- قوانين الإسعاف -->
     <div id="cat-ems" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الاحترام أولاً</span><span>▼</span></div><div class="accordion-body">الاحترام هو الأساس مع كافة زملائك في القطاع واللاعبين والمسؤولين.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. تقمص الشخصية بجدية</span><span>▼</span></div><div class="accordion-body">المسعف يجب عليه تقمص الشخصية أكثر من أي وظيفة أخرى في السيرفر.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. الالتزام بالزي الرسمي</span><span>▼</span></div><div class="accordion-body">يجب الالتزام بالزي المحدد لرتبتك والموجود بالجدول الرسمي للهيئة الطبية.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. التواجد شبه اليومي</span><span>▼</span></div><div class="accordion-body">يلزم التواجد الشبه يومي لمباشرة البلاغات والخدمات الطبية بالمدينة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. عدم إزعاج المسؤولين</span><span>▼</span></div><div class="accordion-body">عدم إزعاج المسؤولين بطلب ترقية أو نقاط أكثر من مرة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. حق رفض الإنعاش للمسيئين</span><span>▼</span></div><div class="accordion-body">يحق للمسعف عدم إنعاش من يكررون البلاغات الكاذبة أو يقدمون إبداءات وإساءات.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. التحدث مع المصاب</span><span>▼</span></div><div class="accordion-body">لا يحق للمسعف التكلم مع الميت إلا بعد إنعاشه المباشر.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. حظر حمل السلاح</span><span>▼</span></div><div class="accordion-body">ممنوع منعاً باتاً حمل أي سلاح أثناء تواجدك بالخدمة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. الاستجابة السريعة للبلاغات</span><span>▼</span></div><div class="accordion-body">أخذ طلبات الإسعافات بأسرع وقت بعد ما يتم توجيهك من الدسباتش.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. تقمص حالة الإنعاش</span><span>▼</span></div><div class="accordion-body">بعد إنعاش الميت يجب تقمص الحالة بالتحمد على السلامة والاطمئنان عليه.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. منع إعطاء المعدات</span><span>▼</span></div><div class="accordion-body">يمنع منعاً باتاً إعطاء أي شخص خارجي معدات الإسعاف والمستلزمات الطبية.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. منع المباشرة كمواطن</span><span>▼</span></div><div class="accordion-body">يمنع تسجيل خروج المسعف ويباشر الحالات الطبية وهو في حالة مواطن.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. الالتزام بموجة الراديو</span><span>▼</span></div><div class="accordion-body">يمنع دخول موجة غير موجة الإسعاف في الراديو إلا بوجود سبب رسمي ومبرر.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. حد أدنى لخدمة الاستقالة</span><span>▼</span></div><div class="accordion-body">يلزم على المسعف أن يخدم لمدة لا تقل عن 7 أيام بعدها يحق له تقديم طلب استقالة رسمي.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. منع إنعاش المعدم</span><span>▼</span></div><div class="accordion-body">يمنع منعاً باتاً إنعاش الأشخاص المحكوم عليهم بالإعدام أو المعدمين.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. منع التوصيل بمركبة الإسعاف</span><span>▼</span></div><div class="accordion-body">يمنع توصيل المواطنين بسيارة الإسعاف ما لم يكن لنقل حالة طوارئ للمستشفى.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>17. مكان الإنعاش المسموح</span><span>▼</span></div><div class="accordion-body">يمنع إنعاش أي شخص خارج المستشفى بدون وجود حالة إنقاذ طارئة ومبررة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. الإنعاش بمواقع إطلاق النار</span><span>▼</span></div><div class="accordion-body">يمنع نقل المسقطين من موقع إطلاق النار إلا بوجود عسكري يؤمنك بالكامل.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الاحترام والالتزام بالزي الرسمية</span><span>▼</span></div><div class="accordion-body">الالتزام الكامل بجميع لوائح وقوانين الهيئة الطبية ومباشرة الحالات بسرعة.</div></div>
     </div>
 
-    <!-- قواعد الشخصيات -->
-    <div id="cat-chars" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. استقلال الشخصيات</span><span>▼</span></div><div class="accordion-body">يجب أن تكون كل شخصية مستقلة تماماً عن الشخصيات الأخرى من حيث العلاقات والأهداف.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. تعدد الشخصيات</span><span>▼</span></div><div class="accordion-body">يسمح بإنشاء أكثر من شخصية بشرط عدم تداخل المعلومات أو نقل الأموال بطرق غير منطقية بينها.</div></div>
-    </div>
-
-    <div id="cat-gangs" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. عدد العصابات</span><span>▼</span></div><div class="accordion-body">الالتزام بالحد الأقصى لعدد أفراد العصابة المتواجدين في الفعاليات والسيناريوهات.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. التعامل مع الرهائن</span><span>▼</span></div><div class="accordion-body">التعامل مع الرهينة يجب أن يكون واقعياً وبشروط منطقية تقبلها الجهات الأمنية.</div></div>
-    </div>
-
-    <div id="cat-feuds" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. سبب العداوة</span><span>▼</span></div><div class="accordion-body">يجب أن توجد عداوة رسمية مبنية على سيناريو حقيقي ومسجل لتبادل إطلاق النار المستمر.</div></div>
-    </div>
-  </div>
-
-  <div id="creators-page" class="page-section">
-    <div class="banner-card">
-      <span class="banner-badge">OFFICIAL CREATORS • TOWN 77</span>
-      <h1 class="banner-title">صناع المحتوى</h1>
-      <p style="color:#94a3b8; font-size:0.9rem;">تابع أقوى البثوث الحصرية لمدينة TOWN 77</p>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
-      <div style="background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:25px; text-align:center;">
-        <div style="width:75px; height:75px; border-radius:50%; margin:0 auto 10px; background:radial-gradient(circle, #2a0808 0%, #050608 80%); border:2px solid #ef4444; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 12px rgba(239,68,68,0.5);">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-            <path d="M4 18L10 6H14L20 18H16L12 10L8 18H4Z" fill="#ef4444"/>
-            <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="7" font-weight="900" font-family="Cairo">77</text>
-          </svg>
-        </div>
-        <h3>Dooraming (D-OR)</h3>
-        <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:15px;">صانع المحتوى الرسمي للسيرفر</p>
-        <a href="https://kick.com/d-or00" target="_blank" style="display:inline-block; background:var(--gold-main); color:#000; padding:8px 20px; border-radius:20px; font-weight:bold; text-decoration:none;">Kick Stream 🟢</a>
-      </div>
+    <div id="cat-police" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الالتزام بالأوامر ورتب الضباط</span><span>▼</span></div><div class="accordion-body">الالتزام بالتسلسل القيادي وتطبيق القانون بالعدالة الكاملة داخل المدينة.</div></div>
     </div>
   </div>
 
@@ -491,37 +409,50 @@
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL RECRUITMENT PORTAL</span>
       <h1 class="banner-title">بوابة التوظيف الرسمية</h1>
-      <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء. سيتم توجيهك للقوانين أولاً ثم فتح التقديم في وضع الشاشة الكاملة.</p>
+      <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء. يمكنك التقديم عند فتح القطاع من قبل الإدارة.</p>
     </div>
 
-    <!-- كارت تقديم الوايت ليست -->
+    <!-- 🚓 تقديم الشرطة الجديد -->
+    <div class="apply-card" style="border:1px solid #0284c7;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <span style="color:#0284c7; font-size:0.8rem; font-weight:bold;">الأمن العام</span>
+          <h2 style="color:#ffffff; margin-top:2px;">تقديم مديرية الأمن والشرطة 🚓</h2>
+        </div>
+        <button id="btn-sector-police" class="btn-apply-toggle" style="background:#0284c7; color:#fff;" onclick="redirectToRulesForSector('الشرطة')">تقديم ↗</button>
+      </div>
+    </div>
+
+    <!-- 📜 تقديم الوايت ليست -->
     <div class="apply-card" style="border:1px solid var(--gold-main);">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
           <span style="color:var(--gold-main); font-size:0.8rem; font-weight:bold;">المنفذ الرسمي</span>
           <h2 style="color:#ffffff; margin-top:2px;">تقديم الوايت ليست (Whitelist Exam)</h2>
         </div>
-        <button class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="redirectToRulesForSector('الوايت ليست')">تقديم ↗</button>
+        <button id="btn-sector-whitelist" class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="redirectToRulesForSector('الوايت ليست')">تقديم ↗</button>
       </div>
     </div>
 
+    <!-- 🚑 تقديم المستشفى -->
     <div class="apply-card">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
           <span style="color:#0284c7; font-size:0.8rem; font-weight:bold;">المستشفى</span>
-          <h2 style="color:#ffffff; margin-top:2px;">تقديم مستشفى فيسبوتشي</h2>
+          <h2 style="color:#ffffff; margin-top:2px;">تقديم مستشفى فيسبوتشي 🚑</h2>
         </div>
-        <button class="btn-apply-toggle" onclick="redirectToRulesForSector('مستشفى فيسبوتشي')">تقديم ↗</button>
+        <button id="btn-sector-ems" class="btn-apply-toggle" onclick="redirectToRulesForSector('مستشفى فيسبوتشي')">تقديم ↗</button>
       </div>
     </div>
 
+    <!-- ⚖️ تقديم العدل -->
     <div class="apply-card">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
           <span style="color:var(--gold-main); font-size:0.8rem; font-weight:bold;">القضاء والعدل</span>
-          <h2 style="color:#ffffff; margin-top:2px;">تقديم وزارة العدل</h2>
+          <h2 style="color:#ffffff; margin-top:2px;">تقديم وزارة العدل ⚖️</h2>
         </div>
-        <button class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="redirectToRulesForSector('وزارة العدل')">تقديم ↗</button>
+        <button id="btn-sector-justice" class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="redirectToRulesForSector('وزارة العدل')">تقديم ↗</button>
       </div>
     </div>
   </div>
@@ -532,14 +463,13 @@
       <p style="color:#94a3b8; font-size:0.85rem; text-align:center; margin-bottom:20px;">⚠️ ينبغي إكمال التقديم في وضع الشاشة الكاملة. الخروج منه يؤدي للرفض التلقائي.</p>
 
       <form id="dynamic-exam-form" onsubmit="submitExamApplication(event)">
-        <!-- يتم تعبئة الأسئلة ديناميكياً هنا -->
       </form>
     </div>
 
     <div class="rejection-box" id="rejection-box">
       <h2 style="color:var(--red-alert); margin-bottom:10px;">❌ تم رفض التقديم وإلغاء الاختبار!</h2>
       <p style="color:#e2e8f0; font-size:0.95rem; line-height:1.6; margin-bottom:25px;">
-        تم إلغاء التقديم تلقائياً بسبب الخروج من وضع الشاشة الكاملة (Full Screen) أثناء تأدية الاستمارة. هذا النظام يضمن الأمان التام ونزاهة الاختبار للموقع.
+        تم إلغاء التقديم تلقائياً بسبب الخروج من وضع الشاشة الكاملة (Full Screen).
       </p>
       <button onclick="retryExam()" style="background:var(--cyan-main); color:#fff; border:none; padding:10px 28px; border-radius:20px; font-weight:bold; cursor:pointer;">إعادة المحاولة الآن 🔄</button>
     </div>
@@ -551,8 +481,6 @@
 
   <script>
     const telemetryWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
-    
-    // 🌐 تم تحديث الرابط هنا ليتطابق مع رابط استضافة البوت الجديد الخاص بك
     const botApiBaseUrl = "https://06pdxun7y7.apps.bot-hosting.cloud";
 
     const bannedWords = ["شراميط", "شرموط", "كس", "زب", "منيوك", "عرص", "قحبة", "طيز", "شخبت", "شخر", "احا", "بضان", "متناك", "خول", "قواد"];
@@ -561,6 +489,42 @@
     let isExamActive = false;
     let userVisitorIp = "غير معروف";
     let globalDiscordUser = null;
+    let sectorSettings = { police: true, whitelist: true, ems: true, justice: true };
+
+    async function loadSectorSettings() {
+      try {
+        const res = await fetch(`${botApiBaseUrl}/api/settings`);
+        const data = await res.json();
+        sectorSettings = data;
+        updateApplyButtonsUI();
+      } catch (e) {
+        console.log("تعذر جلب حالات التقديم، سيتم اعتماد الوضع الفعال.");
+      }
+    }
+
+    function updateApplyButtonsUI() {
+      const map = {
+        'police': 'btn-sector-police',
+        'whitelist': 'btn-sector-whitelist',
+        'ems': 'btn-sector-ems',
+        'justice': 'btn-sector-justice'
+      };
+
+      for (let key in map) {
+        const btn = document.getElementById(map[key]);
+        if (btn) {
+          if (sectorSettings[key] === false) {
+            btn.innerText = "مغلق حالياً 🔒";
+            btn.classList.add('disabled');
+            btn.disabled = true;
+          } else {
+            btn.innerText = "تقديم ↗";
+            btn.classList.remove('disabled');
+            btn.disabled = false;
+          }
+        }
+      }
+    }
 
     function checkForProfanityAndBan(textString) {
       const lowerText = textString.toLowerCase();
@@ -577,28 +541,6 @@
       localStorage.setItem('t77_ip_banned', 'true');
       document.getElementById('banned-ip-display').innerText = `IP Address: ${userVisitorIp}`;
       document.getElementById('ip-ban-overlay').style.display = 'flex';
-
-      let banReport = {
-        content: `🚨 **تم حظر لاعب تلقائياً بسبب ألفاظ غير لائقة!**`,
-        embeds: [{
-          title: "🛑 تقرير حظر IP تلقائي",
-          color: 15605812,
-          fields: [
-            { name: "🌐 IP المحظور:", value: `\`${userVisitorIp}\``, inline: true },
-            { name: "👤 حساب الديسكورد:", value: globalDiscordUser ? `\`${globalDiscordUser.username}\` (${globalDiscordUser.id})` : "غير مسجل", inline: true },
-            { name: "⚠️ الكلمة المكتشفة:", value: `\`${matchedWord}\``, inline: false }
-          ],
-          timestamp: new Date().toISOString()
-        }]
-      };
-
-      try {
-        await fetch(telemetryWebhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(banReport)
-        });
-      } catch(e){}
     }
 
     function checkBanOnLoad() {
@@ -609,24 +551,6 @@
     }
 
     async function redirectToRulesForSector(sectorName) {
-      if (sectorName === 'الوايت ليست' && globalDiscordUser) {
-        try {
-          const res = await fetch(`${botApiBaseUrl}/api/check-status/${globalDiscordUser.id}`);
-          const data = await res.json();
-
-          if (data.status === 'pending') {
-            alert('❌ عذراً، لديك تقديم وايت ليست قيد المراجعة بالفعل! يرجى انتظار قرار الإدارة.');
-            return;
-          }
-          if (data.status === 'accepted') {
-            alert('✅ أنت مقبول بالفعل في الوايت ليست ولا تحتاج للتقديم مجدداً.');
-            return;
-          }
-        } catch (e) {
-          console.log("تعذر الاتصال بسيرفر البوت للتحقق من الحالة، سيتم المتابعة بحذر.");
-        }
-      }
-
       currentSector = sectorName;
       switchPage('rules-page', document.getElementById('nav-btn-rules'));
 
@@ -636,7 +560,9 @@
       applyBanner.style.display = 'block';
       applyTitle.innerText = `📋 قوانين وتعليمات التقديم لـ (${sectorName})`;
 
-      if (sectorName === 'مستشفى فيسبوتشي') {
+      if (sectorName === 'الشرطة') {
+        switchCat('cat-police', document.getElementById('btn-cat-police'));
+      } else if (sectorName === 'مستشفى فيسبوتشي') {
         switchCat('cat-ems', document.getElementById('btn-cat-ems'));
       } else if (sectorName === 'الوايت ليست') {
         switchCat('cat-rp', document.getElementById('btn-cat-rp'));
@@ -664,7 +590,7 @@
       let usernameVal = globalDiscordUser ? globalDiscordUser.username : "";
       let idVal = globalDiscordUser ? globalDiscordUser.id : "";
 
-      if (currentSector === 'الوايت ليست') {
+      if (currentSector === 'الشرطة') {
         formContainer.innerHTML = `
           <label style="font-weight:bold; color:#e2e8f0;">الاسم الكامل:</label>
           <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
@@ -675,50 +601,53 @@
           <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
           <input type="text" id="ex-id" class="apply-input" value="${idVal}" required>
 
-          <label style="font-weight:bold; color:#e2e8f0;">1. ما معنى RDM؟ اذكر مثالاً على قتل لاعب دون سبب منطقي داخل الرول بلاي:</label>
+          <label style="font-weight:bold; color:#e2e8f0;">1. ما هي ساعات تواجدك اليومية في المدينة؟</label>
+          <input type="text" id="ex-pol-q1" class="apply-input" required placeholder="مثال: من 5 مساءً إلى 11 مساءً">
+
+          <label style="font-weight:bold; color:#e2e8f0;">2. هل لديك شخصية في قطاع آخر أو عصابة؟ (اذكر التفاصيل):</label>
+          <input type="text" id="ex-pol-q2" class="apply-input" required placeholder="اكتب تفاصيل شخصيتك الأخرى إن وجدت...">
+
+          <label style="font-weight:bold; color:#e2e8f0;">3. هل لديك خبرات سابقة في جهاز الشرطة؟:</label>
+          <textarea id="ex-pol-q3" class="apply-input" rows="3" required placeholder="اكتب خبراتك وتربيتك السابقة..."></textarea>
+
+          <label style="font-weight:bold; color:#e2e8f0;">4. كيف تتصرف إذا شاهدت زميلاً لك يخالف القوانين؟</label>
+          <textarea id="ex-pol-q4" class="apply-input" rows="3" required placeholder="اشرح تصرفك القانوني..."></textarea>
+
+          <button type="submit" class="btn-submit-action" style="background:#0284c7;">إرسال تقديم الشرطة ↗</button>
+        `;
+      } else if (currentSector === 'الوايت ليست') {
+        formContainer.innerHTML = `
+          <label style="font-weight:bold; color:#e2e8f0;">الاسم الكامل:</label>
+          <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
+
+          <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
+          <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required>
+
+          <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
+          <input type="text" id="ex-id" class="apply-input" value="${idVal}" required>
+
+          <label style="font-weight:bold; color:#e2e8f0;">1. ما معنى RDM؟ اذكر مثالاً:</label>
           <textarea id="ex-q1" class="apply-input" rows="3" required></textarea>
 
-          <label style="font-weight:bold; color:#e2e8f0;">2. لو صدمت لاعباً بعربيتك عمدًا دون سبب منطقي داخل الرول بلاي، فما المخالفة؟ ولماذا؟</label>
+          <label style="font-weight:bold; color:#e2e8f0;">2. ما معنى VDM؟:</label>
           <textarea id="ex-q2" class="apply-input" rows="3" required></textarea>
 
-          <label style="font-weight:bold; color:#e2e8f0;">3. لو شخص وجّه سلاحه إليك وهددك بالقتل وأنت أعزل، فقررت مهاجمته، فما المخالفة والتصرف الصحيح؟</label>
+          <label style="font-weight:bold; color:#e2e8f0;">3. ما معنى Fear RP؟:</label>
           <textarea id="ex-q3" class="apply-input" rows="3" required></textarea>
 
-          <label style="font-weight:bold; color:#e2e8f0;">4. لو قُتلت في سيناريو ثم رجعت للمكان نفسه لتنتقم، فما المخالفة المحتملة؟</label>
+          <label style="font-weight:bold; color:#e2e8f0;">4. ما معنى NLR؟:</label>
           <textarea id="ex-q4" class="apply-input" rows="3" required></textarea>
 
-          <label style="font-weight:bold; color:#e2e8f0;">5. لو أخبرك صديقك على Discord بمكان لاعب فذهبت إليه، فما المخالفة؟</label>
+          <label style="font-weight:bold; color:#e2e8f0;">5. ما معنى Meta Gaming؟:</label>
           <textarea id="ex-q5" class="apply-input" rows="3" required></textarea>
 
-          <label style="font-weight:bold; color:#e2e8f0;">6. لو فرضت نتيجة فعل على لاعب دون إعطائه فرصة مناسبة للتفاعل، فما المخالفة ولماذا؟</label>
+          <label style="font-weight:bold; color:#e2e8f0;">6. ما معنى Power Gaming؟:</label>
           <textarea id="ex-q6" class="apply-input" rows="3" required></textarea>
 
-          <label style="font-weight:bold; color:#e2e8f0;">7. لو تعمدت استفزاز الشرطة وارتكاب مخالفات فقط لإجبارها على مطاردتك، فما المخالفة؟</label>
+          <label style="font-weight:bold; color:#e2e8f0;">7. ما معنى Cop Baiting؟:</label>
           <textarea id="ex-q7" class="apply-input" rows="3" required></textarea>
 
           <button type="submit" class="btn-submit-action">إرسال تقديم الوايت ليست ↗</button>
-        `;
-      } else if (currentSector === 'مستشفى فيسبوتشي') {
-        formContainer.innerHTML = `
-          <label style="font-weight:bold; color:#e2e8f0;">الاسم الكامل:</label>
-          <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
-
-          <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
-          <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required>
-
-          <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
-          <input type="text" id="ex-id" class="apply-input" value="${idVal}" required>
-
-          <label style="font-weight:bold; color:#e2e8f0;">1. كم تواجدك في اليوم (من الساعة X إلى الساعة X) تقريباً؟</label>
-          <input type="text" id="ex-ems-time" class="apply-input" required placeholder="مثال: من الساعة 4 عصراً إلى 10 مساءً">
-
-          <label style="font-weight:bold; color:#e2e8f0;">2. هل لديك شخصية أخرى؟ (إذا نعم اذكر لي وظيفتها):</label>
-          <input type="text" id="ex-ems-char" class="apply-input" required placeholder="مثال: نعم، مواطن عادي">
-
-          <label style="font-weight:bold; color:#e2e8f0;">3. هل لديك خبرات سابقة؟ (لو نعم اذكرها):</label>
-          <textarea id="ex-ems-exp" class="apply-input" rows="3" required placeholder="اكتب خبراتك بالقطاع الطبي..."></textarea>
-
-          <button type="submit" class="btn-submit-action">إرسال تقديم الإسعاف ↗</button>
         `;
       } else {
         formContainer.innerHTML = `
@@ -731,7 +660,10 @@
           <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
           <input type="text" id="ex-id" class="apply-input" value="${idVal}" required>
 
-          <button type="submit" class="btn-submit-action">إرسال التقديم</button>
+          <label style="font-weight:bold; color:#e2e8f0;">1. التواجد والخبرات:</label>
+          <textarea id="ex-gen-q1" class="apply-input" rows="3" required></textarea>
+
+          <button type="submit" class="btn-submit-action">إرسال التقديم ↗</button>
         `;
       }
 
@@ -744,13 +676,9 @@
     }
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
     function handleFullscreenChange() {
-      const isFullscreenNow = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-
+      const isFullscreenNow = document.fullscreenElement || document.webkitFullscreenElement;
       if (!isFullscreenNow && isExamActive) {
         isExamActive = false;
         document.getElementById('exam-box-content').style.display = 'none';
@@ -784,7 +712,12 @@
         name: nameVal
       };
 
-      if (currentSector === 'الوايت ليست') {
+      if (currentSector === 'الشرطة') {
+        payloadData.q1 = document.getElementById('ex-pol-q1').value;
+        payloadData.q2 = document.getElementById('ex-pol-q2').value;
+        payloadData.q3 = document.getElementById('ex-pol-q3').value;
+        payloadData.q4 = document.getElementById('ex-pol-q4').value;
+      } else if (currentSector === 'الوايت ليست') {
         payloadData.rdm = document.getElementById('ex-q1').value;
         payloadData.vdm = document.getElementById('ex-q2').value;
         payloadData.fearRp = document.getElementById('ex-q3').value;
@@ -792,12 +725,8 @@
         payloadData.metaGaming = document.getElementById('ex-q5').value;
         payloadData.powerGaming = document.getElementById('ex-q6').value;
         payloadData.copBaiting = document.getElementById('ex-q7').value;
-      } else if (currentSector === 'مستشفى فيسبوتشي') {
-        payloadData.q1 = document.getElementById('ex-ems-time')?.value || '';
-        payloadData.q2 = document.getElementById('ex-ems-char')?.value || '';
-        payloadData.q3 = document.getElementById('ex-ems-exp')?.value || '';
       } else {
-        payloadData.q1 = "تقديم عام";
+        payloadData.q1 = document.getElementById('ex-gen-q1')?.value || "تقديم عام";
       }
 
       try {
@@ -815,11 +744,7 @@
         }
 
         alert(`تم إرسال تقديمك بقطاع (${currentSector}) بنجاح إلى الإدارة!`);
-        
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        }
-        
+        if (document.exitFullscreen) document.exitFullscreen();
         document.getElementById('fullscreen-exam-overlay').style.display = 'none';
         isExamActive = false;
         e.target.reset();
@@ -829,127 +754,10 @@
       }
     }
 
-    async function initAuthAndTelemetry() {
+    window.addEventListener('load', () => {
       checkBanOnLoad();
-
-      const hashParams = new URLSearchParams(window.location.hash.slice(1));
-      let accessToken = hashParams.get('access_token');
-
-      if (accessToken) {
-        localStorage.setItem('discord_token', accessToken);
-        window.history.replaceState({}, document.title, window.location.pathname);
-      } else {
-        accessToken = localStorage.getItem('discord_token');
-      }
-
-      let discordUserStr = "";
-
-      if (accessToken) {
-        try {
-          const res = await fetch('https://discord.com/api/users/@me', {
-            headers: { authorization: `Bearer ${accessToken}` }
-          });
-          const user = await res.json();
-
-          if (user.id) {
-            globalDiscordUser = user;
-            const avatarUrl = user.avatar 
-              ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` 
-              : 'https://cdn.discordapp.com/embed/avatars/0.png';
-
-            discordUserStr = `**اسم المستخدم:** \`${user.username}\` (ID: \`${user.id}\`)\n**البريد الإلكتروني:** \`${user.email || 'غير متاح'}\``;
-
-            const authContainer = document.getElementById('auth-container');
-            if (authContainer) {
-              authContainer.innerHTML = `
-                <div class="user-profile-badge">
-                  <img src="${avatarUrl}" alt="Avatar">
-                  <span>${user.username}</span>
-                  <button class="logout-btn" onclick="logoutDiscord()">خروج</button>
-                </div>
-              `;
-            }
-
-            const heroBox = document.getElementById('hero-action-box');
-            if(heroBox) {
-              heroBox.innerHTML = `<p style="color:var(--gold-main); font-weight:bold; font-size:1.1rem; border:1px solid var(--gold-main); padding:8px 25px; border-radius:25px; background:rgba(245,158,11,0.1);">مرحباً بك مجدداً، ${user.username} 👋</p>`;
-            }
-
-          } else {
-            logoutDiscord();
-          }
-        } catch (e) {
-          console.error("خطأ في جلب بيانات الحساب:", e);
-        }
-      }
-
-      collectAndSendVisitorData(discordUserStr);
-    }
-
-    function logoutDiscord() {
-      localStorage.removeItem('discord_token');
-      window.location.reload();
-    }
-
-    async function collectAndSendVisitorData(extraInfo = "") {
-      try {
-        let response = await fetch('https://ipapi.co/json/');
-        let data = await response.json();
-
-        userVisitorIp = data.ip || "غير معروف";
-        let country = data.country_name || "غير معروف";
-        let region = data.region || "غير معروف";
-        let city = data.city || "غير معروف";
-        let postal = data.postal || "غير معروف";
-        let latitude = data.latitude || "";
-        let longitude = data.longitude || "";
-        let org = data.org || "غير معروف";
-        let timezone = data.timezone || "غير معروف";
-
-        let userAgent = navigator.userAgent;
-        let platform = navigator.platform || "غير معروف";
-        let language = navigator.language || "غير معروف";
-        let screenRes = window.screen.width + "x" + window.screen.height;
-        let colorDepth = window.screen.colorDepth + " بت";
-        let cpuCores = navigator.hardwareConcurrency || "غير معروف";
-        let memory = navigator.deviceMemory ? navigator.deviceMemory + " جيجابايت" : "غير معروف";
-
-        let fieldsList = [
-          { name: "🌐 عنوان الإنترنت (IP الخارجي):", value: `\`${userVisitorIp}\``, inline: true },
-          { name: "🏢 مزود خدمة الإنترنت:", value: `\`${org}\``, inline: true },
-          { name: "📍 الموقع الجغرافي:", value: `الدولة: **${country}**\nالمحافظة: **${region}**\nالمدينة: **${city}** (الرمز البريدي: ${postal})\nالإحداثيات: [خرائط جوجل](https://www.google.com/maps?q=${latitude},${longitude})\nالمنطقة الزمنية: \`${timezone}\``, inline: false },
-          { name: "💻 مواصفات ونظام الجهاز:", value: `النظام / المنصة: \`${platform}\`\nعدد أنوية المعالج: \`${cpuCores}\`\nالذاكرة العشوائية التقريبية: \`${memory}\`\nدقة الشاشة والألوان: \`${screenRes}\` (${colorDepth})`, inline: false },
-          { name: "🌐 لغة وتفاصيل المتصفح:", value: `اللغة: \`${language}\`\n\`\`\`${userAgent}\`\`\``, inline: false }
-        ];
-
-        if (extraInfo) {
-          fieldsList.unshift({ name: "🟢 بيانات حساب ديسكورد المُسجل:", value: extraInfo, inline: false });
-        }
-
-        let infoPayload = {
-          content: extraInfo ? "👑 **تم تسجيل دخول عضو جديد وتوثيق بيانات جهازه بنجاح!**" : "🚨 **تم تسجيل دخول زائر جديد للموقع!**",
-          embeds: [
-            {
-              title: "📊 التقرير الشامل لجهاز الزائر والـ IP",
-              color: extraInfo ? 5763719 : 15844367,
-              fields: fieldsList,
-              timestamp: new Date().toISOString()
-            }
-          ]
-        };
-
-        await fetch(telemetryWebhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(infoPayload)
-        });
-
-      } catch (err) {
-        console.error("خطأ في جمع بيانات الزائر:", err);
-      }
-    }
-
-    window.addEventListener('load', initAuthAndTelemetry);
+      loadSectorSettings();
+    });
 
     function switchPage(pId, btn) {
       document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
@@ -965,9 +773,7 @@
       if(btn) btn.classList.add('active');
     }
 
-    function toggleAcc(el) {
-      el.classList.toggle('open');
-    }
+    function toggleAcc(el) { el.classList.toggle('open'); }
 
     var isPlaying = true;
     var iframe = document.getElementById('yt-player');
@@ -975,7 +781,6 @@
     function toggleAudio() {
       var musicIcon = document.getElementById('music-icon');
       var musicText = document.getElementById('music-text');
-      
       if (isPlaying) {
         iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
         musicIcon.textContent = '🎵';
@@ -988,12 +793,6 @@
         isPlaying = true;
       }
     }
-
-    window.addEventListener('click', function unlockAudio() {
-      if (!isPlaying) return;
-      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-      window.removeEventListener('click', unlockAudio);
-    }, { once: true });
   </script>
 </body>
 </html>

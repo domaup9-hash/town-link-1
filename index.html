@@ -448,7 +448,22 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. منع التوصيل بمركبة الإسعاف</span><span>▼</span></div><div class="accordion-body">يمنع توصيل المواطنين بسيارة الإسعاف ما لم يكن لنقل حالة طوارئ للمستشفى.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>17. مكان الإنعاش المسموح</span><span>▼</span></div><div class="accordion-body">يمنع إنعاش أي شخص خارج المستشفى بدون وجود حالة إنقاذ طارئة ومبررة.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. الإنعاش بمواقع إطلاق النار</span><span>▼</span></div><div class="accordion-body">يمنع نقل المسقطين من موقع إطلاق النار إلا بوجود عسكري يؤمنك بالكامل.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>19. تقدير الحياة والمناطق الخطرة</span><span>▼</span></div><div class="accordion-body">تقدير الأخطار والمناطق المحظورة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>19. تقدير الحياة والمناطق الخطرة</span><span>▼</span></div><div class="accordion-body">التعامل مع الحالات في الأماكن الخطرة يتطلب تأميناً كاملاً وعدم تعريض حياتك للخطر العبثي.</div></div>
+    </div>
+
+    <!-- باقي الأقسام -->
+    <div id="cat-chars" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. اسم الشخصية</span><span>▼</span></div><div class="accordion-body">يجب أن يكون اسم الشخصية واقعياً ومنسقاً (الاسم واللقب) وغير مخالف للآداب العامة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. تعدد الشخصيات</span><span>▼</span></div><div class="accordion-body">يسمح بإنشاء أكثر من شخصية بشرط عدم تداخل المعلومات أو نقل الأموال بطرق غير منطقية بينها.</div></div>
+    </div>
+
+    <div id="cat-gangs" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. عدد العصابات</span><span>▼</span></div><div class="accordion-body">الالتزام بالحد الأقصى لعدد أفراد العصابة المتواجدين في الفعاليات والسيناريوهات.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. التعامل مع الرهائن</span><span>▼</span></div><div class="accordion-body">التعامل مع الرهينة يجب أن يكون واقعياً وبشروط منطقية تقبلها الجهات الأمنية.</div></div>
+    </div>
+
+    <div id="cat-feuds" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. سبب العداوة</span><span>▼</span></div><div class="accordion-body">يجب أن توجد عداوة رسمية مبنية على سيناريو حقيقي ومسجل لتبادل إطلاق النار المستمر.</div></div>
     </div>
   </div>
 
@@ -538,8 +553,8 @@
   <script>
     const telemetryWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
     
-    // 🌐 رابط استفاستك الحقيقي على Bot-Hosting
-    const botApiBaseUrl = "https://fi10.bot-hosting.cloud:26309";
+    // 🌐 تم تحديث الرابط والبورت هنا ليتطابق مع السيرفر الجديد
+    const botApiBaseUrl = "http://fii4.bot-hosting.cloud:26303";
 
     const bannedWords = ["شراميط", "شرموط", "كس", "زب", "منيوك", "عرص", "قحبة", "طيز", "شخبت", "شخر", "احا", "بضان", "متناك", "خول", "قواد"];
 
@@ -595,7 +610,6 @@
     }
 
     async function redirectToRulesForSector(sectorName) {
-      // 🛡️ فحص منع التكرار للوايت ليست قبل فتح القوانين والاختبار
       if (sectorName === 'الوايت ليست' && globalDiscordUser) {
         try {
           const res = await fetch(`${botApiBaseUrl}/api/check-status/${globalDiscordUser.id}`);

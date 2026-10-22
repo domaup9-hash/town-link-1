@@ -450,9 +450,9 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. الإنعاش بمواقع إطلاق النار</span><span>▼</span></div><div class="accordion-body">يمنع نقل المسقطين من موقع إطلاق النار إلا بوجود عسكري يؤمنك بالكامل.</div></div>
     </div>
 
-    <!-- باقي الأقسام -->
+    <!-- قواعد الشخصيات -->
     <div id="cat-chars" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. اسم الشخصية</span><span>▼</span></div><div class="accordion-body">يجب أن يكون اسم الشخصية واقعياً ومنسقاً (الاسم واللقب) وغير مخالف للآداب العامة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. استقلال الشخصيات</span><span>▼</span></div><div class="accordion-body">يجب أن تكون كل شخصية مستقلة تماماً عن الشخصيات الأخرى من حيث العلاقات والأهداف.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. تعدد الشخصيات</span><span>▼</span></div><div class="accordion-body">يسمح بإنشاء أكثر من شخصية بشرط عدم تداخل المعلومات أو نقل الأموال بطرق غير منطقية بينها.</div></div>
     </div>
 
@@ -552,8 +552,8 @@
   <script>
     const telemetryWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
     
-    // 🌐 تم تحديث الرابط والبورت هنا ليتطابق مع السيرفر الجديد
-    const botApiBaseUrl = "http://fii4.bot-hosting.cloud:26303";
+    // 🌐 تم تحديث الرابط هنا ليتطابق مع رابط استضافة البوت الجديد الخاص بك
+    const botApiBaseUrl = "https://06pdxun7y7.apps.bot-hosting.cloud";
 
     const bannedWords = ["شراميط", "شرموط", "كس", "زب", "منيوك", "عرص", "قحبة", "طيز", "شخبت", "شخر", "احا", "بضان", "متناك", "خول", "قواد"];
 
@@ -764,7 +764,6 @@
       isExamActive = false;
     }
 
-    // 🚀 تم تحديث هذه الدالة بالكامل لربط جميع القطاعات بالبوت بنجاح
     async function submitExamApplication(e) {
       e.preventDefault();
 

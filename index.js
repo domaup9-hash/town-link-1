@@ -1,214 +1,169 @@
-const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType } = require('discord.js');
 const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 27540;
-
+app.use(cors());
 app.use(express.json());
 
-// قاعدة بيانات مؤقتة لتخزين حالة التقديم لكل لاعب باستخدام Discord ID
-const applicationsDB = new Map();
+const PORT = process.env.PORT || 27540;
 
-// ⚙️ الأيديهات الرسمية الخاصة بسيرفرك وروم التقديم
-const GUILD_ID = '1342331946847436853'; // أيدي السيرفر
-const CHANNEL_ID = '1562484970751270994'; // روم التقديمات
+// ملف قاعدة البيانات المحلية
+const DB_FILE = path.join(__dirname, 'db.json');
 
-// أيديهات الرتب الرسمية
-const ROLE_ACCEPTED = '1558946270721216593'; // مقبولين مبدئياً
-const ROLE_REJECTED = '1558946241516150834'; // مرفوض
-const ROLE_RETEST = '1558946276861550632';   // إعادة اختبار
+// تحميل قاعدة البيانات أو إنشائها لو مش موجودة
+function loadDb() {
+    if (!fs.existsSync(DB_FILE)) {
+        fs.writeFileSync(DB_FILE, JSON.stringify({ applications: {} }, null, 2));
+    }
+    try {
+        const data = fs.readFileSync(DB_FILE, 'utf8');
+        return JSON.parse(data);
+    } catch (e) {
+        return { applications: {} };
+    }
+}
 
-app.get('/', (req, res) => {
-  res.send('Bot is active and running perfectly!');
-});
+function saveDb(dbData) {
+    fs.writeFileSync(DB_FILE, JSON.stringify(dbData, null, 2));
+}
 
-// 1. مسار التحقق من حالة اللاعب قبل فتح شاشة الاختبار في الموقع
-app.get('/api/check-status/:discordId', (req, res) => {
-  const discordId = req.params.discordId;
-  const userApp = applicationsDB.get(discordId);
-
-  if (!userApp) {
-    return res.status(200).json({ status: 'none' });
-  }
-
-  if (userApp.status === 'pending') {
-    return res.status(200).json({ status: 'pending' });
-  }
-
-  if (userApp.status === 'accepted') {
-    return res.status(200).json({ status: 'accepted' });
-  }
-
-  if (userApp.status === 'rejected') {
-    return res.status(200).json({ status: 'rejected' });
-  }
-
-  if (userApp.status === 'retest') {
-    return res.status(200).json({ status: 'retest' });
-  }
-
-  res.status(200).json({ status: 'none' });
-});
-
-// 2. مسار استقبال جميع استمارات التقديم من الموقع
-app.post('/api/apply-whitelist', async (req, res) => {
-  const data = req.body;
-  const discordId = data.discordId;
-
-  if (!discordId) {
-    return res.status(400).json({ error: 'Discord ID is required.' });
-  }
-
-  // التحقق من عدم التكرار
-  const existingApp = applicationsDB.get(discordId);
-  if (existingApp && existingApp.status === 'pending') {
-    return res.status(400).json({ error: 'عذراً، لديك تقديم قيد المراجعة بالفعل!' });
-  }
-  if (existingApp && existingApp.status === 'accepted') {
-    return res.status(400).json({ error: 'أنت مقبول بالفعل في الوايت ليست ولا تحتاج للتقديم مجدداً.' });
-  }
-  if (existingApp && existingApp.status === 'rejected') {
-    return res.status(400).json({ error: 'لقد تم رفض تقديمك سابقاً، لا يمكنك التقديم مجدداً.' });
-  }
-
-  const channel = client.channels.cache.get(CHANNEL_ID);
-  if (!channel) return res.status(500).json({ error: 'Recruitment channel not found on Discord.' });
-
-  // حفظ حالة اللاعب كـ "قيد المراجعة"
-  applicationsDB.set(discordId, { status: 'pending', data: data });
-
-  const embed = new EmbedBuilder()
-    .setTitle(`📋 تقديم جديد - ${data.sector || 'الوايت ليست'}`)
-    .setColor(0xF1C40F)
-    .setTimestamp();
-
-  if (data.rdm) {
-    // أسئلة الوايت ليست
-    embed.addFields(
-      { name: '👤 Discord Name', value: data.discordName || 'غير متوفر', inline: true },
-      { name: '🆔 Discord ID', value: discordId, inline: true },
-      { name: '1️⃣ معنى RDM ومثال:', value: data.rdm || 'غير متوفر' },
-      { name: '2️⃣ صدم بالسيارة عمداً (VDM):', value: data.vdm || 'غير متوفر' },
-      { name: '3️⃣ عدم إظهار الخوف (Fear RP):', value: data.fearRp || 'غير متوفر' },
-      { name: '4️⃣ الانتقام بعد الموت (NLR):', value: data.nlr || 'غير متوفر' },
-      { name: '5️⃣ استخدام ديسكورد (Meta Gaming):', value: data.metaGaming || 'غير متوفر' },
-      { name: '6️⃣ فرض الفعل (Power Gaming):', value: data.powerGaming || 'غير متوفر' },
-      { name: '7️⃣ استفزاز الشرطة (Cop Baiting):', value: data.copBaiting || 'غير متوفر' }
-    );
-  } else {
-    // أسئلة القطاعات الأخرى (الإسعاف، وزارة العدل، إلخ)
-    embed.addFields(
-      { name: '👤 الاسم الكامل:', value: data.name || 'غير متوفر', inline: true },
-      { name: '👤 Discord Name:', value: data.discordName || 'غير متوفر', inline: true },
-      { name: '🆔 Discord ID:', value: discordId, inline: true },
-      { name: '1️⃣ التواجد اليومي:', value: data.q1 || 'غير متوفر' },
-      { name: '2️⃣ الشخصيات الأخرى والوظائف:', value: data.q2 || 'غير متوفر' },
-      { name: '3️⃣ الخبرات السابقة:', value: data.q3 || 'غير متوفر' }
-    );
-  }
-
-  embed.setFooter({ text: `Discord ID: ${discordId} | قم بالرد مباشرة بالسبب في الروم المخصصة` });
-
-  // القائمة المنسدلة للتحكم في القرار من قبل الإدارة
-  const row = new ActionRowBuilder().addComponents(
-    new StringSelectMenuBuilder()
-      .setCustomId(`admin_decision_${discordId}`)
-      .setPlaceholder('⚡ قرارات الإدارة (اختر الإجراء)...')
-      .addOptions([
-        { label: 'قبول الطلب', description: 'قبول العضو ومنحه رتبة مقبول مبدئياً', value: 'accept_action', emoji: '🟢' },
-        { label: 'رفض الطلب كلياً', description: 'رفض الطلب ومنحه رتبة مرفوض', value: 'reject_action', emoji: '🔴' },
-        { label: 'طلب إعادة اختبار', description: 'السماح للاعب بتقديم اختبار جديد من الموقع', value: 'retest_action', emoji: '🟡' }
-      ])
-  );
-
-  await channel.send({ embeds: [embed], components: [row] });
-  res.status(200).json({ success: true });
-});
-
+// إعدادات البوت
 const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-    GatewayIntentBits.GuildMembers,
-  ]
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
+});
+
+const TARGET_CHANNEL_ID = '1562484970751270994'; // روم استقبال التقديمات
+
+// نقطة اختبار عمل السيرفر
+app.get('/', (req, res) => {
+    res.send('Bot is active and running perfectly!');
+});
+
+// فحص حالة المتقدم
+app.get('/api/check-status/:discordId', (req, res) => {
+    const { discordId } = req.params;
+    const db = loadDb();
+    const userApp = db.applications[discordId];
+    
+    if (userApp) {
+        return res.json({ status: userApp.status });
+    }
+    res.json({ status: 'none' });
+});
+
+// استلام طلب التقديم من الموقع
+app.post('/api/apply-whitelist', async (req, res) => {
+    try {
+        const { sector, discordName, discordId, name, rdm, vdm, fearRp, nlr, metaGaming, powerGaming, copBaiting, q1, q2, q3 } = req.body;
+
+        if (!discordId || !name) {
+            return res.status(400).json({ error: 'الرجاء إدخال البيانات الأساسية بشكل صحيح.' });
+        }
+
+        const db = loadDb();
+        if (db.applications[discordId] && db.applications[discordId].status === 'pending') {
+            return res.status(400).json({ error: 'لديك طلب تقديم قيد المراجعة بالفعل.' });
+        }
+
+        const channel = await client.channels.fetch(TARGET_CHANNEL_ID).catch(() => null);
+        if (!channel) {
+            return res.status(500).json({ error: 'تعذر الوصول إلى روم التقديمات في ديسكورد.' });
+        }
+
+        let embed = new EmbedBuilder()
+            .setTitle(`📋 طلب تقديم جديد: ${sector}`)
+            .setColor(0xf59e0b)
+            .addFields(
+                { name: '👤 الاسم الكامل:', value: `\`${name}\``, inline: true },
+                { name: '💬 ديسكورد:', value: `\`${discordName}\` (<@${discordId}>)`, inline: true },
+                { name: '🆔 أيدي ديسكورد:', value: `\`${discordId}\``, inline: false }
+            )
+            .setTimestamp();
+
+        if (sector === 'الوايت ليست') {
+            embed.addFields(
+                { name: '1. RDM:', value: rdm || 'غير مسجل' },
+                { name: '2. VDM:', value: vdm || 'غير مسجل' },
+                { name: '3. Fear RP:', value: fearRp || 'غير مسجل' },
+                { name: '4. NLR:', value: nlr || 'غير مسجل' },
+                { name: '5. Meta Gaming:', value: metaGaming || 'غير مسجل' },
+                { name: '6. Power Gaming:', value: powerGaming || 'غير مسجل' },
+                { name: '7. Cop Baiting:', value: copBaiting || 'غير مسجل' }
+            );
+        } else {
+            embed.addFields(
+                { name: 'السؤال الأول / التواجد:', value: q1 || 'غير مسجل' },
+                { name: 'السؤال الثاني / الشخصيات:', value: q2 || 'غير مسجل' },
+                { name: 'السؤال الثالث / الخبرات:', value: q3 || 'غير مسجل' }
+            );
+        }
+
+        const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId(`accept_${discordId}`).setLabel('قبول الطلب ✅').setStyle(ButtonStyle.Success),
+            new ButtonBuilder().setCustomId(`reject_${discordId}`).setLabel('رفض ❌').setStyle(ButtonStyle.Danger),
+            new ButtonBuilder().setCustomId(`retest_${discordId}`).setLabel('إعادة اختبار 🔄').setStyle(ButtonStyle.Secondary)
+        );
+
+        const sentMessage = await channel.send({ embeds: [embed], components: [row] });
+
+        // حفظ الطلب في قاعدة البيانات المحلية
+        db.applications[discordId] = {
+            discordName,
+            name,
+            sector,
+            status: 'pending',
+            messageId: sentMessage.id
+        };
+        saveDb(db);
+
+        res.json({ success: true, message: 'تم إرسال تقديمك بنجاح للإدارة!' });
+
+    } catch (error) {
+        console.error("Error processing application:", error);
+        res.status(500).json({ error: 'حدث خطأ داخلي في السيرفر.' });
+    }
+});
+
+// التعامل مع أزرار الإدارة في ديسكورد
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isButton()) return;
+
+    const [action, discordId] = interaction.customId.split('_');
+    const db = loadDb();
+    const userApp = db.applications[discordId];
+
+    if (!userApp) {
+        return interaction.reply({ content: '❌ لم يتم العثور على بيانات هذا الطلب في قاعدة البيانات.', ephemeral: true });
+    }
+
+    if (action === 'accept') {
+        userApp.status = 'accepted';
+        saveDb(db);
+        await interaction.update({ content: `✅ **تم قبول الطلب بواسطة** ${interaction.user.tag}`, components: [] });
+    } else if (action === 'reject') {
+        userApp.status = 'rejected';
+        saveDb(db);
+        await interaction.update({ content: `❌ **تم رفض الطلب بواسطة** ${interaction.user.tag}`, components: [] });
+    } else if (action === 'retest') {
+        userApp.status = 'retest';
+        saveDb(db);
+        await interaction.update({ content: `🔄 **تم تحويل المتقدم لإعادة الاختبار بواسطة** ${interaction.user.tag}`, components: [] });
+    }
 });
 
 client.once('ready', () => {
-  console.log(`Logged in as ${client.user.tag} successfully!`);
+    console.log(`Logged in as ${client.user.tag} successfully!`);
 });
 
-// 3. التفاعل مع خيارات الإدارة وإعطاء الرتب التلقائية
-client.on('interactionCreate', async interaction => {
-  if (!interaction.isStringSelectMenu()) return;
-
-  if (interaction.customId.startsWith('admin_decision_')) {
-    const discordId = interaction.customId.split('_')[2];
-    const selected = interaction.values[0];
-    const guild = interaction.guild;
-
-    if (!guild) return;
-
-    let member;
-    try {
-      member = await guild.members.fetch(discordId);
-    } catch (e) {
-      member = null;
-    }
-
-    if (selected === 'accept_action') {
-      applicationsDB.set(discordId, { status: 'accepted' });
-      
-      if (member) {
-        try {
-          await member.roles.add(ROLE_ACCEPTED);
-          await member.roles.remove(ROLE_REJECTED).catch(()=>{});
-          await member.roles.remove(ROLE_RETEST).catch(()=>{});
-        } catch(err) { console.log("خطأ في تطبيق رتبة القبول:", err); }
-      }
-
-      await interaction.update({
-        content: `✅ **تم قبول الطلب بنجاح بواسطة ${interaction.user.tag}** وتم إعطاؤه رتبة <@&${ROLE_ACCEPTED}>.`,
-        components: []
-      });
-
-    } else if (selected === 'reject_action') {
-      applicationsDB.set(discordId, { status: 'rejected' });
-
-      if (member) {
-        try {
-          await member.roles.add(ROLE_REJECTED);
-          await member.roles.remove(ROLE_ACCEPTED).catch(()=>{});
-          await member.roles.remove(ROLE_RETEST).catch(()=>{});
-        } catch(err) { console.log("خطأ في تطبيق رتبة الرفض:", err); }
-      }
-
-      await interaction.update({
-        content: `❌ **تم رفض الطلب كلياً بواسطة ${interaction.user.tag}** وتم إعطاؤه رتبة <@&${ROLE_REJECTED}>.`,
-        components: []
-      });
-
-    } else if (selected === 'retest_action') {
-      applicationsDB.set(discordId, { status: 'retest' });
-
-      if (member) {
-        try {
-          await member.roles.add(ROLE_RETEST);
-          await member.roles.remove(ROLE_ACCEPTED).catch(()=>{});
-          await member.roles.remove(ROLE_REJECTED).catch(()=>{});
-        } catch(err) { console.log("خطأ في تطبيق رتبة إعادة الاختبار:", err); }
-      }
-
-      await interaction.update({
-        content: `🔄 **تم طلب إعادة اختبار بواسطة ${interaction.user.tag}** وأصبح بإمكان اللاعب التقديم مجدداً من الموقع.`,
-        components: []
-      });
-    }
-  }
-});
-
-app.listen(port, () => {
-  console.log(`Web server running on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`Web server running on port ${PORT} with file database.`);
 });
 
 client.login(process.env.DISCORD_TOKEN);

@@ -375,6 +375,9 @@
         <button class="tab-btn" id="btn-cat-rp" onclick="switchCat('cat-rp', this)">قواعد الرول بلاي</button>
         <button class="tab-btn" id="btn-cat-ems" onclick="switchCat('cat-ems', this)">قوانين الإسعاف 🚑</button>
         <button class="tab-btn" id="btn-cat-police" onclick="switchCat('cat-police', this)">قوانين الشرطة 👮‍♂️</button>
+        <button class="tab-btn" id="btn-cat-chars" onclick="switchCat('cat-chars', this)">قواعد الشخصيات</button>
+        <button class="tab-btn" id="btn-cat-gangs" onclick="switchCat('cat-gangs', this)">قواعد العصابات والرهائن</button>
+        <button class="tab-btn" id="btn-cat-feuds" onclick="switchCat('cat-feuds', this)">قواعد العداوات</button>
       </div>
     </div>
 
@@ -388,20 +391,114 @@
       </button>
     </div>
 
+    <!-- القواعد العامة الكاملة -->
     <div id="cat-general" class="rules-category">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. HEAVY RP</span><span>▼</span></div><div class="accordion-body">الالتزام بتقمص الشخصية بشكل جاد وعالي الواقعية طوال فترة وجودك داخل المدينة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. HEAVY RP</span><span>▼</span></div><div class="accordion-body">الالتزام بتقمص الشخصية بشكل جاد وعالي الواقعية طوال فترة وجودك داخل المدينة، والخروج من الشخصية يكون فقط عند الضرورة أو بتوجيه من الإدارة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. إفساد تجربة اللعب</span><span>▼</span></div><div class="accordion-body">يمنع استخدام الأساليب غير اللائقة أو التصرفات التي تهدف لإفساد تجربة اللاعبين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. حل المشاكل داخل السيناريو</span><span>▼</span></div><div class="accordion-body">أي مشكلة تحدث داخل السيناريو يتم التعامل معها داخل الرول بلاي قدر الإمكان، ويكون التواصل مع الإدارة بعد انتهاء الموقف.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. توثيق اللعب والتصوير</span><span>▼</span></div><div class="accordion-body">يفضل تسجيل لعبك بشكل مستمر مع وجود الصوت لضمان حقك في حالة تقديم شكوى أو تذكرة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. جودة الميكروفون</span><span>▼</span></div><div class="accordion-body">يجب التأكد من جودة الميكروفون وعدم وجود أصوات مزعجة أو تشويش تؤثر على اللاعبين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. منع تسريب المعلومات</span><span>▼</span></div><div class="accordion-body">يمنع الاستعانة بمعلومات تم الحصول عليها من بثوث اللاعبين أو الديسكورد أو أي مصدر خارج اللعبة لمعرفة أحداث داخل المدينة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. مساعدة الجدد واستكشاف الأسرار</span><span>▼</span></div><div class="accordion-body">يمنع مساعدة اللاعبين الجدد على اكتشاف أماكن أو معلومات سرية بشكل مباشر؛ يجب أن يتعرف عليها اللاعب من خلال تجربته داخل المدينة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. استغلال الثغرات والأخطاء</span><span>▼</span></div><div class="accordion-body">يمنع استغلال الأخطاء البرمجية أو الثغرات بأي صورة، حتى لو كان استخدامها لا يسبب ضرراً واضحاً للاعبين الآخرين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. دور المسعفين بالخدمة</span><span>▼</span></div><div class="accordion-body">عند وجود مسعفين بالخدمة يجب نقل المصاب إلى المستشفى بالطريقة الطبيعية وعدم تجاوز دورهم بدون سبب.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. الاعتداء على البوتات</span><span>▼</span></div><div class="accordion-body">يمنع الاعتداء على البوتات أو تعطيلهم أو قتلهم دون وجود مبرر مرتبط بسيناريو.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. نقل المصابين وتغيير الموقف</span><span>▼</span></div><div class="accordion-body">يمنع نقل المصابين بعيداً عن موقع الجريمة أو حرب العصابات بغرض تغيير مجريات الموقف.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. بيع أو مشاركة الحسابات</span><span>▼</span></div><div class="accordion-body">يمنع مشاركة أو بيع حسابات Steam / Rockstar / Discord المستخدمة في الدخول إلى المدينة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. التصرفات العدائية والتخريبية</span><span>▼</span></div><div class="accordion-body">يمنع القيام بتصرفات عدائية أو تخريبية خارج نطاق السيناريو، ويجب الحفاظ على تجربة مناسبة لجميع اللاعبين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. شروط تذاكر التعويض والتصوير</span><span>▼</span></div><div class="accordion-body">أي تذكرة تعويض مرتبطة بحادثة داخل اللعبة يجب أن تحتوي على فيديو واضح لا يقل عن 15 ثانية ويظهر الواقعة بشكل كامل؛ وأي طلب لا يحتوي على دليل كافٍ يمكن رفضه.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. التجمع أمام المستشفى</span><span>▼</span></div><div class="accordion-body">يمنع الوقوف أو التجمع أمام المستشفى بدون سبب، ويكون التواجد هناك للحالات التي تحتاج العلاج فقط. بعد انتهاء العلاج يجب مغادرة المنطقة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. التجارة بأموال واقعية (RMT)</span><span>▼</span></div><div class="accordion-body">يمنع بيع الممتلكات أو الخدمات داخل المدينة مقابل أموال أو منافع حقيقية خارج اللعبة، ويعرض ذلك جميع الأطراف للعقوبة.</div></div>
     </div>
 
+    <!-- قواعد الرول بلاي الكاملة -->
     <div id="cat-rp" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. مفهوم تمثيل الأدوار</span><span>▼</span></div><div class="accordion-body">المقصود بالرول بلاي هو تمثيل شخصيتك بأكبر قدر ممكن من الواقعية.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. مفهوم تمثيل الأدوار</span><span>▼</span></div><div class="accordion-body">المقصود بالرول بلاي هو تمثيل شخصيتك بأكبر قدر ممكن من الواقعية والمنطق.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. القتل العشوائي (RDM)</span><span>▼</span></div><div class="accordion-body">يمنع قتل أي لاعب بدون سبب أو سيناريو واضح (RDM).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. الدهس المتعمد (VDM)</span><span>▼</span></div><div class="accordion-body">يمنع استخدام المركبة كسلاح لقتل أو دهس اللاعبين بشكل متعمد (VDM).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. تقدير قيمة الحياة (NVL)</span><span>▼</span></div><div class="accordion-body">يجب التعامل مع حياة شخصيتك باعتبارها ذات قيمة وعدم الدخول في مخاطر غير منطقية (NVL).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. إظهار الخوف (Fear RP)</span><span>▼</span></div><div class="accordion-body">عند وجود خطر مباشر على حياتك يجب إظهار الخوف والتصرف بناءً على الموقف (Fear RP).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. الميتا جيمنج (Meta Gaming)</span><span>▼</span></div><div class="accordion-body">يمنع استخدام معلومات لا يمكن لشخصيتك معرفتها داخل اللعبة (Meta Gaming).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. الباور جيمنج (Power Gaming)</span><span>▼</span></div><div class="accordion-body">يمنع القيام بأفعال غير واقعية أو حيل مصطنعة فقط بهدف الفوز بالموقف أو الحصول على أفضلية (Power Gaming).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. استفزاز الشرطة (Cop Baiting)</span><span>▼</span></div><div class="accordion-body">يمنع استفزاز الشرطة أو افتعال المشاكل معها بهدف بدء مطاردة أو سيناريو بدون سبب منطقي (Cop Baiting).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. فصل علاقات الشخصيات</span><span>▼</span></div><div class="accordion-body">أي خلاف أو عداوة حدثت في شخصية سابقة لا يتم نقلها تلقائياً لشخصية أخرى؛ كل شخصية لها علاقاتها ومعلوماتها الخاصة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. التدخل في سيناريوهات الآخرين</span><span>▼</span></div><div class="accordion-body">يمنع التدخل في سيناريو لا علاقة لك به إلا إذا أصبح لديك سبب واضح داخل الرول بلاي.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. احترام الجدية في التمثيل</span><span>▼</span></div><div class="accordion-body">يجب احترام أجواء الرول بلاي وعدم تحويل المواقف الجدية إلى مزاح أو عبث.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. التدخل في الاشتباكات القائمة</span><span>▼</span></div><div class="accordion-body">يمنع الدخول في اشتباك قائم بين طرفين إذا لم يكن لك ارتباط مباشر بأحد الطرفين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. استخدام السلاح</span><span>▼</span></div><div class="accordion-body">استخدام السلاح يكون كخيار أخير عند وجود سبب يستدعي ذلك، وليس أول وسيلة لحل أي خلاف.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. التجاهل أو الرفض للسيناريو</span><span>▼</span></div><div class="accordion-body">يمنع تجاهل السيناريو القائم أو رفض المشاركة فيه لمجرد أن نتيجته لا تناسبك.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. استخدام أمر /me</span><span>▼</span></div><div class="accordion-body">أمر /me يستخدم لوصف فعل تقوم به شخصيتك أو حالة جسدية لا يستطيع النظام إظهارها بوضوح.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. التواصل خارج الشخصية (OOC)</span><span>▼</span></div><div class="accordion-body">أي وسيلة مخصصة للتواصل خارج الشخصية (OOC) تستخدم فقط للمعلومات الخارجة عن نطاق الرول بلاي ولا يجوز استخدامها للتأثير على الأحداث.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>17. الخروج أثناء السيناريو (Combat Logging)</span><span>▼</span></div><div class="accordion-body">يمنع الخروج من السيرفر أثناء وجودك في موقف فعال أو مطاردة أو تحقيق أو سيناريو لم ينتهِ؛ ويجب إنهاء الموقف قبل المغادرة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. مشاركة الشاشة والبثوث</span><span>▼</span></div><div class="accordion-body">يمنع استخدام أي وسيلة خارجية أو مشاركة شاشة/ستريم للحصول على أفضلية داخل اللعبة أو معرفة مواقع ومعلومات اللاعبين.</div></div>
     </div>
 
+    <!-- قوانين الإسعاف الكاملة -->
     <div id="cat-ems" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الاحترام والالتزام بالزي الرسمية</span><span>▼</span></div><div class="accordion-body">الالتزام الكامل بجميع لوائح وقوانين الهيئة الطبية ومباشرة الحالات بسرعة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الاحترام أولاً</span><span>▼</span></div><div class="accordion-body">الاحترام هو الأساس مع كافة زملائك في القطاع واللاعبين والمسؤولين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. تقمص الشخصية بجدية</span><span>▼</span></div><div class="accordion-body">المسعف يجب عليه تقمص الشخصية أكثر من أي وظيفة أخرى في السيرفر.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. الالتزام بالزي الرسمي</span><span>▼</span></div><div class="accordion-body">يجب الالتزام بالزي المحدد لرتبتك والموجود بالجدول الرسمي للهيئة الطبية.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. التواجد شبه اليومي</span><span>▼</span></div><div class="accordion-body">يلزم التواجد الشبه يومي لمباشرة البلاغات والخدمات الطبية بالمدينة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>05. عدم إزعاج المسؤولين</span><span>▼</span></div><div class="accordion-body">عدم إزعاج المسؤولين بطلب ترقية أو نقاط أكثر من مرة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>06. حق رفض الإنعاش للمسيئين</span><span>▼</span></div><div class="accordion-body">يحق للمسعف عدم إنعاش من يكررون البلاغات الكاذبة أو يقدمون إبداءات وإساءات.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>07. التحدث مع المصاب</span><span>▼</span></div><div class="accordion-body">لا يحق للمسعف التكلم مع الميت إلا بعد إنعاشه المباشر.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>08. حظر حمل السلاح</span><span>▼</span></div><div class="accordion-body">ممنوع منعاً باتاً حمل أي سلاح أثناء تواجدك بالخدمة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>09. الاستجابة السريعة للبلاغات</span><span>▼</span></div><div class="accordion-body">أخذ طلبات الإسعافات بأسرع وقت بعد ما يتم توجيهك من الدسباتش.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>10. تقمص حالة الإنعاش</span><span>▼</span></div><div class="accordion-body">بعد إنعاش الميت يجب تقمص الحالة بالتحمد على السلامة والاطمئنان عليه.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>11. منع إعطاء المعدات</span><span>▼</span></div><div class="accordion-body">يمنع منعاً باتاً إعطاء أي شخص خارجي معدات الإسعاف والمستلزمات الطبية.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>12. منع المباشرة كمواطن</span><span>▼</span></div><div class="accordion-body">يمنع تسجيل خروج المسعف ويباشر الحالات الطبية وهو في حالة مواطن.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>13. الالتزام بموجة الراديو</span><span>▼</span></div><div class="accordion-body">يمنع دخول موجة غير موجة الإسعاف في الراديو إلا بوجود سبب رسمي ومبرر.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>14. حد أدنى لخدمة الاستقالة</span><span>▼</span></div><div class="accordion-body">يلزم على المسعف أن يخدم لمدة لا تقل عن 7 أيام بعدها يحق له تقديم طلب استقالة رسمي.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>15. منع إنعاش المعدم</span><span>▼</span></div><div class="accordion-body">يمنع منعاً باتاً إنعاش الأشخاص المحكوم عليهم بالإعدام أو المعدمين.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. منع التوصيل بمركبة الإسعاف</span><span>▼</span></div><div class="accordion-body">يمنع توصيل المواطنين بسيارة الإسعاف ما لم يكن لنقل حالة طوارئ للمستشفى.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>17. مكان الإنعاش المسموح</span><span>▼</span></div><div class="accordion-body">يمنع إنعاش أي شخص خارج المستشفى بدون وجود حالة إنقاذ طارئة ومبررة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. الإنعاش بمواقع إطلاق النار</span><span>▼</span></div><div class="accordion-body">يمنع نقل المسقطين من موقع إطلاق النار إلا بوجود عسكري يؤمنك بالكامل.</div></div>
     </div>
 
+    <!-- قوانين الشرطة -->
     <div id="cat-police" class="rules-category" style="display:none;">
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الالتزام بالأوامر ورتب الضباط</span><span>▼</span></div><div class="accordion-body">الالتزام بالتسلسل القيادي وتطبيق القانون بالعدالة الكاملة داخل المدينة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الالتزام بالأوامر والتعليمات القيادية</span><span>▼</span></div><div class="accordion-body">يجب على رجل الشرطة الالتزام بالتسلسل القيادي وتنفيذ الأوامر الصادرة من الرتب الأعلى.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. الاستخدام المتدرج للقوة</span><span>▼</span></div><div class="accordion-body">يمنع إطلاق النار المباشر إلا في حالات الخطر المباشر على الحياة أو بعد التدرج في استخدام أدوات السيطرة (الصاعق الكهربائي / الغاز / الطلقات التحذيرية).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. الالتزام بالزي والراديو الرسمي</span><span>▼</span></div><div class="accordion-body">يجب التواجد بالزي المحدد لرتبتك والتواجد الدائم في موجة الراديو المخصصة للشرطة أثناء الخدمة.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. حقوق المتهم وقراءة اللائحة</span><span>▼</span></div><div class="accordion-body">يجب قراءة الحقوق للمتهم عند إلقاء القبض عليه والتعامل معه بمهنية عالية دون تجاوز لفظي أو جسدي.</div></div>
+    </div>
+
+    <!-- قواعد الشخصيات الكاملة -->
+    <div id="cat-chars" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. استقلال الشخصيات</span><span>▼</span></div><div class="accordion-body">يجب أن تكون كل شخصية مستقلة تماماً عن الشخصيات الأخرى من حيث العلاقات والأهداف.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. تعدد الشخصيات</span><span>▼</span></div><div class="accordion-body">يسمح بإنشاء أكثر من شخصية بشرط عدم تداخل المعلومات أو نقل الأموال بطرق غير منطقية بينها.</div></div>
+    </div>
+
+    <!-- قواعد العصابات والرهائن الكاملة -->
+    <div id="cat-gangs" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. عدد العصابات</span><span>▼</span></div><div class="accordion-body">الالتزام بالحد الأقصى لعدد أفراد العصابة المتواجدين في الفعاليات والسيناريوهات.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. التعامل مع الرهائن</span><span>▼</span></div><div class="accordion-body">التعامل مع الرهينة يجب أن يكون واقعياً وبشروط منطقية تقبلها الجهات الأمنية.</div></div>
+    </div>
+
+    <!-- قواعد العداوات الكاملة -->
+    <div id="cat-feuds" class="rules-category" style="display:none;">
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. سبب العداوة</span><span>▼</span></div><div class="accordion-body">يجب أن توجد عداوة رسمية مبنية على سيناريو حقيقي ومسجل لتبادل إطلاق النار المستمر.</div></div>
+    </div>
+  </div>
+
+  <div id="creators-page" class="page-section">
+    <div class="banner-card">
+      <span class="banner-badge">OFFICIAL CREATORS • TOWN 77</span>
+      <h1 class="banner-title">صناع المحتوى</h1>
+      <p style="color:#94a3b8; font-size:0.9rem;">تابع أقوى البثوث الحصرية لمدينة TOWN 77</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+      <div style="background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:25px; text-align:center;">
+        <div style="width:75px; height:75px; border-radius:50%; margin:0 auto 10px; background:radial-gradient(circle, #2a0808 0%, #050608 80%); border:2px solid #ef4444; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 12px rgba(239,68,68,0.5);">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M4 18L10 6H14L20 18H16L12 10L8 18H4Z" fill="#ef4444"/>
+            <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="7" font-weight="900" font-family="Cairo">77</text>
+          </svg>
+        </div>
+        <h3>Dooraming (D-OR)</h3>
+        <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:15px;">صانع المحتوى الرسمي للسيرفر</p>
+        <a href="https://kick.com/d-or00" target="_blank" style="display:inline-block; background:var(--gold-main); color:#000; padding:8px 20px; border-radius:20px; font-weight:bold; text-decoration:none;">Kick Stream 🟢</a>
+      </div>
     </div>
   </div>
 
@@ -412,7 +509,7 @@
       <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء. يمكنك التقديم عند فتح القطاع من قبل الإدارة.</p>
     </div>
 
-    <!-- 🚓 تقديم الشرطة الجديد -->
+    <!-- 🚓 تقديم الشرطة -->
     <div class="apply-card" style="border:1px solid #0284c7;">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>

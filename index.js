@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
@@ -13,16 +13,28 @@ const PORT = process.env.PORT || 27540;
 // ملف قاعدة البيانات المحلية
 const DB_FILE = path.join(__dirname, 'db.json');
 
-// تحميل قاعدة البيانات أو إنشائها لو مش موجودة
+// الحالة الافتراضية للتقديمات (فتح / إغلاق)
+const defaultDb = {
+    settings: {
+        police: true,      // تقديم الشرطة
+        whitelist: true,   // تقديم الوايت ليست
+        ems: true,         // تقديم المستشفى
+        justice: true      // تقديم وزارة العدل
+    },
+    applications: {}
+};
+
 function loadDb() {
     if (!fs.existsSync(DB_FILE)) {
-        fs.writeFileSync(DB_FILE, JSON.stringify({ applications: {} }, null, 2));
+        fs.writeFileSync(DB_FILE, JSON.stringify(defaultDb, null, 2));
     }
     try {
         const data = fs.readFileSync(DB_FILE, 'utf8');
-        return JSON.parse(data);
+        const parsed = JSON.parse(data);
+        if (!parsed.settings) parsed.settings = defaultDb.settings;
+        return parsed;
     } catch (e) {
-        return { applications: {} };
+        return defaultDb;
     }
 }
 
@@ -30,7 +42,6 @@ function saveDb(dbData) {
     fs.writeFileSync(DB_FILE, JSON.stringify(dbData, null, 2));
 }
 
-// إعدادات البوت
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -39,12 +50,22 @@ const client = new Client({
     ]
 });
 
-// 🎯 أيدي روم التقديمات الجديد والمحدث
-const TARGET_CHANNEL_ID = '1558946684954742915';
+// 🎯 خريطة رومات القطاعات المختلفة
+const CHANNELS = {
+    'الشرطة': '1562786441816313896',
+    'الوايت ليست': '1558946684954742915',
+    'مستشفى فيسبوتشي': '1558946684954742915',
+    'وزارة العدل': '1558946684954742915'
+};
 
-// نقطة اختبار عمل السيرفر
 app.get('/', (req, res) => {
     res.send('Bot is active and running perfectly!');
+});
+
+// إرجاع حالة فتح وإغلاق التقديمات للموقع
+app.get('/api/settings', (req, res) => {
+    const db = loadDb();
+    res.json(db.settings);
 });
 
 // فحص حالة المتقدم
@@ -52,35 +73,49 @@ app.get('/api/check-status/:discordId', (req, res) => {
     const { discordId } = req.params;
     const db = loadDb();
     const userApp = db.applications[discordId];
-    
     if (userApp) {
         return res.json({ status: userApp.status });
     }
     res.json({ status: 'none' });
 });
 
-// استلام طلب التقديم من الموقع
+// استقبال استمارة التقديم من الموقع
 app.post('/api/apply-whitelist', async (req, res) => {
     try {
-        const { sector, discordName, discordId, name, rdm, vdm, fearRp, nlr, metaGaming, powerGaming, copBaiting, q1, q2, q3 } = req.body;
+        const { sector, discordName, discordId, name, rdm, vdm, fearRp, nlr, metaGaming, powerGaming, copBaiting, q1, q2, q3, q4 } = req.body;
 
         if (!discordId || !name) {
             return res.status(400).json({ error: 'الرجاء إدخال البيانات الأساسية بشكل صحيح.' });
         }
 
         const db = loadDb();
+
+        // التحقق مما إذا كان التقديم مقفول لهذا القطاع
+        const sectorKeyMap = {
+            'الشرطة': 'police',
+            'الوايت ليست': 'whitelist',
+            'مستشفى فيسبوتشي': 'ems',
+            'وزارة العدل': 'justice'
+        };
+        const key = sectorKeyMap[sector] || 'whitelist';
+        if (db.settings[key] === false) {
+            return res.status(400).json({ error: `عذراً، تقديم (${sector}) مغلق حالياً من قبل الإدارة.` });
+        }
+
         if (db.applications[discordId] && db.applications[discordId].status === 'pending') {
             return res.status(400).json({ error: 'لديك طلب تقديم قيد المراجعة بالفعل.' });
         }
 
-        const channel = await client.channels.fetch(TARGET_CHANNEL_ID).catch(() => null);
+        const targetChannelId = CHANNELS[sector] || CHANNELS['الوايت ليست'];
+        const channel = await client.channels.fetch(targetChannelId).catch(() => null);
+
         if (!channel) {
-            return res.status(500).json({ error: 'تعذر الوصول إلى روم التقديمات في ديسكورد.' });
+            return res.status(500).json({ error: 'تعذر الوصول إلى روم التقديمات المحددة في ديسكورد.' });
         }
 
         let embed = new EmbedBuilder()
             .setTitle(`📋 طلب تقديم جديد: ${sector}`)
-            .setColor(0xf59e0b)
+            .setColor(sector === 'الشرطة' ? 0x0284c7 : 0xf59e0b)
             .addFields(
                 { name: '👤 الاسم الكامل:', value: `\`${name}\``, inline: true },
                 { name: '💬 ديسكورد:', value: `\`${discordName}\` (<@${discordId}>)`, inline: true },
@@ -98,6 +133,13 @@ app.post('/api/apply-whitelist', async (req, res) => {
                 { name: '6. Power Gaming:', value: powerGaming || 'غير مسجل' },
                 { name: '7. Cop Baiting:', value: copBaiting || 'غير مسجل' }
             );
+        } else if (sector === 'الشرطة') {
+            embed.addFields(
+                { name: '1. ساعات التواجد اليومية:', value: q1 || 'غير مسجل' },
+                { name: '2. هل لديك شخصية في قطاع آخر؟:', value: q2 || 'غير مسجل' },
+                { name: '3. الخبرات السابقة في الشرطة:', value: q3 || 'غير مسجل' },
+                { name: '4. تصرفك في حال تعاملت مع شخص يخالف القوانين:', value: q4 || 'غير مسجل' }
+            );
         } else {
             embed.addFields(
                 { name: 'السؤال الأول / التواجد:', value: q1 || 'غير مسجل' },
@@ -114,7 +156,6 @@ app.post('/api/apply-whitelist', async (req, res) => {
 
         const sentMessage = await channel.send({ embeds: [embed], components: [row] });
 
-        // حفظ الطلب في قاعدة البيانات المحلية
         db.applications[discordId] = {
             discordName,
             name,
@@ -132,7 +173,7 @@ app.post('/api/apply-whitelist', async (req, res) => {
     }
 });
 
-// التعامل مع أزرار الإدارة في ديسكورد
+// التعامل مع أزرار الإدارة
 client.on('interactionCreate', async interaction => {
     if (!interaction.isButton()) return;
 
@@ -141,7 +182,7 @@ client.on('interactionCreate', async interaction => {
     const userApp = db.applications[discordId];
 
     if (!userApp) {
-        return interaction.reply({ content: '❌ لم يتم العثور على بيانات هذا الطلب في قاعدة البيانات.', ephemeral: true });
+        return interaction.reply({ content: '❌ لم يتم العثور على بيانات هذا الطلب.', ephemeral: true });
     }
 
     if (action === 'accept') {
@@ -159,12 +200,42 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
+// 🛠️ أوامر التحكم في فتح وإغلاق التقديمات عبر الشات في ديسكورد
+client.on('messageCreate', async message => {
+    if (message.author.bot || !message.member?.permissions.has(PermissionFlagsBits.Administrator)) return;
+
+    const content = message.content.trim();
+    const db = loadDb();
+
+    if (content === '!apply status') {
+        return message.reply(`📊 **حالة التقديمات الحالية:**
+• الشرطة: ${db.settings.police ? '🟢 مفتوح' : '🔴 مغلق'}
+• الوايت ليست: ${db.settings.whitelist ? '🟢 مفتوح' : '🔴 مغلق'}
+• المستشفى: ${db.settings.ems ? '🟢 مفتوح' : '🔴 مغلق'}
+• العدل: ${db.settings.justice ? '🟢 مفتوح' : '🔴 مغلق'}`);
+    }
+
+    if (content.startsWith('!apply toggle ')) {
+        const target = content.replace('!apply toggle ', '').trim().toLowerCase();
+        const valid = { 'police': 'الشرطة', 'whitelist': 'الوايت ليست', 'ems': 'المستشفى', 'justice': 'وزارة العدل' };
+
+        if (valid[target]) {
+            db.settings[target] = !db.settings[target];
+            saveDb(db);
+            const statusStr = db.settings[target] ? '🟢 فتح' : '🔴 إغلاق';
+            return message.reply(`تم ${statusStr} تقديم (${valid[target]}) بنجاح!`);
+        } else {
+            return message.reply(`❌ قطاع غير معروف. الخيارات المتاحة: \`police\`, \`whitelist\`, \`ems\`, \`justice\``);
+        }
+    }
+});
+
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag} successfully!`);
 });
 
 app.listen(PORT, () => {
-    console.log(`Web server running on port ${PORT} with file database.`);
+    console.log(`Web server running on port ${PORT}`);
 });
 
 client.login(process.env.DISCORD_TOKEN);

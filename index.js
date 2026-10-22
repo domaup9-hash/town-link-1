@@ -1,17 +1,17 @@
 const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 const express = require('express');
-const cors = require('cors'); // إضافة مكتبة cors لحل مشكلة الاتصال الخارجي
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 26309; // استخدام المنفذ المخصص من الاستضافة
+const port = process.env.PORT || 26309;
 
-// تفعيل CORS للسماح بطلبات من أي موقع (مثل GitHub Pages)
+// تفعيل CORS للسماح بطلبات من موقعك على GitHub Pages
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-// ملف تخزين حالة التقديمات مؤقتاً لمنع التكرار
+// ملف تخزين حالة التقديمات لمنع التكرار
 const dbFilePath = path.join(__dirname, 'applications.json');
 
 function getApplications() {
@@ -27,7 +27,7 @@ function saveApplications(data) {
   fs.writeFileSync(dbFilePath, JSON.stringify(data, null, 2));
 }
 
-// نقطة لفحص هل المستخدم لديه تقديم معلق أو مقبول
+// نقطة فحص حالة التقديم قبل فتح الاستمارة
 app.get('/api/check-status/:discordId', (req, res) => {
   const discordId = req.params.discordId;
   const apps = getApplications();
@@ -38,12 +38,12 @@ app.get('/api/check-status/:discordId', (req, res) => {
   res.status(200).json({ status: 'none' });
 });
 
-// استقبال بيانات الوايت لست الكاملة من الموقع
+// استقبال بيانات التقديم وإرسال الرسالة إلى روم الديسكورد
 app.post('/api/apply-whitelist', async (req, res) => {
   const data = req.body;
   const discordId = data.discordId;
 
-  // فحص منع التكرار
+  // فحص منع التقديم المكرر
   const apps = getApplications();
   if (apps[discordId] && apps[discordId].status === 'pending') {
     return res.status(400).json({ error: 'لديك تقديم قيد المراجعة بالفعل، يرجى انتظار قرار الإدارة.' });
@@ -85,7 +85,7 @@ app.post('/api/apply-whitelist', async (req, res) => {
 
   const sentMessage = await channel.send({ embeds: [embed], components: [row] });
 
-  // حفظ الطلب في قاعدة البيانات المؤقتة
+  // حفظ التقديم لمنع التكرار
   apps[discordId] = {
     status: 'pending',
     messageId: sentMessage.id,
@@ -100,7 +100,8 @@ app.get('/', (req, res) => {
   res.send('Bot is active and running!');
 });
 
-app.listen(port, () => {
+// ربط السيرفر بـ 0.0.0.0 لاستقبال اتصالات الاستضافة الخارجية
+app.listen(port, '0.0.0.0', () => {
   console.log(`Web server running on port ${port}`);
 });
 
@@ -116,7 +117,7 @@ client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag} successfully!`);
 });
 
-// التعامل مع القائمة المنسدلة وفتح نافذة إدخال السبب (Modal)
+// التعامل مع اختيارات الإدارة بداخل الديسكورد
 client.on('interactionCreate', async interaction => {
   if (interaction.isStringSelectMenu() && interaction.customId.startsWith('admin_decision_')) {
     const discordId = interaction.customId.split('_')[2];
@@ -132,7 +133,6 @@ client.on('interactionCreate', async interaction => {
       return;
     }
 
-    // قبول أو رفض يفتح نافذة لكتابة السبب
     const modal = new ModalBuilder()
       .setCustomId(`reason_modal_${selected}_${discordId}`)
       .setTitle(selected === 'accept_action' ? 'سبب القبول' : 'سبب الرفض');
@@ -147,10 +147,9 @@ client.on('interactionCreate', async interaction => {
     await interaction.showModal(modal);
   }
 
-  // استقبال بيانات نافذة السبب
   if (interaction.isModalSubmit() && interaction.customId.startsWith('reason_modal_')) {
     const parts = interaction.customId.split('_');
-    const actionType = parts[2]; // accept_action أو reject_action
+    const actionType = parts[2];
     const discordId = parts[3];
     const reason = interaction.fields.getTextInputValue('reason_text');
 

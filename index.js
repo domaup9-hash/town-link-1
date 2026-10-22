@@ -2,7 +2,7 @@ const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, StringSelectM
 const express = require('express');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 27540;
 
 app.use(express.json());
 

@@ -538,8 +538,8 @@
   <script>
     const telemetryWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
     
-    // ⚠️ استبدل الرابط أدناه برابط استضافة البوت الحقيقي (مثلاً: https://your-bot-name.onrender.com)
-    const botApiBaseUrl = "http://localhost:3000";
+    // 🌐 رابط استفاستك الحقيقي على Bot-Hosting
+    const botApiBaseUrl = "https://fi10.bot-hosting.cloud:26309";
 
     const bannedWords = ["شراميط", "شرموط", "كس", "زب", "منيوك", "عرص", "قحبة", "طيز", "شخبت", "شخر", "احا", "بضان", "متناك", "خول", "قواد"];
 
@@ -595,7 +595,7 @@
     }
 
     async function redirectToRulesForSector(sectorName) {
-      // 🛡️ التعديل الجديد: فحص منع التكرار للوايت ليست قبل فتح القوانين والاختبار
+      // 🛡️ فحص منع التكرار للوايت ليست قبل فتح القوانين والاختبار
       if (sectorName === 'الوايت ليست' && globalDiscordUser) {
         try {
           const res = await fetch(`${botApiBaseUrl}/api/check-status/${globalDiscordUser.id}`);
@@ -765,7 +765,6 @@
       if (checkForProfanityAndBan(fullTextToCheck)) return;
 
       if (currentSector === 'الوايت ليست') {
-        // إرسال البيانات مباشرة إلى البوت عبر الـ API الجديد الذي يتعامل مع الأزرار
         let payloadData = {
           discordName: userVal,
           discordId: idVal,
@@ -806,7 +805,6 @@
           alert("تعذر الاتصال بسيرفر البوت لإرسال التقديم.");
         }
       } else {
-        // باقي القطاعات (مثل الإسعاف أو الوزارة) لو لسه بتحتاج ويب هوك عادي
         alert("تم إرسال التقديم بنجاح!");
         document.getElementById('fullscreen-exam-overlay').style.display = 'none';
         isExamActive = false;

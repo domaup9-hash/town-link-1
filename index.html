@@ -448,7 +448,6 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. منع التوصيل بمركبة الإسعاف</span><span>▼</span></div><div class="accordion-body">يمنع توصيل المواطنين بسيارة الإسعاف ما لم يكن لنقل حالة طوارئ للمستشفى.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>17. مكان الإنعاش المسموح</span><span>▼</span></div><div class="accordion-body">يمنع إنعاش أي شخص خارج المستشفى بدون وجود حالة إنقاذ طارئة ومبررة.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. الإنعاش بمواقع إطلاق النار</span><span>▼</span></div><div class="accordion-body">يمنع نقل المسقطين من موقع إطلاق النار إلا بوجود عسكري يؤمنك بالكامل.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>19. تقدير الحياة والمناطق الخطرة</span><span>▼</span></div><div class="accordion-body">التعامل مع الحالات في الأماكن الخطرة يتطلب تأميناً كاملاً وعدم تعريض حياتك للخطر العبثي.</div></div>
     </div>
 
     <!-- باقي الأقسام -->
@@ -765,6 +764,7 @@
       isExamActive = false;
     }
 
+    // 🚀 تم تحديث هذه الدالة بالكامل لربط جميع القطاعات بالبوت بنجاح
     async function submitExamApplication(e) {
       e.preventDefault();
 
@@ -778,51 +778,55 @@
 
       if (checkForProfanityAndBan(fullTextToCheck)) return;
 
+      let payloadData = {
+        sector: currentSector,
+        discordName: userVal,
+        discordId: idVal,
+        name: nameVal
+      };
+
       if (currentSector === 'الوايت ليست') {
-        let payloadData = {
-          discordName: userVal,
-          discordId: idVal,
-          rdm: document.getElementById('ex-q1').value,
-          vdm: document.getElementById('ex-q2').value,
-          fearRp: document.getElementById('ex-q3').value,
-          nlr: document.getElementById('ex-q4').value,
-          metaGaming: document.getElementById('ex-q5').value,
-          powerGaming: document.getElementById('ex-q6').value,
-          copBaiting: document.getElementById('ex-q7').value
-        };
-
-        try {
-          const response = await fetch(`${botApiBaseUrl}/api/apply-whitelist`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payloadData)
-          });
-
-          const result = await response.json();
-
-          if (!response.ok) {
-            alert(result.error || "حدث خطأ أثناء إرسال التقديم.");
-            return;
-          }
-
-          alert(`تم إرسال تقديمك بقطاع (${currentSector}) بنجاح إلى الإدارة!`);
-          
-          if (document.exitFullscreen) {
-            document.exitFullscreen();
-          }
-          
-          document.getElementById('fullscreen-exam-overlay').style.display = 'none';
-          isExamActive = false;
-          e.target.reset();
-
-        } catch(err) {
-          alert("تعذر الاتصال بسيرفر البوت لإرسال التقديم.");
-        }
+        payloadData.rdm = document.getElementById('ex-q1').value;
+        payloadData.vdm = document.getElementById('ex-q2').value;
+        payloadData.fearRp = document.getElementById('ex-q3').value;
+        payloadData.nlr = document.getElementById('ex-q4').value;
+        payloadData.metaGaming = document.getElementById('ex-q5').value;
+        payloadData.powerGaming = document.getElementById('ex-q6').value;
+        payloadData.copBaiting = document.getElementById('ex-q7').value;
+      } else if (currentSector === 'مستشفى فيسبوتشي') {
+        payloadData.q1 = document.getElementById('ex-ems-time')?.value || '';
+        payloadData.q2 = document.getElementById('ex-ems-char')?.value || '';
+        payloadData.q3 = document.getElementById('ex-ems-exp')?.value || '';
       } else {
-        alert("تم إرسال التقديم بنجاح!");
+        payloadData.q1 = "تقديم عام";
+      }
+
+      try {
+        const response = await fetch(`${botApiBaseUrl}/api/apply-whitelist`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payloadData)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          alert(result.error || "حدث خطأ أثناء إرسال التقديم.");
+          return;
+        }
+
+        alert(`تم إرسال تقديمك بقطاع (${currentSector}) بنجاح إلى الإدارة!`);
+        
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+        
         document.getElementById('fullscreen-exam-overlay').style.display = 'none';
         isExamActive = false;
         e.target.reset();
+
+      } catch(err) {
+        alert("تعذر الاتصال بسيرفر البوت لإرسال التقديم.");
       }
     }
 

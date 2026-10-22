@@ -10,16 +10,17 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 27540;
 
-// ملف قاعدة البيانات المحلية
+// أيدي الحساب المالك الوحيد المصرح له بالتحكم
+const OWNER_DISCORD_ID = '827346713013387314';
+
 const DB_FILE = path.join(__dirname, 'db.json');
 
-// الحالة الافتراضية للتقديمات (فتح / إغلاق)
 const defaultDb = {
     settings: {
-        police: true,      // تقديم الشرطة
-        whitelist: true,   // تقديم الوايت ليست
-        ems: true,         // تقديم المستشفى
-        justice: true      // تقديم وزارة العدل
+        police: true,
+        whitelist: true,
+        ems: true,
+        justice: true
     },
     applications: {}
 };
@@ -50,7 +51,6 @@ const client = new Client({
     ]
 });
 
-// 🎯 خريطة رومات القطاعات المختلفة
 const CHANNELS = {
     'الشرطة': '1562786441816313896',
     'الوايت ليست': '1558946684954742915',
@@ -62,13 +62,11 @@ app.get('/', (req, res) => {
     res.send('Bot is active and running perfectly!');
 });
 
-// إرجاع حالة فتح وإغلاق التقديمات للموقع
 app.get('/api/settings', (req, res) => {
     const db = loadDb();
-    res.json(db.settings);
+    res.json({ settings: db.settings, ownerId: OWNER_DISCORD_ID });
 });
 
-// فحص حالة المتقدم
 app.get('/api/check-status/:discordId', (req, res) => {
     const { discordId } = req.params;
     const db = loadDb();
@@ -79,18 +77,16 @@ app.get('/api/check-status/:discordId', (req, res) => {
     res.json({ status: 'none' });
 });
 
-// استقبال استمارة التقديم من الموقع
 app.post('/api/apply-whitelist', async (req, res) => {
     try {
         const { sector, discordName, discordId, name, rdm, vdm, fearRp, nlr, metaGaming, powerGaming, copBaiting, q1, q2, q3, q4 } = req.body;
 
         if (!discordId || !name) {
-            return res.status(400).json({ error: 'الرجاء إدخال البيانات الأساسية بشكل صحيح.' });
+            return res.status(400).json({ error: 'الرجاء إكمال جميع البيانات الأساسية بالاستمارة.' });
         }
 
         const db = loadDb();
 
-        // التحقق مما إذا كان التقديم مقفول لهذا القطاع
         const sectorKeyMap = {
             'الشرطة': 'police',
             'الوايت ليست': 'whitelist',
@@ -103,7 +99,7 @@ app.post('/api/apply-whitelist', async (req, res) => {
         }
 
         if (db.applications[discordId] && db.applications[discordId].status === 'pending') {
-            return res.status(400).json({ error: 'لديك طلب تقديم قيد المراجعة بالفعل.' });
+            return res.status(400).json({ error: 'لديك طلب تقديم قيد المراجعة بالفعل في السيرفر.' });
         }
 
         const targetChannelId = CHANNELS[sector] || CHANNELS['الوايت ليست'];
@@ -136,9 +132,9 @@ app.post('/api/apply-whitelist', async (req, res) => {
         } else if (sector === 'الشرطة') {
             embed.addFields(
                 { name: '1. ساعات التواجد اليومية:', value: q1 || 'غير مسجل' },
-                { name: '2. هل لديك شخصية في قطاع آخر؟:', value: q2 || 'غير مسجل' },
-                { name: '3. الخبرات السابقة في الشرطة:', value: q3 || 'غير مسجل' },
-                { name: '4. تصرفك في حال تعاملت مع شخص يخالف القوانين:', value: q4 || 'غير مسجل' }
+                { name: '2. شخصيات في قطاعات أخرى:', value: q2 || 'غير مسجل' },
+                { name: '3. الخبرات السابقة:', value: q3 || 'غير مسجل' },
+                { name: '4. التصرف القانوني مع المخالفين:', value: q4 || 'غير مسجل' }
             );
         } else {
             embed.addFields(
@@ -165,15 +161,15 @@ app.post('/api/apply-whitelist', async (req, res) => {
         };
         saveDb(db);
 
-        res.json({ success: true, message: 'تم إرسال تقديمك بنجاح للإدارة!' });
+        res.json({ success: true, message: 'تم إرسال استمارتك بنجاح وسيتواصل معك فريق الإدارة قريباً!' });
 
     } catch (error) {
         console.error("Error processing application:", error);
-        res.status(500).json({ error: 'حدث خطأ داخلي في السيرفر.' });
+        res.status(500).json({ error: 'حدث خطأ داخلي في السيرفر أثناء المعالجة.' });
     }
 });
 
-// التعامل مع أزرار الإدارة
+// التعامل مع الأزرار في ديسكورد
 client.on('interactionCreate', async interaction => {
     if (!interaction.isButton()) return;
 
@@ -200,19 +196,22 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
-// 🛠️ أوامر التحكم في فتح وإغلاق التقديمات عبر الشات في ديسكورد
+// أوامر التحكم محصورة برقم الأيدي الخاص بك فقط
 client.on('messageCreate', async message => {
-    if (message.author.bot || !message.member?.permissions.has(PermissionFlagsBits.Administrator)) return;
+    if (message.author.bot) return;
+
+    // التحقق من الأيدي الخص بك
+    if (message.author.id !== OWNER_DISCORD_ID) return;
 
     const content = message.content.trim();
     const db = loadDb();
 
     if (content === '!apply status') {
-        return message.reply(`📊 **حالة التقديمات الحالية:**
-• الشرطة: ${db.settings.police ? '🟢 مفتوح' : '🔴 مغلق'}
-• الوايت ليست: ${db.settings.whitelist ? '🟢 مفتوح' : '🔴 مغلق'}
-• المستشفى: ${db.settings.ems ? '🟢 مفتوح' : '🔴 مغلق'}
-• العدل: ${db.settings.justice ? '🟢 مفتوح' : '🔴 مغلق'}`);
+        return message.reply(`👑 **لوحة تحكم المالك | حالة التقديمات:**
+• 🚓 الشرطة: ${db.settings.police ? '🟢 مفتوح' : '🔴 مغلق'}
+• 📜 الوايت ليست: ${db.settings.whitelist ? '🟢 مفتوح' : '🔴 مغلق'}
+• 🚑 المستشفى: ${db.settings.ems ? '🟢 مفتوح' : '🔴 مغلق'}
+• ⚖️ العدل: ${db.settings.justice ? '🟢 مفتوح' : '🔴 مغلق'}`);
     }
 
     if (content.startsWith('!apply toggle ')) {
@@ -222,10 +221,10 @@ client.on('messageCreate', async message => {
         if (valid[target]) {
             db.settings[target] = !db.settings[target];
             saveDb(db);
-            const statusStr = db.settings[target] ? '🟢 فتح' : '🔴 إغلاق';
-            return message.reply(`تم ${statusStr} تقديم (${valid[target]}) بنجاح!`);
+            const statusStr = db.settings[target] ? '🟢 تم فتح' : '🔴 تم إغلاق';
+            return message.reply(`👑 **تحديث الإدارة:** ${statusStr} تقديم (${valid[target]}) بنجاح!`);
         } else {
-            return message.reply(`❌ قطاع غير معروف. الخيارات المتاحة: \`police\`, \`whitelist\`, \`ems\`, \`justice\``);
+            return message.reply(`❌ قطاع غير معروف. استخدم: \`police\`, \`whitelist\`, \`ems\`, \`justice\``);
         }
     }
 });

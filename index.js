@@ -1,11 +1,14 @@
 const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 const express = require('express');
+const cors = require('cors'); // إضافة مكتبة cors لحل مشكلة الاتصال الخارجي
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 26309; // استخدام المنفذ المخصص من الاستضافة
 
+// تفعيل CORS للسماح بطلبات من أي موقع (مثل GitHub Pages)
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 // ملف تخزين حالة التقديمات مؤقتاً لمنع التكرار
@@ -120,7 +123,6 @@ client.on('interactionCreate', async interaction => {
     const selected = interaction.values[0];
 
     if (selected === 'retest_action') {
-      // تحديث الحالة مباشرة لإعادة الاختبار لكي يسمح له بالتقديم مجدداً
       const apps = getApplications();
       if (apps[discordId]) {
         apps[discordId].status = 'retest';
@@ -160,7 +162,6 @@ client.on('interactionCreate', async interaction => {
 
     const statusText = actionType === 'accept_action' ? '🟢 **تم قبول الطلب بنجاح**' : '🔴 **تم رفض الطلب كلياً**';
 
-    // تعديل الرسالة الأصلية وإزالة القائمة المنسدلة
     try {
       const message = interaction.message;
       if (message) {

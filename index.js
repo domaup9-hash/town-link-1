@@ -5,13 +5,15 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 26309;
 
-// تفعيل CORS للسماح بطلبات من موقعك على GitHub Pages
+// إعداد المنفذ المخصص بناءً على متغيرات بيئة الاستضافة Bot-Hosting
+const port = process.env.SERVER_PORT || process.env.PORT || 26303;
+
+// تفعيل CORS للسماح بالاتصال من موقع GitHub Pages
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-// ملف تخزين حالة التقديمات لمنع التكرار
+// ملف تخزين التقديمات لمنع التكرار
 const dbFilePath = path.join(__dirname, 'applications.json');
 
 function getApplications() {
@@ -27,29 +29,28 @@ function saveApplications(data) {
   fs.writeFileSync(dbFilePath, JSON.stringify(data, null, 2));
 }
 
-// نقطة فحص حالة التقديم قبل فتح الاستمارة
+// نقطة الفحص قبل فتح استمارة التقديم
 app.get('/api/check-status/:discordId', (req, res) => {
   const discordId = req.params.discordId;
   const apps = getApplications();
   
   if (apps[discordId]) {
-    return res.status(200).json({ status: apps[discordId].status }); // 'pending', 'accepted', 'rejected', 'retest'
+    return res.status(200).json({ status: apps[discordId].status });
   }
   res.status(200).json({ status: 'none' });
 });
 
-// استقبال بيانات التقديم وإرسال الرسالة إلى روم الديسكورد
+// استقبال التقديمات وإرسالها إلى الديسكورد
 app.post('/api/apply-whitelist', async (req, res) => {
   const data = req.body;
   const discordId = data.discordId;
 
-  // فحص منع التقديم المكرر
   const apps = getApplications();
   if (apps[discordId] && apps[discordId].status === 'pending') {
     return res.status(400).json({ error: 'لديك تقديم قيد المراجعة بالفعل، يرجى انتظار قرار الإدارة.' });
   }
   
-  const channelId = '1562484970751270994'; // روم استقبال الطلبات
+  const channelId = '1562484970751270994'; // روم استقبال التقديمات
   const channel = client.channels.cache.get(channelId);
 
   if (!channel) return res.status(400).send({ error: 'Channel not found' });
@@ -85,7 +86,6 @@ app.post('/api/apply-whitelist', async (req, res) => {
 
   const sentMessage = await channel.send({ embeds: [embed], components: [row] });
 
-  // حفظ التقديم لمنع التكرار
   apps[discordId] = {
     status: 'pending',
     messageId: sentMessage.id,
@@ -100,7 +100,7 @@ app.get('/', (req, res) => {
   res.send('Bot is active and running!');
 });
 
-// ربط السيرفر بـ 0.0.0.0 لاستقبال اتصالات الاستضافة الخارجية
+// ربط السيرفر بـ 0.0.0.0 والمنفذ المحدد
 app.listen(port, '0.0.0.0', () => {
   console.log(`Web server running on port ${port}`);
 });
@@ -117,7 +117,7 @@ client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag} successfully!`);
 });
 
-// التعامل مع اختيارات الإدارة بداخل الديسكورد
+// التحكم في قرارات الإدارة بداخل الديسكورد
 client.on('interactionCreate', async interaction => {
   if (interaction.isStringSelectMenu() && interaction.customId.startsWith('admin_decision_')) {
     const discordId = interaction.customId.split('_')[2];

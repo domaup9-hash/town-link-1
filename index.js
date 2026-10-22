@@ -50,7 +50,7 @@ app.get('/api/check-status/:discordId', (req, res) => {
   res.status(200).json({ status: 'none' });
 });
 
-// 2. مسار استقبال استمارة الوايت ليست من الموقع
+// 2. مسار استقبال جميع استمارات التقديم من الموقع
 app.post('/api/apply-whitelist', async (req, res) => {
   const data = req.body;
   const discordId = data.discordId;
@@ -78,9 +78,13 @@ app.post('/api/apply-whitelist', async (req, res) => {
   applicationsDB.set(discordId, { status: 'pending', data: data });
 
   const embed = new EmbedBuilder()
-    .setTitle('📋 (Whitelist Application) تقديم وايت لست جديد')
+    .setTitle(`📋 تقديم جديد - ${data.sector || 'الوايت ليست'}`)
     .setColor(0xF1C40F)
-    .addFields(
+    .setTimestamp();
+
+  if (data.rdm) {
+    // أسئلة الوايت ليست
+    embed.addFields(
       { name: '👤 Discord Name', value: data.discordName || 'غير متوفر', inline: true },
       { name: '🆔 Discord ID', value: discordId, inline: true },
       { name: '1️⃣ معنى RDM ومثال:', value: data.rdm || 'غير متوفر' },
@@ -90,9 +94,20 @@ app.post('/api/apply-whitelist', async (req, res) => {
       { name: '5️⃣ استخدام ديسكورد (Meta Gaming):', value: data.metaGaming || 'غير متوفر' },
       { name: '6️⃣ فرض الفعل (Power Gaming):', value: data.powerGaming || 'غير متوفر' },
       { name: '7️⃣ استفزاز الشرطة (Cop Baiting):', value: data.copBaiting || 'غير متوفر' }
-    )
-    .setFooter({ text: `Discord ID: ${discordId} | قم بالرد مباشرة بالسبب في الروم المخصصة` })
-    .setTimestamp();
+    );
+  } else {
+    // أسئلة القطاعات الأخرى (الإسعاف، وزارة العدل، إلخ)
+    embed.addFields(
+      { name: '👤 الاسم الكامل:', value: data.name || 'غير متوفر', inline: true },
+      { name: '👤 Discord Name:', value: data.discordName || 'غير متوفر', inline: true },
+      { name: '🆔 Discord ID:', value: discordId, inline: true },
+      { name: '1️⃣ التواجد اليومي:', value: data.q1 || 'غير متوفر' },
+      { name: '2️⃣ الشخصيات الأخرى والوظائف:', value: data.q2 || 'غير متوفر' },
+      { name: '3️⃣ الخبرات السابقة:', value: data.q3 || 'غير متوفر' }
+    );
+  }
+
+  embed.setFooter({ text: `Discord ID: ${discordId} | قم بالرد مباشرة بالسبب في الروم المخصصة` });
 
   // القائمة المنسدلة للتحكم في القرار من قبل الإدارة
   const row = new ActionRowBuilder().addComponents(

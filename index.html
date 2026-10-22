@@ -27,6 +27,63 @@
       direction: rtl;
     }
 
+    /* 🔔 نظام التنبيهات والأشعارات الذهبية المخصصة (Custom Toast System) */
+    #toast-container {
+      position: fixed;
+      top: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+      width: 90%;
+      max-width: 480px;
+    }
+
+    .custom-toast {
+      background: rgba(15, 18, 26, 0.95);
+      border: 1px solid var(--gold-main);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold-glow);
+      border-radius: 16px;
+      padding: 15px 20px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      pointer-events: auto;
+      animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      backdrop-filter: blur(15px);
+    }
+
+    .custom-toast.error {
+      border-color: var(--red-alert);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(239, 68, 68, 0.4);
+    }
+
+    .custom-toast.info {
+      border-color: var(--cyan-main);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(2, 132, 199, 0.4);
+    }
+
+    .toast-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .toast-content { display: flex; flex-direction: column; text-align: right; }
+    .toast-title { font-weight: 800; font-size: 0.95rem; color: var(--gold-main); margin-bottom: 2px; }
+    .custom-toast.error .toast-title { color: var(--red-alert); }
+    .custom-toast.info .toast-title { color: var(--cyan-main); }
+    .toast-desc { font-size: 0.85rem; color: #cbd5e1; line-height: 1.4; }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(-20px) scale(0.95); }
+    }
+
     #ip-ban-overlay {
       display: none;
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -294,6 +351,9 @@
 </head>
 <body>
 
+  <!-- حاوية الإشعارات والتنبيهات المخصصة -->
+  <div id="toast-container"></div>
+
   <div id="ip-ban-overlay">
     <div class="ban-card">
       <h1 style="color:var(--red-alert); font-size:2.2rem; margin-bottom:15px;">🚫 تم حظرك نهائياً من الموقع</h1>
@@ -458,9 +518,9 @@
     <!-- قوانين الشرطة -->
     <div id="cat-police" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الالتزام بالأوامر والتعليمات القيادية</span><span>▼</span></div><div class="accordion-body">يجب على رجل الشرطة الالتزام بالتسلسل القيادي وتنفيذ الأوامر الصادرة من الرتب الأعلى.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. الاستخدام المتدرج للقوة</span><span>▼</span></div><div class="accordion-body">يمنع إطلاق النار المباشر إلا في حالات الخطر المباشر على الحياة أو بعد التدرج في استخدام أدوات السيطرة (الصاعق الكهربائي / الغاز / الطلقات التحذيرية).</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. الاستخدام المتدرج للقوة</span><span>▼</span></div><div class="accordion-body">يمنع إطلاق النار المباشر إلا في حالات الخطر المباشر على الحياة أو بعد التدرج في استخدام أدوات السيطرة.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>03. الالتزام بالزي والراديو الرسمي</span><span>▼</span></div><div class="accordion-body">يجب التواجد بالزي المحدد لرتبتك والتواجد الدائم في موجة الراديو المخصصة للشرطة أثناء الخدمة.</div></div>
-      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. حقوق المتهم وقراءة اللائحة</span><span>▼</span></div><div class="accordion-body">يجب قراءة الحقوق للمتهم عند إلقاء القبض عليه والتعامل معه بمهنية عالية دون تجاوز لفظي أو جسدي.</div></div>
+      <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. حقوق المتهم وقراءة اللائحة</span><span>▼</span></div><div class="accordion-body">يجب قراءة الحقوق للمتهم عند إلقاء القبض عليه والتعامل معه بمهنية عالية.</div></div>
     </div>
 
     <!-- قواعد الشخصيات الكاملة -->
@@ -588,14 +648,36 @@
     let globalDiscordUser = null;
     let sectorSettings = { police: true, whitelist: true, ems: true, justice: true };
 
+    // 🔔 دالة إظهار التنبيهات والأشعارات الفاخرة بدلاً من alert العادي
+    function showToast(title, desc, type = 'gold', icon = '👑') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `custom-toast ${type}`;
+      
+      toast.innerHTML = `
+        <div class="toast-icon">${icon}</div>
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-desc">${desc}</div>
+        </div>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'toastOut 0.4s ease forwards';
+        setTimeout(() => toast.remove(), 400);
+      }, 4500);
+    }
+
     async function loadSectorSettings() {
       try {
         const res = await fetch(`${botApiBaseUrl}/api/settings`);
         const data = await res.json();
-        sectorSettings = data;
+        sectorSettings = data.settings || data;
         updateApplyButtonsUI();
       } catch (e) {
-        console.log("تعذر جلب حالات التقديم، سيتم اعتماد الوضع الفعال.");
+        console.log("تعذر جلب حالات التقديم.");
       }
     }
 
@@ -623,6 +705,70 @@
       }
     }
 
+    // 🔑 إصلاح ثبات تسجيل الدخول بحساب ديسكورد
+    async function initAuthAndTelemetry() {
+      checkBanOnLoad();
+
+      let accessToken = null;
+      if (window.location.hash.includes('access_token')) {
+        const hashParams = new URLSearchParams(window.location.hash.slice(1));
+        accessToken = hashParams.get('access_token');
+        if (accessToken) {
+          localStorage.setItem('t77_discord_token', accessToken);
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      } else {
+        accessToken = localStorage.getItem('t77_discord_token');
+      }
+
+      if (accessToken) {
+        try {
+          const res = await fetch('https://discord.com/api/users/@me', {
+            headers: { authorization: `Bearer ${accessToken}` }
+          });
+          const user = await res.json();
+
+          if (user && user.id) {
+            globalDiscordUser = user;
+            const avatarUrl = user.avatar 
+              ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` 
+              : 'https://cdn.discordapp.com/embed/avatars/0.png';
+
+            const authContainer = document.getElementById('auth-container');
+            if (authContainer) {
+              authContainer.innerHTML = `
+                <div class="user-profile-badge">
+                  <img src="${avatarUrl}" alt="Avatar">
+                  <span>${user.username}</span>
+                  <button class="logout-btn" onclick="logoutDiscord()">خروج</button>
+                </div>
+              `;
+            }
+
+            const heroBox = document.getElementById('hero-action-box');
+            if(heroBox) {
+              heroBox.innerHTML = `<p style="color:var(--gold-main); font-weight:bold; font-size:1.1rem; border:1px solid var(--gold-main); padding:8px 25px; border-radius:25px; background:rgba(245,158,11,0.1);">مرحباً بك مجدداً، ${user.username} 👋</p>`;
+            }
+
+            showToast("تم ربط الحساب بنجاح", `مرحباً بك يا ${user.username}، تم تسجيل دخولك وتوثيق حسابك بالموقع!`, "gold", "✅");
+
+          } else {
+            logoutDiscord();
+          }
+        } catch (e) {
+          console.error("خطأ في جلب بيانات الحساب:", e);
+        }
+      }
+
+      loadSectorSettings();
+    }
+
+    function logoutDiscord() {
+      localStorage.removeItem('t77_discord_token');
+      showToast("تسجيل الخروج", "تم تسجيل الخروج من حساب ديسكورد بنجاح.", "info", "ℹ️");
+      setTimeout(() => window.location.reload(), 1000);
+    }
+
     function checkForProfanityAndBan(textString) {
       const lowerText = textString.toLowerCase();
       for (let word of bannedWords) {
@@ -648,6 +794,11 @@
     }
 
     async function redirectToRulesForSector(sectorName) {
+      if (!globalDiscordUser) {
+        showToast("يرجى تسجيل الدخول", "يجب عليك تسجيل الدخول بحساب ديسكورد أولاً قبل البدء في التقديم.", "error", "⚠️");
+        return;
+      }
+
       currentSector = sectorName;
       switchPage('rules-page', document.getElementById('nav-btn-rules'));
 
@@ -667,6 +818,7 @@
         switchCat('cat-general', document.getElementById('btn-cat-general'));
       }
 
+      showToast("الانتقال للقوانين", `يرجى قراءة القوانين بعناية قبل بدء تقديم (${sectorName}).`, "info", "📖");
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -693,10 +845,10 @@
           <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
 
           <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
-          <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required>
+          <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required readonly>
 
           <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
-          <input type="text" id="ex-id" class="apply-input" value="${idVal}" required>
+          <input type="text" id="ex-id" class="apply-input" value="${idVal}" required readonly>
 
           <label style="font-weight:bold; color:#e2e8f0;">1. ما هي ساعات تواجدك اليومية في المدينة؟</label>
           <input type="text" id="ex-pol-q1" class="apply-input" required placeholder="مثال: من 5 مساءً إلى 11 مساءً">
@@ -718,10 +870,10 @@
           <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
 
           <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
-          <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required>
+          <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required readonly>
 
           <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
-          <input type="text" id="ex-id" class="apply-input" value="${idVal}" required>
+          <input type="text" id="ex-id" class="apply-input" value="${idVal}" required readonly>
 
           <label style="font-weight:bold; color:#e2e8f0;">1. ما معنى RDM؟ اذكر مثالاً:</label>
           <textarea id="ex-q1" class="apply-input" rows="3" required></textarea>
@@ -752,10 +904,10 @@
           <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
 
           <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
-          <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required>
+          <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required readonly>
 
           <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
-          <input type="text" id="ex-id" class="apply-input" value="${idVal}" required>
+          <input type="text" id="ex-id" class="apply-input" value="${idVal}" required readonly>
 
           <label style="font-weight:bold; color:#e2e8f0;">1. التواجد والخبرات:</label>
           <textarea id="ex-gen-q1" class="apply-input" rows="3" required></textarea>
@@ -770,6 +922,7 @@
       document.getElementById('exam-title').innerText = `استمارة تقديم: ${currentSector}`;
 
       isExamActive = true;
+      showToast("وضع الشاشة الكاملة", "تم تفعيل وضع الشاشة الكاملة، يرجى عدم الخروج لحين إكمال التقديم.", "info", "🖥️");
     }
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);
@@ -780,6 +933,7 @@
         isExamActive = false;
         document.getElementById('exam-box-content').style.display = 'none';
         document.getElementById('rejection-box').style.display = 'block';
+        showToast("إلغاء التقديم", "تم الخروج من وضع الشاشة الكاملة وبالتالي تم إلغاء الاختبار تلقائياً.", "error", "❌");
       }
     }
 
@@ -836,24 +990,24 @@
         const result = await response.json();
 
         if (!response.ok) {
-          alert(result.error || "حدث خطأ أثناء إرسال التقديم.");
+          showToast("تعذر الإرسال", result.error || "حدث خطأ أثناء معالجة تقديمك.", "error", "🚨");
           return;
         }
 
-        alert(`تم إرسال تقديمك بقطاع (${currentSector}) بنجاح إلى الإدارة!`);
+        showToast("تم إرسال التقديم بنجاح! 🎉", `تم إرسال استمارة تقديمك بقطاع (${currentSector}) بنجاح لروم الديسكورد.`, "gold", "✨");
+        
         if (document.exitFullscreen) document.exitFullscreen();
         document.getElementById('fullscreen-exam-overlay').style.display = 'none';
         isExamActive = false;
         e.target.reset();
 
       } catch(err) {
-        alert("تعذر الاتصال بسيرفر البوت لإرسال التقديم.");
+        showToast("خطأ بالاتصال", "تعذر الاتصال بسيرفر البوت لإرسال التقديم.", "error", "📡");
       }
     }
 
     window.addEventListener('load', () => {
-      checkBanOnLoad();
-      loadSectorSettings();
+      initAuthAndTelemetry();
     });
 
     function switchPage(pId, btn) {

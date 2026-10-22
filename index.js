@@ -39,7 +39,8 @@ const client = new Client({
     ]
 });
 
-const TARGET_CHANNEL_ID = '1562484970751270994'; // روم استقبال التقديمات
+// 🎯 أيدي روم التقديمات الجديد والمحدث
+const TARGET_CHANNEL_ID = '1558946684954742915';
 
 // نقطة اختبار عمل السيرفر
 app.get('/', (req, res) => {

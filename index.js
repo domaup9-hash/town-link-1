@@ -51,7 +51,6 @@ const client = new Client({
     ]
 });
 
-// 🎯 خريطة رومات القطاعات (تم تحديث أيدي روم الشرطة)
 const CHANNELS = {
     'الشرطة': '1563198130256879698',
     'الوايت ليست': '1558946684954742915',
@@ -100,15 +99,20 @@ app.post('/api/apply-whitelist', async (req, res) => {
             return res.status(400).json({ error: `عذراً يا غالي، تقديم (${sector}) مقفول حالياً من الإدارة.` });
         }
 
-        // 🛑 منع التقديم المكرر إذا كان مقبولاً أو لديه طلب قيد المراجعة
+        // 🛑 المنطق الجديد لمنع/السماح بالتقديم حسب الحالة:
         if (db.applications[discordId]) {
             const currentStatus = db.applications[discordId].status;
+            
             if (currentStatus === 'pending') {
-                return res.status(400).json({ error: 'يا بطل، أنت عندك طلب تقديم قيد المراجعة بالفعل عند الإدارة! استنى القرار.' });
+                return res.status(400).json({ error: 'يا بطل، أنت عندك طلب تقديم قيد المراجعة بالفعل! استنى قرار الإدارة.' });
             }
             if (currentStatus === 'accepted') {
-                return res.status(400).json({ error: 'ألف مبروك! أنت مقبول بالفعل في السيرفر ومش محتاج تقدم تاني.' });
+                return res.status(400).json({ error: 'ألف مبروك! أنت مقبول بالفعل في السيرفر ولا يمكنك التقديم مجدداً.' });
             }
+            if (currentStatus === 'rejected') {
+                return res.status(400).json({ error: 'عذراً يا غالي، لقد تم رفض تقديمك سابقاً ولا يمكنك التقديم مرة أخرى.' });
+            }
+            // لو كانت الحالية 'retest' يمر عادي ويسمح له بالتقديم مرة أخرى!
         }
 
         const targetChannelId = CHANNELS[sector] || CHANNELS['الوايت ليست'];
@@ -178,7 +182,7 @@ app.post('/api/apply-whitelist', async (req, res) => {
     }
 });
 
-// 📩 التعامل مع الأزرار وإرسال الرسائل على الخاص (DM) بالطريقة المصرية
+// التعامل مع أزرار القبول والرفض وإعادة الاختبار
 client.on('interactionCreate', async interaction => {
     if (!interaction.isButton()) return;
 
@@ -221,7 +225,7 @@ client.on('interactionCreate', async interaction => {
         if (targetUser) {
             const rejectEmbed = new EmbedBuilder()
                 .setTitle(`ملاحظة بشأن تقديمك في TOWN 77`)
-                .setDescription(`للأسف يا غالي، تم رفض تقديمك بقطاع **(${userApp.sector})** في الوقت الحالي.\n\nمتزعلش نفسك، راجع القوانين كويس وتقدر تحاول تقدم تاني لما يفتح التقديم! بالتوفيق يا بطل ❤️`)
+                .setDescription(`للأسف يا غالي، تم رفض تقديمك بقطاع **(${userApp.sector})** في الوقت الحالي.\n\nمتزعلش نفسك، راجع القوانين كويس. نتمنى لك التوفيق دائماً! ❤️`)
                 .setColor(0xef4444)
                 .setFooter({ text: 'TOWN 77 Official Management' })
                 .setTimestamp();
@@ -242,7 +246,7 @@ client.on('interactionCreate', async interaction => {
         if (targetUser) {
             const retestEmbed = new EmbedBuilder()
                 .setTitle(`🔄 إعادة اختبار - TOWN 77`)
-                .setDescription(`يا مرحب بيك! 👋\nالإدارة حولت تقديمك لقطاع **(${userApp.sector})** لـ **(إعادة اختبار)**.\n\nيرجى التوجه لغرفة الانتظار في ديسكورد السيرفر والتواصل مع فريق الدعم الفني لإعادة الاختبار. بالتوفيق! 🤝`)
+                .setDescription(`يا مرحب بيك! 👋\nالإدارة حولت تقديمك لقطاع **(${userApp.sector})** لـ **(إعادة اختبار)**.\n\nيمكنك دخول الموقع والتقديم مرة أخرى أو التواصل مع الدعم الفني لإعادة الاختبار. بالتوفيق! 🤝`)
                 .setColor(0x3b82f6)
                 .setFooter({ text: 'TOWN 77 Official Management' })
                 .setTimestamp();

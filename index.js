@@ -94,12 +94,20 @@ app.post('/api/apply-whitelist', async (req, res) => {
             'وزارة العدل': 'justice'
         };
         const key = sectorKeyMap[sector] || 'whitelist';
+        
         if (db.settings[key] === false) {
-            return res.status(400).json({ error: `عذراً، تقديم (${sector}) مغلق حالياً من قبل الإدارة.` });
+            return res.status(400).json({ error: `عذراً يا غالي، تقديم (${sector}) مقفول حالياً من الإدارة.` });
         }
 
-        if (db.applications[discordId] && db.applications[discordId].status === 'pending') {
-            return res.status(400).json({ error: 'لديك طلب تقديم قيد المراجعة بالفعل في السيرفر.' });
+        // 🛑 منع التقديم المكرر إذا كان مقبولاً أو لديه طلب قيد المراجعة
+        if (db.applications[discordId]) {
+            const currentStatus = db.applications[discordId].status;
+            if (currentStatus === 'pending') {
+                return res.status(400).json({ error: 'يا بطل، أنت عندك طلب تقديم قيد المراجعة بالفعل عند الإدارة! استنى القرار.' });
+            }
+            if (currentStatus === 'accepted') {
+                return res.status(400).json({ error: 'ألف مبروك! أنت مقبول بالفعل في السيرفر ومش محتاج تقدم تاني.' });
+            }
         }
 
         const targetChannelId = CHANNELS[sector] || CHANNELS['الوايت ليست'];
@@ -169,7 +177,7 @@ app.post('/api/apply-whitelist', async (req, res) => {
     }
 });
 
-// التعامل مع الأزرار في ديسكورد
+// 📩 التعامل مع الأزرار وإرسال الرسائل على الخاص (DM) بالطريقة المصرية
 client.on('interactionCreate', async interaction => {
     if (!interaction.isButton()) return;
 
@@ -181,18 +189,71 @@ client.on('interactionCreate', async interaction => {
         return interaction.reply({ content: '❌ لم يتم العثور على بيانات هذا الطلب.', ephemeral: true });
     }
 
+    const targetUser = await client.users.fetch(discordId).catch(() => null);
+    let dmSentStatus = "";
+
     if (action === 'accept') {
         userApp.status = 'accepted';
         saveDb(db);
-        await interaction.update({ content: `✅ **تم قبول الطلب بواسطة** ${interaction.user.tag}`, components: [] });
+
+        if (targetUser) {
+            const acceptEmbed = new EmbedBuilder()
+                .setTitle(`🎉 تم قبولك في TOWN 77 CFW!`)
+                .setDescription(`ألف مبروك يا بطل! ❤️\nتم قبول تقديمك رسمياً بقطاع **(${userApp.sector})**.\n\nجهز نفسك ونورنا في السيرفر، ومستنيين منك أحلى رول بلاي يا وحش! 🚀`)
+                .setColor(0x22c55e)
+                .setFooter({ text: 'TOWN 77 Official Management' })
+                .setTimestamp();
+
+            await targetUser.send({ embeds: [acceptEmbed] }).then(() => {
+                dmSentStatus = "\n📩 *(تم إرسال رسالة القبول للخاص بنجاح)*";
+            }).catch(() => {
+                dmSentStatus = "\n⚠️ *(تعذر إرسال الخاص لأن المتقدم قافل الـ DMs)*";
+            });
+        }
+
+        await interaction.update({ content: `✅ **تم قبول الطلب بواسطة** ${interaction.user.tag} ${dmSentStatus}`, components: [] });
+
     } else if (action === 'reject') {
         userApp.status = 'rejected';
         saveDb(db);
-        await interaction.update({ content: `❌ **تم رفض الطلب بواسطة** ${interaction.user.tag}`, components: [] });
+
+        if (targetUser) {
+            const rejectEmbed = new EmbedBuilder()
+                .setTitle(`ملاحظة بشأن تقديمك في TOWN 77`)
+                .setDescription(`للأسف يا غالي، تم رفض تقديمك بقطاع **(${userApp.sector})** في الوقت الحالي.\n\nمتزعلش نفسك، راجع القوانين كويس وتقدر تحاول تقدم تاني لما يفتح التقديم! بالتوفيق يا بطل ❤️`)
+                .setColor(0xef4444)
+                .setFooter({ text: 'TOWN 77 Official Management' })
+                .setTimestamp();
+
+            await targetUser.send({ embeds: [rejectEmbed] }).then(() => {
+                dmSentStatus = "\n📩 *(تم إرسال رسالة الرفض للخاص بنجاح)*";
+            }).catch(() => {
+                dmSentStatus = "\n⚠️ *(تعذر إرسال الخاص لأن المتقدم قافل الـ DMs)*";
+            });
+        }
+
+        await interaction.update({ content: `❌ **تم رفض الطلب بواسطة** ${interaction.user.tag} ${dmSentStatus}`, components: [] });
+
     } else if (action === 'retest') {
         userApp.status = 'retest';
         saveDb(db);
-        await interaction.update({ content: `🔄 **تم تحويل المتقدم لإعادة الاختبار بواسطة** ${interaction.user.tag}`, components: [] });
+
+        if (targetUser) {
+            const retestEmbed = new EmbedBuilder()
+                .setTitle(`🔄 إعادة اختبار - TOWN 77`)
+                .setDescription(`يا مرحب بيك! 👋\nالإدارة حولت تقديمك لقطاع **(${userApp.sector})** لـ **(إعادة اختبار)**.\n\nيرجى التوجه لغرفة الانتظار في ديسكورد السيرفر والتواصل مع فريق الدعم الفني لإعادة الاختبار. بالتوفيق! 🤝`)
+                .setColor(0x3b82f6)
+                .setFooter({ text: 'TOWN 77 Official Management' })
+                .setTimestamp();
+
+            await targetUser.send({ embeds: [retestEmbed] }).then(() => {
+                dmSentStatus = "\n📩 *(تم إرسال طلب إعادة الاختبار للخاص بنجاح)*";
+            }).catch(() => {
+                dmSentStatus = "\n⚠️ *(تعذر إرسال الخاص لأن المتقدم قافل الـ DMs)*";
+            });
+        }
+
+        await interaction.update({ content: `🔄 **تم تحويل المتقدم لإعادة الاختبار بواسطة** ${interaction.user.tag} ${dmSentStatus}`, components: [] });
     }
 });
 
@@ -200,7 +261,6 @@ client.on('interactionCreate', async interaction => {
 client.on('messageCreate', async message => {
     if (message.author.bot) return;
 
-    // التحقق من الأيدي الخص بك
     if (message.author.id !== OWNER_DISCORD_ID) return;
 
     const content = message.content.trim();

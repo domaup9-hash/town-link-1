@@ -282,13 +282,6 @@
 
     .btn-apply-toggle:hover { background: #0284c7; box-shadow: 0 0 15px rgba(2, 132, 199, 0.4); }
 
-    .btn-apply-toggle.disabled {
-      background: #334155 !important;
-      color: #94a3b8 !important;
-      cursor: not-allowed !important;
-      box-shadow: none !important;
-    }
-
     .btn-submit-action {
       background: #0284c7;
       color: #ffffff;
@@ -557,50 +550,46 @@
     <div class="banner-card">
       <span class="banner-badge">OFFICIAL RECRUITMENT PORTAL</span>
       <h1 class="banner-title">بوابة التوظيف الرسمية</h1>
-      <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء. يمكنك التقديم عند فتح القطاع من قبل الإدارة.</p>
+      <p style="color:#94a3b8; font-size:0.9rem;">اختر القطاع للبدء.</p>
     </div>
 
-    <!-- 🚓 تقديم الشرطة -->
     <div class="apply-card" style="border:1px solid #0284c7;">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
           <span style="color:#0284c7; font-size:0.8rem; font-weight:bold;">الأمن العام</span>
           <h2 style="color:#ffffff; margin-top:2px;">تقديم مديرية الأمن والشرطة 🚓</h2>
         </div>
-        <button id="btn-sector-police" class="btn-apply-toggle" style="background:#0284c7; color:#fff;" onclick="redirectToRulesForSector('الشرطة')">تقديم ↗</button>
+        <button class="btn-apply-toggle" style="background:#0284c7; color:#fff;" onclick="redirectToRulesForSector('الشرطة')">تقديم ↗</button>
       </div>
     </div>
 
-    <!-- 📜 تقديم الوايت ليست -->
     <div class="apply-card" style="border:1px solid var(--gold-main);">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
           <span style="color:var(--gold-main); font-size:0.8rem; font-weight:bold;">المنفذ الرسمي</span>
           <h2 style="color:#ffffff; margin-top:2px;">تقديم الوايت ليست (Whitelist Exam)</h2>
         </div>
-        <button id="btn-sector-whitelist" class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="redirectToRulesForSector('الوايت ليست')">تقديم ↗</button>
+        <button class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="redirectToRulesForSector('الوايت ليست')">تقديم ↗</button>
       </div>
     </div>
 
-    <!-- 🚑 تقديم المستشفى -->
     <div class="apply-card">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
           <span style="color:#0284c7; font-size:0.8rem; font-weight:bold;">المستشفى</span>
           <h2 style="color:#ffffff; margin-top:2px;">تقديم مستشفى فيسبوتشي 🚑</h2>
         </div>
-        <button id="btn-sector-ems" class="btn-apply-toggle" onclick="redirectToRulesForSector('مستشفى فيسبوتشي')">تقديم ↗</button>
+        <button class="btn-apply-toggle" onclick="redirectToRulesForSector('مستشفى فيسبوتشي')">تقديم ↗</button>
       </div>
     </div>
 
-    <!-- ⚖️ تقديم العدل -->
     <div class="apply-card">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
           <span style="color:var(--gold-main); font-size:0.8rem; font-weight:bold;">القضاء والعدل</span>
           <h2 style="color:#ffffff; margin-top:2px;">تقديم وزارة العدل ⚖️</h2>
         </div>
-        <button id="btn-sector-justice" class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="redirectToRulesForSector('وزارة العدل')">تقديم ↗</button>
+        <button class="btn-apply-toggle" style="background:var(--gold-main); color:#000;" onclick="redirectToRulesForSector('وزارة العدل')">تقديم ↗</button>
       </div>
     </div>
   </div>
@@ -628,18 +617,13 @@
   </footer>
 
   <script>
-    const telemetryWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
-    
-    // 🔌 تم ضبط الرابط هنا ليطابق لوحة البانل والبورت 26866 مباشرة
-    const botApiBaseUrl = "http://panel.partner-hosting.com:26866";
+    const discordWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
 
     const bannedWords = ["شراميط", "شرموط", "كس", "زب", "منيوك", "عرص", "قحبة", "طيز", "شخبت", "شخر", "احا", "بضان", "متناك", "خول", "قواد"];
 
     let currentSector = "";
     let isExamActive = false;
-    let userVisitorIp = "غير معروف";
     let globalDiscordUser = null;
-    let sectorSettings = { police: true, whitelist: true, ems: true, justice: true };
 
     function showToast(title, desc, type = 'gold', icon = '👑') {
       const container = document.getElementById('toast-container');
@@ -653,53 +637,14 @@
           <div class="toast-desc">${desc}</div>
         </div>
       `;
-
       container.appendChild(toast);
-
       setTimeout(() => {
         toast.style.animation = 'toastOut 0.4s ease forwards';
         setTimeout(() => toast.remove(), 400);
       }, 4500);
     }
 
-    async function loadSectorSettings() {
-      try {
-        const res = await fetch(`${botApiBaseUrl}/api/settings`);
-        const data = await res.json();
-        sectorSettings = data.settings || data;
-        updateApplyButtonsUI();
-      } catch (e) {
-        console.log("تعذر جلب حالات التقديم.");
-      }
-    }
-
-    function updateApplyButtonsUI() {
-      const map = {
-        'police': 'btn-sector-police',
-        'whitelist': 'btn-sector-whitelist',
-        'ems': 'btn-sector-ems',
-        'justice': 'btn-sector-justice'
-      };
-
-      for (let key in map) {
-        const btn = document.getElementById(map[key]);
-        if (btn) {
-          if (sectorSettings[key] === false) {
-            btn.innerText = "مغلق حالياً 🔒";
-            btn.classList.add('disabled');
-            btn.disabled = true;
-          } else {
-            btn.innerText = "تقديم ↗";
-            btn.classList.remove('disabled');
-            btn.disabled = false;
-          }
-        }
-      }
-    }
-
-    async function initAuthAndTelemetry() {
-      checkBanOnLoad();
-
+    async function initAuth() {
       let accessToken = null;
       if (window.location.hash.includes('access_token')) {
         const hashParams = new URLSearchParams(window.location.hash.slice(1));
@@ -718,7 +663,6 @@
             headers: { authorization: `Bearer ${accessToken}` }
           });
           const user = await res.json();
-
           if (user && user.id) {
             globalDiscordUser = user;
             const avatarUrl = user.avatar 
@@ -735,14 +679,7 @@
                 </div>
               `;
             }
-
-            const heroBox = document.getElementById('hero-action-box');
-            if(heroBox) {
-              heroBox.innerHTML = `<p style="color:var(--gold-main); font-weight:bold; font-size:1.1rem; border:1px solid var(--gold-main); padding:8px 25px; border-radius:25px; background:rgba(245,158,11,0.1);">مرحباً بك مجدداً، ${user.username} 👋</p>`;
-            }
-
-            showToast("تم ربط الحساب بنجاح", `مرحباً بك يا ${user.username}، تم تسجيل دخولك وتوثيق حسابك بالموقع!`, "gold", "✅");
-
+            showToast("تم ربط الحساب بنجاح", `مرحباً بك يا ${user.username}!`, "gold", "✅");
           } else {
             logoutDiscord();
           }
@@ -750,54 +687,33 @@
           console.error("خطأ في جلب بيانات الحساب:", e);
         }
       }
-
-      loadSectorSettings();
     }
 
     function logoutDiscord() {
       localStorage.removeItem('t77_discord_token');
-      showToast("تسجيل الخروج", "تم تسجيل الخروج من حساب ديسكورد بنجاح.", "info", "ℹ️");
-      setTimeout(() => window.location.reload(), 1000);
+      window.location.reload();
     }
 
     function checkForProfanityAndBan(textString) {
       const lowerText = textString.toLowerCase();
       for (let word of bannedWords) {
         if (lowerText.includes(word)) {
-          executeIPBan(word);
+          document.getElementById('ip-ban-overlay').style.display = 'flex';
           return true;
         }
       }
       return false;
     }
 
-    async function executeIPBan(matchedWord) {
-      localStorage.setItem('t77_ip_banned', 'true');
-      document.getElementById('banned-ip-display').innerText = `IP Address: ${userVisitorIp}`;
-      document.getElementById('ip-ban-overlay').style.display = 'flex';
-    }
-
-    function checkBanOnLoad() {
-      if (localStorage.getItem('t77_ip_banned') === 'true') {
-        document.getElementById('banned-ip-display').innerText = `IP Address: ${userVisitorIp}`;
-        document.getElementById('ip-ban-overlay').style.display = 'flex';
-      }
-    }
-
-    async function redirectToRulesForSector(sectorName) {
+    function redirectToRulesForSector(sectorName) {
       if (!globalDiscordUser) {
         showToast("يرجى تسجيل الدخول", "يجب عليك تسجيل الدخول بحساب ديسكورد أولاً قبل البدء في التقديم.", "error", "⚠️");
         return;
       }
-
       currentSector = sectorName;
       switchPage('rules-page', document.getElementById('nav-btn-rules'));
-
-      const applyBanner = document.getElementById('rules-apply-banner');
-      const applyTitle = document.getElementById('apply-banner-title');
-      
-      applyBanner.style.display = 'block';
-      applyTitle.innerText = `📋 قوانين وتعليمات التقديم لـ (${sectorName})`;
+      document.getElementById('rules-apply-banner').style.display = 'block';
+      document.getElementById('apply-banner-title').innerText = `📋 قوانين وتعليمات التقديم لـ (${sectorName})`;
 
       if (sectorName === 'الشرطة') {
         switchCat('cat-police', document.getElementById('btn-cat-police'));
@@ -809,20 +725,12 @@
         switchCat('cat-general', document.getElementById('btn-cat-general'));
       }
 
-      showToast("الانتقال للقوانين", `يرجى قراءة القوانين بعناية قبل بدء تقديم (${sectorName}).`, "info", "📖");
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function launchFullscreenExamFromRules() {
       const elem = document.documentElement;
-
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
-      }
+      if (elem.requestFullscreen) elem.requestFullscreen();
 
       const formContainer = document.getElementById('dynamic-exam-form');
       formContainer.innerHTML = "";
@@ -834,75 +742,54 @@
         formContainer.innerHTML = `
           <label style="font-weight:bold; color:#e2e8f0;">الاسم الكامل:</label>
           <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
-
           <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
           <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required readonly>
-
           <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
           <input type="text" id="ex-id" class="apply-input" value="${idVal}" required readonly>
-
           <label style="font-weight:bold; color:#e2e8f0;">1. ما هي ساعات تواجدك اليومية في المدينة؟</label>
           <input type="text" id="ex-pol-q1" class="apply-input" required placeholder="مثال: من 5 مساءً إلى 11 مساءً">
-
-          <label style="font-weight:bold; color:#e2e8f0;">2. هل لديك شخصية في قطاع آخر أو عصابة؟ (اذكر التفاصيل):</label>
-          <input type="text" id="ex-pol-q2" class="apply-input" required placeholder="اكتب تفاصيل شخصيتك الأخرى إن وجدت...">
-
-          <label style="font-weight:bold; color:#e2e8f0;">3. هل لديك خبرات سابقة في جهاز الشرطة؟:</label>
-          <textarea id="ex-pol-q3" class="apply-input" rows="3" required placeholder="اكتب خبراتك وتربيتك السابقة..."></textarea>
-
+          <label style="font-weight:bold; color:#e2e8f0;">2. هل لديك شخصية في قطاع آخر أو عصابة؟:</label>
+          <input type="text" id="ex-pol-q2" class="apply-input" required placeholder="اكتب التفاصيل...">
+          <label style="font-weight:bold; color:#e2e8f0;">3. خبراتك السابقة في الشرطة:</label>
+          <textarea id="ex-pol-q3" class="apply-input" rows="3" required></textarea>
           <label style="font-weight:bold; color:#e2e8f0;">4. كيف تتصرف إذا شاهدت زميلاً لك يخالف القوانين؟</label>
-          <textarea id="ex-pol-q4" class="apply-input" rows="3" required placeholder="اشرح تصرفك القانوني..."></textarea>
-
+          <textarea id="ex-pol-q4" class="apply-input" rows="3" required></textarea>
           <button type="submit" class="btn-submit-action" style="background:#0284c7;">إرسال تقديم الشرطة ↗</button>
         `;
       } else if (currentSector === 'الوايت ليست') {
         formContainer.innerHTML = `
           <label style="font-weight:bold; color:#e2e8f0;">الاسم الكامل:</label>
           <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
-
           <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
           <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required readonly>
-
           <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
           <input type="text" id="ex-id" class="apply-input" value="${idVal}" required readonly>
-
           <label style="font-weight:bold; color:#e2e8f0;">1. ما معنى RDM؟ اذكر مثالاً:</label>
           <textarea id="ex-q1" class="apply-input" rows="3" required></textarea>
-
           <label style="font-weight:bold; color:#e2e8f0;">2. ما معنى VDM؟:</label>
           <textarea id="ex-q2" class="apply-input" rows="3" required></textarea>
-
           <label style="font-weight:bold; color:#e2e8f0;">3. ما معنى Fear RP؟:</label>
           <textarea id="ex-q3" class="apply-input" rows="3" required></textarea>
-
           <label style="font-weight:bold; color:#e2e8f0;">4. ما معنى NLR؟:</label>
           <textarea id="ex-q4" class="apply-input" rows="3" required></textarea>
-
           <label style="font-weight:bold; color:#e2e8f0;">5. ما معنى Meta Gaming؟:</label>
           <textarea id="ex-q5" class="apply-input" rows="3" required></textarea>
-
           <label style="font-weight:bold; color:#e2e8f0;">6. ما معنى Power Gaming؟:</label>
           <textarea id="ex-q6" class="apply-input" rows="3" required></textarea>
-
           <label style="font-weight:bold; color:#e2e8f0;">7. ما معنى Cop Baiting؟:</label>
           <textarea id="ex-q7" class="apply-input" rows="3" required></textarea>
-
           <button type="submit" class="btn-submit-action">إرسال تقديم الوايت ليست ↗</button>
         `;
       } else {
         formContainer.innerHTML = `
           <label style="font-weight:bold; color:#e2e8f0;">الاسم الكامل:</label>
           <input type="text" id="ex-name" class="apply-input" required placeholder="أدخل اسمك الثلاثي...">
-
           <label style="font-weight:bold; color:#e2e8f0;">Discord Username:</label>
           <input type="text" id="ex-user" class="apply-input" value="${usernameVal}" required readonly>
-
           <label style="font-weight:bold; color:#e2e8f0;">Discord ID:</label>
           <input type="text" id="ex-id" class="apply-input" value="${idVal}" required readonly>
-
           <label style="font-weight:bold; color:#e2e8f0;">1. التواجد والخبرات:</label>
           <textarea id="ex-gen-q1" class="apply-input" rows="3" required></textarea>
-
           <button type="submit" class="btn-submit-action">إرسال التقديم ↗</button>
         `;
       }
@@ -911,22 +798,16 @@
       document.getElementById('exam-box-content').style.display = 'block';
       document.getElementById('rejection-box').style.display = 'none';
       document.getElementById('exam-title').innerText = `استمارة تقديم: ${currentSector}`;
-
       isExamActive = true;
-      showToast("وضع الشاشة الكاملة", "تم تفعيل وضع الشاشة الكاملة، يرجى عدم الخروج لحين إكمال التقديم.", "info", "🖥️");
     }
 
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-
-    function handleFullscreenChange() {
-      const isFullscreenNow = document.fullscreenElement || document.webkitFullscreenElement;
-      if (!isFullscreenNow && isExamActive) {
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement && isExamActive) {
         isExamActive = false;
         document.getElementById('exam-box-content').style.display = 'none';
         document.getElementById('rejection-box').style.display = 'block';
-        showToast("إلغاء التقديم", "تم الخروج من وضع الشاشة الكاملة وبالتالي تم إلغاء الاختبار تلقائياً.", "error", "❌");
       }
-    }
+    });
 
     function retryExam() {
       document.getElementById('fullscreen-exam-overlay').style.display = 'none';
@@ -941,65 +822,63 @@
       let userVal = document.getElementById('ex-user').value;
       let idVal = document.getElementById('ex-id').value;
 
-      let fullTextToCheck = nameVal + " " + userVal + " ";
-      let formElements = e.target.querySelectorAll('input, textarea');
-      formElements.forEach(el => fullTextToCheck += el.value + " ");
+      let fullText = nameVal + " " + userVal + " ";
+      e.target.querySelectorAll('input, textarea').forEach(el => fullText += el.value + " ");
+      if (checkForProfanityAndBan(fullText)) return;
 
-      if (checkForProfanityAndBan(fullTextToCheck)) return;
-
-      let payloadData = {
-        sector: currentSector,
-        discordName: userVal,
-        discordId: idVal,
-        name: nameVal
-      };
-
+      let descText = `👤 **الاسم:** \`${nameVal}\`\n💬 **ديسكورد:** \`${userVal}\` (<@${idVal}>)\n🆔 **الأيدي:** \`${idVal}\``;
+      
+      let fields = [];
       if (currentSector === 'الشرطة') {
-        payloadData.q1 = document.getElementById('ex-pol-q1').value;
-        payloadData.q2 = document.getElementById('ex-pol-q2').value;
-        payloadData.q3 = document.getElementById('ex-pol-q3').value;
-        payloadData.q4 = document.getElementById('ex-pol-q4').value;
+        fields.push({ name: '1. ساعات التواجد:', value: document.getElementById('ex-pol-q1').value });
+        fields.push({ name: '2. شخصيات أخرى:', value: document.getElementById('ex-pol-q2').value });
+        fields.push({ name: '3. الخبرات السابقة:', value: document.getElementById('ex-pol-q3').value });
+        fields.push({ name: '4. التصرف القانوني:', value: document.getElementById('ex-pol-q4').value });
       } else if (currentSector === 'الوايت ليست') {
-        payloadData.rdm = document.getElementById('ex-q1').value;
-        payloadData.vdm = document.getElementById('ex-q2').value;
-        payloadData.fearRp = document.getElementById('ex-q3').value;
-        payloadData.nlr = document.getElementById('ex-q4').value;
-        payloadData.metaGaming = document.getElementById('ex-q5').value;
-        payloadData.powerGaming = document.getElementById('ex-q6').value;
-        payloadData.copBaiting = document.getElementById('ex-q7').value;
+        fields.push({ name: '1. RDM:', value: document.getElementById('ex-q1').value });
+        fields.push({ name: '2. VDM:', value: document.getElementById('ex-q2').value });
+        fields.push({ name: '3. Fear RP:', value: document.getElementById('ex-q3').value });
+        fields.push({ name: '4. NLR:', value: document.getElementById('ex-q4').value });
+        fields.push({ name: '5. Meta Gaming:', value: document.getElementById('ex-q5').value });
+        fields.push({ name: '6. Power Gaming:', value: document.getElementById('ex-q6').value });
+        fields.push({ name: '7. Cop Baiting:', value: document.getElementById('ex-q7').value });
       } else {
-        payloadData.q1 = document.getElementById('ex-gen-q1')?.value || "تقديم عام";
+        fields.push({ name: 'التفاصيل:', value: document.getElementById('ex-gen-q1')?.value || "تقديم عام" });
       }
 
+      const discordPayload = {
+        content: `<@&1558946684954742915> طلب تقديم جديد في قطاع **(${currentSector})**`,
+        embeds: [{
+          title: `📋 استمارة تقديم: ${currentSector}`,
+          color: 15844367,
+          description: descText,
+          fields: fields,
+          timestamp: new Date().toISOString()
+        }]
+      };
+
       try {
-        const response = await fetch(`${botApiBaseUrl}/api/apply-whitelist`, {
+        const response = await fetch(discordWebhookUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payloadData)
+          body: JSON.stringify(discordPayload)
         });
 
-        const result = await response.json();
-
-        if (!response.ok) {
-          showToast("تعذر الإرسال", result.error || "حدث خطأ أثناء معالجة تقديمك.", "error", "🚨");
-          return;
+        if (response.ok) {
+          showToast("تم إرسال التقديم بنجاح! 🎉", "تم إرسال استمارة تقديمك بنجاح لروم الديسكورد.", "gold", "✨");
+          if (document.exitFullscreen) document.exitFullscreen();
+          document.getElementById('fullscreen-exam-overlay').style.display = 'none';
+          isExamActive = false;
+          e.target.reset();
+        } else {
+          showToast("خطأ", "تعذر الإرسال، حاول مرة أخرى.", "error", "🚨");
         }
-
-        showToast("تم إرسال التقديم بنجاح! 🎉", `تم إرسال استمارة تقديمك بقطاع (${currentSector}) بنجاح لروم الديسكورد.`, "gold", "✨");
-        
-        if (document.exitFullscreen) document.exitFullscreen();
-        document.getElementById('fullscreen-exam-overlay').style.display = 'none';
-        isExamActive = false;
-        e.target.reset();
-
-      } catch(err) {
-        showToast("خطأ بالاتصال", "تعذر الاتصال بسيرفر البوت لإرسال التقديم.", "error", "📡");
+      } catch (err) {
+        showToast("خطأ بالاتصال", "تعذر الاتصال بخدمة الويب هوك.", "error", "📡");
       }
     }
 
-    window.addEventListener('load', () => {
-      initAuthAndTelemetry();
-    });
+    window.addEventListener('load', initAuth);
 
     function switchPage(pId, btn) {
       document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
@@ -1019,19 +898,12 @@
 
     var isPlaying = true;
     var iframe = document.getElementById('yt-player');
-
     function toggleAudio() {
-      var musicIcon = document.getElementById('music-icon');
-      var musicText = document.getElementById('music-text');
       if (isPlaying) {
         iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-        musicIcon.textContent = '🎵';
-        musicText.textContent = 'تشغيل الموسيقى';
         isPlaying = false;
       } else {
         iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-        musicIcon.textContent = '⏸️';
-        musicText.textContent = 'إيقاف الموسيقى';
         isPlaying = true;
       }
     }

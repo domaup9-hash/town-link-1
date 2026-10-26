@@ -8,10 +8,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔌 تم تحديث البورت ليتوافق مع بورت استضافتك الجديد
 const PORT = process.env.PORT || 26866;
 
-// أيدي الحساب المالك الوحيد المصرح له بالتحكم
 const OWNER_DISCORD_ID = '827346713013387314';
 
 const DB_FILE = path.join(__dirname, 'db.json');

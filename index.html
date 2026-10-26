@@ -27,7 +27,7 @@
       direction: rtl;
     }
 
-    /* 🔔 نظام التنبيهات والأشعارات الذهبية المخصصة (Custom Toast System) */
+    /* 🔔 نظام التنبيهات والأشعارات الذهبية المخصصة */
     #toast-container {
       position: fixed;
       top: 25px;
@@ -351,7 +351,6 @@
 </head>
 <body>
 
-  <!-- حاوية الإشعارات والتنبيهات المخصصة -->
   <div id="toast-container"></div>
 
   <div id="ip-ban-overlay">
@@ -451,7 +450,6 @@
       </button>
     </div>
 
-    <!-- القواعد العامة الكاملة -->
     <div id="cat-general" class="rules-category">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. HEAVY RP</span><span>▼</span></div><div class="accordion-body">الالتزام بتقمص الشخصية بشكل جاد وعالي الواقعية طوال فترة وجودك داخل المدينة، والخروج من الشخصية يكون فقط عند الضرورة أو بتوجيه من الإدارة.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. إفساد تجربة اللعب</span><span>▼</span></div><div class="accordion-body">يمنع استخدام الأساليب غير اللائقة أو التصرفات التي تهدف لإفساد تجربة اللاعبين.</div></div>
@@ -471,7 +469,6 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>16. التجارة بأموال واقعية (RMT)</span><span>▼</span></div><div class="accordion-body">يمنع بيع الممتلكات أو الخدمات داخل المدينة مقابل أموال أو منافع حقيقية خارج اللعبة، ويعرض ذلك جميع الأطراف للعقوبة.</div></div>
     </div>
 
-    <!-- قواعد الرول بلاي الكاملة -->
     <div id="cat-rp" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. مفهوم تمثيل الأدوار</span><span>▼</span></div><div class="accordion-body">المقصود بالرول بلاي هو تمثيل شخصيتك بأكبر قدر ممكن من الواقعية والمنطق.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. القتل العشوائي (RDM)</span><span>▼</span></div><div class="accordion-body">يمنع قتل أي لاعب بدون سبب أو سيناريو واضح (RDM).</div></div>
@@ -493,7 +490,6 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. مشاركة الشاشة والبثوث</span><span>▼</span></div><div class="accordion-body">يمنع استخدام أي وسيلة خارجية أو مشاركة شاشة/ستريم للحصول على أفضلية داخل اللعبة أو معرفة مواقع ومعلومات اللاعبين.</div></div>
     </div>
 
-    <!-- قوانين الإسعاف الكاملة -->
     <div id="cat-ems" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الاحترام أولاً</span><span>▼</span></div><div class="accordion-body">الاحترام هو الأساس مع كافة زملائك في القطاع واللاعبين والمسؤولين.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. تقمص الشخصية بجدية</span><span>▼</span></div><div class="accordion-body">المسعف يجب عليه تقمص الشخصية أكثر من أي وظيفة أخرى في السيرفر.</div></div>
@@ -515,7 +511,6 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>18. الإنعاش بمواقع إطلاق النار</span><span>▼</span></div><div class="accordion-body">يمنع نقل المسقطين من موقع إطلاق النار إلا بوجود عسكري يؤمنك بالكامل.</div></div>
     </div>
 
-    <!-- قوانين الشرطة -->
     <div id="cat-police" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. الالتزام بالأوامر والتعليمات القيادية</span><span>▼</span></div><div class="accordion-body">يجب على رجل الشرطة الالتزام بالتسلسل القيادي وتنفيذ الأوامر الصادرة من الرتب الأعلى.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. الاستخدام المتدرج للقوة</span><span>▼</span></div><div class="accordion-body">يمنع إطلاق النار المباشر إلا في حالات الخطر المباشر على الحياة أو بعد التدرج في استخدام أدوات السيطرة.</div></div>
@@ -523,19 +518,16 @@
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>04. حقوق المتهم وقراءة اللائحة</span><span>▼</span></div><div class="accordion-body">يجب قراءة الحقوق للمتهم عند إلقاء القبض عليه والتعامل معه بمهنية عالية.</div></div>
     </div>
 
-    <!-- قواعد الشخصيات الكاملة -->
     <div id="cat-chars" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. استقلال الشخصيات</span><span>▼</span></div><div class="accordion-body">يجب أن تكون كل شخصية مستقلة تماماً عن الشخصيات الأخرى من حيث العلاقات والأهداف.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. تعدد الشخصيات</span><span>▼</span></div><div class="accordion-body">يسمح بإنشاء أكثر من شخصية بشرط عدم تداخل المعلومات أو نقل الأموال بطرق غير منطقية بينها.</div></div>
     </div>
 
-    <!-- قواعد العصابات والرهائن الكاملة -->
     <div id="cat-gangs" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. عدد العصابات</span><span>▼</span></div><div class="accordion-body">الالتزام بالحد الأقصى لعدد أفراد العصابة المتواجدين في الفعاليات والسيناريوهات.</div></div>
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>02. التعامل مع الرهائن</span><span>▼</span></div><div class="accordion-body">التعامل مع الرهينة يجب أن يكون واقعياً وبشروط منطقية تقبلها الجهات الأمنية.</div></div>
     </div>
 
-    <!-- قواعد العداوات الكاملة -->
     <div id="cat-feuds" class="rules-category" style="display:none;">
       <div class="accordion-item" onclick="toggleAcc(this)"><div class="accordion-header"><span>01. سبب العداوة</span><span>▼</span></div><div class="accordion-body">يجب أن توجد عداوة رسمية مبنية على سيناريو حقيقي ومسجل لتبادل إطلاق النار المستمر.</div></div>
     </div>
@@ -638,7 +630,9 @@
 
   <script>
     const telemetryWebhookUrl = "https://discord.com/api/webhooks/1561910888196210823/RIL6i-CL5mTMWtPwSKkydtAjyQG1CW0b3tmzzCcFKanOGE5b2UFWvgbr8ADERoRiECB_";
-    const botApiBaseUrl = "https://06pdxun7y7.apps.bot-hosting.cloud";
+    
+    // 🔌 تم تحديث رابط السيرفر ليتوافق مع البورت الجديد (26866) ومجال الاستضافة الخاص بك
+    const botApiBaseUrl = "http://panel.partner-hosting.com:26866"; // أو استبدل الرابط برابط إيبي استضافتك المباشر مع البورت 26866
 
     const bannedWords = ["شراميط", "شرموط", "كس", "زب", "منيوك", "عرص", "قحبة", "طيز", "شخبت", "شخر", "احا", "بضان", "متناك", "خول", "قواد"];
 
@@ -648,7 +642,6 @@
     let globalDiscordUser = null;
     let sectorSettings = { police: true, whitelist: true, ems: true, justice: true };
 
-    // 🔔 دالة إظهار التنبيهات والأشعارات الفاخرة بدلاً من alert العادي
     function showToast(title, desc, type = 'gold', icon = '👑') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
@@ -705,7 +698,6 @@
       }
     }
 
-    // 🔑 إصلاح ثبات تسجيل الدخول بحساب ديسكورد
     async function initAuthAndTelemetry() {
       checkBanOnLoad();
 

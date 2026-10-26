@@ -617,13 +617,8 @@
   </footer>
 
   <script>
-    // 🔗 توزيع روابط الويب هوك الخاصة بكل قطاع بدقة
-    const webhooks = {
-      "الشرطة": "https://discord.com/api/webhooks/1564249744878870569/cxlZrJoN_r3C2uDpFt1gsvlRnXGRHZrvAS7xNiEHKXGIe02TlLcmK-1UQfC5AqLlGiCW",
-      "الوايت ليست": "https://discord.com/api/webhooks/1562484970751270994/gpkwCqe8Iz3-tCbbV3HudzGkZd82OG3HEo-ly1igwAd_x-Iy1PBcNG08JgwqJdmcKpEl",
-      "مستشفى فيسبوتشي": "https://discord.com/api/webhooks/1562484970751270994/gpkwCqe8Iz3-tCbbV3HudzGkZd82OG3HEo-ly1igwAd_x-Iy1PBcNG08JgwqJdmcKpEl",
-      "وزارة العدل": "https://discord.com/api/webhooks/1564250558741749810/CnptTzeSlvzmy0lOPgt-564bKV_EbR0yhh36BPOrvKl9qR4_B7HyZksmPMyr8cNnamMw"
-    };
+    // 🔗 رابط سيرفر البوت على الاستضافة الخاص بك
+    const BOT_API_URL = "http://panel.partner-hosting.com:26866";
 
     const bannedWords = ["شراميط", "شرموط", "كس", "زب", "منيوك", "عرص", "قحبة", "طيز", "شخبت", "شخر", "احا", "بضان", "متناك", "خول", "قواد"];
 
@@ -832,57 +827,50 @@
       e.target.querySelectorAll('input, textarea').forEach(el => fullText += el.value + " ");
       if (checkForProfanityAndBan(fullText)) return;
 
-      let descText = `👤 **الاسم:** \`${nameVal}\`\n💬 **ديسكورد:** \`${userVal}\` (<@${idVal}>)\n🆔 **الأيدي:** \`${idVal}\``;
-      
-      let fields = [];
-      if (currentSector === 'الشرطة') {
-        fields.push({ name: '1. ساعات التواجد:', value: document.getElementById('ex-pol-q1').value });
-        fields.push({ name: '2. شخصيات أخرى:', value: document.getElementById('ex-pol-q2').value });
-        fields.push({ name: '3. الخبرات السابقة:', value: document.getElementById('ex-pol-q3').value });
-        fields.push({ name: '4. التصرف القانوني:', value: document.getElementById('ex-pol-q4').value });
-      } else if (currentSector === 'الوايت ليست') {
-        fields.push({ name: '1. RDM:', value: document.getElementById('ex-q1').value });
-        fields.push({ name: '2. VDM:', value: document.getElementById('ex-q2').value });
-        fields.push({ name: '3. Fear RP:', value: document.getElementById('ex-q3').value });
-        fields.push({ name: '4. NLR:', value: document.getElementById('ex-q4').value });
-        fields.push({ name: '5. Meta Gaming:', value: document.getElementById('ex-q5').value });
-        fields.push({ name: '6. Power Gaming:', value: document.getElementById('ex-q6').value });
-        fields.push({ name: '7. Cop Baiting:', value: document.getElementById('ex-q7').value });
-      } else {
-        fields.push({ name: 'التفاصيل:', value: document.getElementById('ex-gen-q1')?.value || "تقديم عام" });
-      }
-
-      const targetWebhook = webhooks[currentSector] || webhooks["الوايت ليست"];
-
-      const discordPayload = {
-        content: `طلب تقديم جديد في قطاع **(${currentSector})**`,
-        embeds: [{
-          title: `📋 استمارة تقديم: ${currentSector}`,
-          color: 15844367,
-          description: descText,
-          fields: fields,
-          timestamp: new Date().toISOString()
-        }]
+      let payload = {
+        sector: currentSector,
+        discordName: userVal,
+        discordId: idVal,
+        name: nameVal
       };
 
+      if (currentSector === 'الشرطة') {
+        payload.q1 = document.getElementById('ex-pol-q1').value;
+        payload.q2 = document.getElementById('ex-pol-q2').value;
+        payload.q3 = document.getElementById('ex-pol-q3').value;
+        payload.q4 = document.getElementById('ex-pol-q4').value;
+      } else if (currentSector === 'الوايت ليست') {
+        payload.rdm = document.getElementById('ex-q1').value;
+        payload.vdm = document.getElementById('ex-q2').value;
+        payload.fearRp = document.getElementById('ex-q3').value;
+        payload.nlr = document.getElementById('ex-q4').value;
+        payload.metaGaming = document.getElementById('ex-q5').value;
+        payload.powerGaming = document.getElementById('ex-q6').value;
+        payload.copBaiting = document.getElementById('ex-q7').value;
+      } else {
+        payload.q1 = document.getElementById('ex-gen-q1')?.value || "تقديم عام";
+      }
+
       try {
-        const response = await fetch(targetWebhook, {
+        const response = await fetch(`${BOT_API_URL}/api/apply-whitelist`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(discordPayload)
+          body: JSON.stringify(payload)
         });
 
+        const data = await response.json();
+
         if (response.ok) {
-          showToast("تم إرسال التقديم بنجاح! 🎉", "تم إرسال استمارة تقديمك بنجاح لروم الديسكورد.", "gold", "✨");
+          showToast("تم إرسال التقديم بنجاح! 🎉", data.message || "تم إرسال استمارة تقديمك بنجاح للبوت.", "gold", "✨");
           if (document.exitFullscreen) document.exitFullscreen();
           document.getElementById('fullscreen-exam-overlay').style.display = 'none';
           isExamActive = false;
           e.target.reset();
         } else {
-          showToast("خطأ", "تعذر الإرسال، حاول مرة أخرى.", "error", "🚨");
+          showToast("تنبيه", data.error || "تعذر إرسال التقديم.", "error", "🚨");
         }
       } catch (err) {
-        showToast("خطأ بالاتصال", "تعذر الاتصال بخدمة الويب هوك.", "error", "📡");
+        showToast("خطأ بالاتصال", "تعذر الاتصال بسيرفر البوت على الاستضافة. تأكد من تشغيله.", "error", "📡");
       }
     }
 

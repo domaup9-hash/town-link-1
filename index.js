@@ -8,7 +8,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 27540;
+// 🔌 تم تحديث البورت ليتوافق مع بورت استضافتك الجديد
+const PORT = process.env.PORT || 26866;
 
 // أيدي الحساب المالك الوحيد المصرح له بالتحكم
 const OWNER_DISCORD_ID = '827346713013387314';
@@ -99,7 +100,6 @@ app.post('/api/apply-whitelist', async (req, res) => {
             return res.status(400).json({ error: `عذراً يا غالي، تقديم (${sector}) مقفول حالياً من الإدارة.` });
         }
 
-        // 🛑 المنطق الجديد لمنع/السماح بالتقديم حسب الحالة:
         if (db.applications[discordId]) {
             const currentStatus = db.applications[discordId].status;
             
@@ -112,7 +112,6 @@ app.post('/api/apply-whitelist', async (req, res) => {
             if (currentStatus === 'rejected') {
                 return res.status(400).json({ error: 'عذراً يا غالي، لقد تم رفض تقديمك سابقاً ولا يمكنك التقديم مرة أخرى.' });
             }
-            // لو كانت الحالية 'retest' يمر عادي ويسمح له بالتقديم مرة أخرى!
         }
 
         const targetChannelId = CHANNELS[sector] || CHANNELS['الوايت ليست'];
@@ -182,7 +181,6 @@ app.post('/api/apply-whitelist', async (req, res) => {
     }
 });
 
-// التعامل مع أزرار القبول والرفض وإعادة الاختبار
 client.on('interactionCreate', async interaction => {
     if (!interaction.isButton()) return;
 
@@ -262,10 +260,8 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
-// أوامر التحكم محصورة برقم الأيدي الخاص بك فقط
 client.on('messageCreate', async message => {
     if (message.author.bot) return;
-
     if (message.author.id !== OWNER_DISCORD_ID) return;
 
     const content = message.content.trim();
@@ -302,4 +298,4 @@ app.listen(PORT, () => {
     console.log(`Web server running on port ${PORT}`);
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login('MTU2MTkxMjk3NTMxOTg5MjA0MA.GCDfZT.a2uA4JaRNj4nOk2FTJ5EGBg50DipnaQTUQPVH8');

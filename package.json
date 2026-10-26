@@ -1,14 +1,10 @@
 {
-  "name": "town77-whitelist-bot",
+  "name": "town77-bot",
   "version": "1.0.0",
-  "description": "Discord Bot & API for Town 77 Whitelist Applications",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
   "dependencies": {
     "cors": "^2.8.5",
     "discord.js": "^14.14.1",
-    "express": "^4.18.2"
+    "express": "^4.19.2"
   }
 }

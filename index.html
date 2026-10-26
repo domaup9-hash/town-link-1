@@ -617,8 +617,8 @@
   </footer>
 
   <script>
-    // 🔗 رابط سيرفر البوت على الاستضافة الخاص بك
-    const BOT_API_URL = "http://panel.partner-hosting.com:26866";
+    // 🔗 رابط سيرفر البوت المباشر على الاستضافة
+    const BOT_API_URL = "http://95.156.225.24:26866";
 
     const bannedWords = ["شراميط", "شرموط", "كس", "زب", "منيوك", "عرص", "قحبة", "طيز", "شخبت", "شخر", "احا", "بضان", "متناك", "خول", "قواد"];
 
@@ -854,23 +854,30 @@
       try {
         const response = await fetch(`${BOT_API_URL}/api/apply-whitelist`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
           body: JSON.stringify(payload)
         });
 
-        const data = await response.json();
+        let data = {};
+        try {
+          data = await response.json();
+        } catch (err) {}
 
         if (response.ok) {
-          showToast("تم إرسال التقديم بنجاح! 🎉", data.message || "تم إرسال استمارة تقديمك بنجاح للبوت.", "gold", "✨");
+          showToast("تم إرسال التقديم بنجاح! 🎉", data.message || "تم إرسال استمارة تقديمك للبوت مع الأزرار.", "gold", "✨");
           if (document.exitFullscreen) document.exitFullscreen();
           document.getElementById('fullscreen-exam-overlay').style.display = 'none';
           isExamActive = false;
           e.target.reset();
         } else {
-          showToast("تنبيه", data.error || "تعذر إرسال التقديم.", "error", "🚨");
+          showToast("تنبيه", data.error || "عذراً، رفض السيرفر الطلب أو أن التقديم مغلق.", "error", "🚨");
         }
       } catch (err) {
-        showToast("خطأ بالاتصال", "تعذر الاتصال بسيرفر البوت على الاستضافة. تأكد من تشغيله.", "error", "📡");
+        showToast("خطأ بالاتصال", "تأكد أن البوت شغال على الاستضافة وأن الـ IP صحيح.", "error", "📡");
       }
     }
 
